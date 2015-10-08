@@ -11,7 +11,8 @@
 
 # programs and directories
 
-TOOL_DIR?= /vol/usr/tools
+TOOL_DIR?= /usr/tools
+OBJ_DIR?= /usr/obj
 GMAKE?=		${TOOL_DIR}/bin/nbgmake
 SH?=		/bin/sh
 
@@ -42,29 +43,12 @@ MAKE_PARAMS = 	MODEL=${MODEL} \
 		PKG_DIR=${PKG_DIR:S|^src/||} \
 		STATUS_DIR=${STATUS_DIR:S|^src/||} \
 		UTILS_DIR=${UTILS_DIR:S|^src/||} \
-		TOOL_DIR=${TOOL_DIR}
+		TOOL_DIR=${TOOL_DIR} \
+		OBJ_DIR=${OBJ_DIR}
 
 all:
 	@ echo "make build   (need NOT priviledge)"
 	@ echo "make image   (need root priviledge)"
-
-# "dist*" is compiled by fdgw source itself and NetBSD source.
-# "allmodels*" is dependenent on external packages.
-dist: dist-build dist-image
-
-allmodels: allmodels-build allmodels-image
-
-dist-build:
-	${MAKE} MODEL=standard     KERNEL_CONF=FDGW6  build
-
-dist-image:
-	${MAKE} MODEL=standard       KERNEL_CONF=FDGW6  image
-
-allmodels-build:
-	${MAKE} MODEL=standard     KERNEL_CONF=FDGW6 build
-
-allmodels-image:
-	${MAKE} MODEL=standard     KERNEL_CONF=FDGW6 image
 
 build:
 	${SH} ./${UTILS_DIR}/prepare_workdir.sh ${ARCH}.${MODEL}
