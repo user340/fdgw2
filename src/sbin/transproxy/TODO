@@ -1,0 +1,32 @@
+1)	Accept configuration from a file using the -c option to specify the
+	file location. The file sytax will be something like:
+
+		# tproxy configuration.
+		Transparent = yes
+		ForceURL = http://www.domain.com/
+		ServerPort = 81
+		ServerForeground = yes
+		ServerBindIp = 192.168.0.1
+		RunAs = nobody
+		AllowIp = 192.168.0.0/24
+		AllowIp = 192.168.1.0/24
+		AllowIp = 192.168.2.1
+		LogFile = /var/log/tproxy.log
+		ProxyHost = proxy.domain.com
+		ProxyPort = 8080
+
+2)	Convert it into a non-forking server that handles multiple connections
+	in a single process. Either by a threads library, or the more
+	conventional state machine approach. I like the idea of a threads
+	library approach. Unfortunately the threads approach would require
+	that your system provide "kernel thread" support. On FreeBSD this is
+	not yet available, on Linux you would need to install the "Linux
+	Threads" package I believe. User level threads doesn't provide the
+	level of concurrency required.
+
+3)	When a non-forking version is available, allow multiple instances to
+	run to reduce the file descriptor limits. A single non-forking process
+	can only have as many connections open as the system allows open
+	file descriptors per process. However 10 processes will give 10 times
+	as many open connections. The Apache web server uses this method. However
+	unlike Apache, we can handle multiple connections per process.

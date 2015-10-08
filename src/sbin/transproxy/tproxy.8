@@ -1,0 +1,196 @@
+.\" 
+.\" NORTHLINK COMMUNICATIONS PTY LTD - BSD Style License.
+.\" 
+.\" All of the documentation and software included in the transproxy 0.5 and
+.\" higher releases is copyrighted by NORTHLINK COMMUNICATIONS PTY LTD.
+.\" 
+.\" Copyright 1998, 1999, 2000
+.\" 	NORTHLINK COMMUNICATIONS PTY LTD.  All rights reserved.
+.\" 
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\" 3. All advertising materials mentioning features or use of this software
+.\"    must display the following acknowledgement:
+.\" This product includes software developed by NORTHLINK COMMUNICATIONS
+.\" PTY LTD and its contributors.
+.\" 4. Neither the name of NORTHLINK COMMUNICATIONS PTY LTD nor the names
+.\"    of its contributors may be used to endorse or promote products
+.\"    derived from this software without specific prior written permission.
+.\" 
+.\" THIS SOFTWARE IS PROVIDED BY NORTHLINK COMMUNICATIONS PTY LTD AND
+.\" CONTRIBUTORS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+.\" BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+.\" FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL NORTHLINK
+.\" COMMUNICATIONS PTY LTD OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+.\" INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+.\" NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+.\" DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+.\" THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+.\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+.\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+.\" 
+.TH tproxy 8
+.SH NAME
+tproxy \- transparently re-direct HTTP requests to a HTTP cache.
+.SH SYNOPSIS
+.B tproxy
+[
+.B \-t
+|
+.B \-p
+]
+[
+.B \-f \fIforced-url
+]
+[
+.B \-s \fIbind-port
+
+[
+.B \-d
+]
+[
+.B \-b \fIbind-address
+]
+[
+.B \-r \fIrunas-uid
+]
+[
+.B \-a \fIaccess-ip-address
+]
+]
+[
+.B \-l \fIlog-file
+]
+.I proxyhost
+.I proxyport
+.SH DESCRIPTION
+.B tproxy
+accepts HTTP requests and forwards them to a cache host. If the HTTP request
+has been transparently re-directed, the URL is re-written so that the
+cache host knows what web server to fetch the document from. Tcp_wrappers
+is used to provide host access control.
+
+The proxy-cache host's address and port are given by
+.I proxyhost
+and
+.IR proxyport .
+
+.SH "OPTIONS"
+.TP
+.B \-t
+Operate in a fully transparent mode. Instead of connecting to a proxy
+and sending a re-written URL, connect only the intended destination and
+send the real URL. This option can be used to allow
+.B tproxy
+to operate as a HTTP gateway (or proxy) on a firewall.
+.TP
+.B \-p
+Operate in proxy only mode. Normally if the connection to the proxy fails,
+.B tproxy
+will try and connect transparently to the intended destination. However
+for some sites this will never work and it is better to simply fail
+the connection.
+.TP
+.B \-f \fIurl
+Force all accesses to be sent to the specified URL.
+.B tproxy
+checks for accesses that are referred by this forced URL and allows
+then to pass. This allows images on the forced URL to work.
+.TP
+.B \-s \fIport
+Run as a server and bind to the specified port. Alternatively
+.B tproxy
+may be run from either inetd or a program such a tcpserver. In these
+cases this options is not given.
+.TP
+.B \-d
+When running as a server, do not background the daemon. Usefull when
+.B tproxy
+is started from inetd or from the supplied
+.B tproxywatch
+program.
+.TP
+.B \-b \fIipaddr
+Bind to the specified IP address. When run as a server
+.B tproxy
+will not accept requests sent to any other address when the host
+has multiple addresses.
+.TP
+.B \-r \fIuser
+Run as the specified user. The user must exist in the /etc/passwd database
+so that its uid and gid can be obtained.
+.TP
+.B \-a \fIaccess-ipaddr
+Provide an IP address, network, sub-net, or super-net to allow access. May be
+specified more than once. If the host portion of the address in non-zero then
+the address refers to a host, otherwise it is assumed to refer to a network.
+The number of bits may be given in CIDR notation to specify a sub-net or
+super-net.
+.TP
+.B \-l \fIlog-file
+Log all accesses to the specified file. The logfile will indicate if the
+request was done transparently, it was done without DNS activity, or it
+required DNS activity.
+.SH "FINE POINTS"
+.B tproxy
+is not an all-in-one transparent proxy solution. It requires support from
+the operating system, and configuration from the system administrator, to
+transparently capture HTTP requests.
+
+.B tproxyrun
+provides an example script to add firewall commands and start tproxy running.
+It currently supports FreeBSD-3.x and various versions of Linux. See the
+environment variable definitions at the top of the file.
+
+.B tproxywatch
+provides a mechanism of ensuring that tproxy is re-started should it fail.
+Whenever tproxy exits an email is sent to the root account and then tproxy
+is re-started.
+
+.B FreeBSD-3.x
+provides two methods of transparently capturing packets. The first is
+.B ipfw(8)
+using the following example configuration.
+
+ipfw add 1000 allow tcp from 192.168.1.1 to any 80
+
+ipfw add 1001 fwd 192.168.1.1,8081 tcp from any to any 80
+
+The second is
+.B ipnat(1)
+using the following example configuration. Note that a rule is required
+for every interface you wish to transparently re-direct for.
+
+rdr ppp0 0.0.0.0/0 port 80 -> 192.168.1.1 port 8081
+
+.B Linux
+provides the same mechanism with either the
+.B ipchains(8)
+command, kernels 2.1.x and up, using the following example configuration.
+
+ipchains -A input -p tcp -d 0.0.0.0/0 80 -j REDIRECT 8081
+
+Or the
+.B ipfwadm(8)
+command, kernels 2.0.x, using the following example configuration.
+
+ipfwadm -I -a accept -P tcp -D 0.0.0.0/0 80 -r 8081
+
+.SH "SEE ALSO"
+hosts_access(5),
+tcpserver(1),
+ipfw(8),
+ipnat(1),
+ipfwadm(8),
+ipchains(8)
+.SH AUTHORS
+Written by John Saunders <john@nlc.net.au>
+
+Copyright 1998, 1999, 2000
+	NORTHLINK COMMUNICATIONS PTY LTD.  All rights reserved.

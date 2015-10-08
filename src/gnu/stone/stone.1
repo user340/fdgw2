@@ -1,0 +1,178 @@
+.\" Roff format skeleton provided by Taketo Kabe <kabe@sra-tohoku.co.jp>
+.TH stone 1 "Version 2.0"
+.SH NAME
+stone \- a simple TCP/IP packet repeater
+.SH SYNOPSYS
+\fBstone \fP[\fB-d\fP] [\fB-n\fP] [\fB-u\fP \fImax\fP] [\fB-f\fP \fIn\fP]
+[\fB-l\fP] [\fB-z\fP \fISSL\fP]
+\fIst\fP [\fB--\fP \fIst\fP] ...
+.SH OPTIONS
+.IP \fB-d\fP
+Increase the debug level. 
+.IP \fB-z\fP
+SSL encryption.
+.IP \fB-n\fP
+IP addresses and service port numbers are shown instead of host
+names and service names.
+.IP "\fB-u\fP \fImax\fP"
+\fImax\fP is integer. The program will memorize \fImax\fP sources
+simultaneously where UDP packets are sent.
+.IP "\fB-f\fP \fIn\fP"
+\fIn\fP is integer. The program will spawn \fIn\fP
+child processes.
+.IP \fB-l\fP
+Sends error messages to the syslog instead of stderr.
+.IP \fIst\fP
+is one of the followings; Multiple \fIst\fP can be
+designated, separated by \fB--\fP.
+.RS
+.PD 0
+.IP (1)
+\fIhost\fP:\fIport\fP \fIsport\fP [\fIxhost\fP ...]
+.IP (2)
+\fIhost\fP:\fIport\fP \fIshost\fP:\fIsport\fP [\fIxhost\fP ...]
+.IP (3)
+\fIdisplay\fP [\fIxhost\fP ...]
+.IP (4)
+\fBproxy\fP \fIsport\fP [\fIxhost\fP ...]
+.IP (5)
+\fIhost\fP\fB:\fP\fIport\fP\fB/http\fP \fIrequest\fP [\fIhosts\fP ...]
+.IP (6)
+\fIhost\fP\fB:\fP\fIport\fP\fB/proxy\fP \fIheader\fP [\fIhosts\fP...]
+.PD
+.RE
+.PP
+The program repeats the connection on port \fIsport\fP to the
+other machine \fIhost\fP port \fIport\fP.  If the machine, on
+which the program runs, has two or more interfaces, type (2) can
+be used to repeat the connection on the specified interface
+\fIshost\fP.
+.TP
+\fIdisplay\fP [\fIxhost\fP ...]
+Abbreviating notation.  The program repeats the
+connection on display number \fIdisplay\fP to the X server
+designated by the environment variable \fBDISPLAY\fP.
+.TP
+\fBproxy\fP \fIsport\fP [\fIxhost\fP ...]
+Http Proxy.  Specify the machine, on which the
+program runs, and port \fIsport\fP in the http proxy settings of
+your WWW browser.
+.TP
+\fIhost\fP\fB:\fP\fIport\fP\fB/http\fP \fIrequest\fP [\fIhosts\fP ...]
+Repeats packets over http request.  \fIrequest\fP is
+the request specified in HTTP 1.0.
+\fIhost\fP\fB:\fP\fIport\fP\fB/proxy\fP \fIheader\fP [\fIhosts\fP...]
+.TP
+\fIhost\fP\fB:\fP\fIport\fP\fB/proxy\fP \fIheader\fP [\fIhosts\fP...]
+Type (6) repeats http request with \fIheader\fP in the top of
+request headers.
+.PP
+.IP \fIxhost\fP
+Only machines \fIxhost\fP can connect to the program.
+.IP \fIxhost\fB/\fImask\fR
+Only machines on specified
+networks are permitted to connect to the program.  In the case
+of class C network 192.168.1.0, for example, use
+\fB192.168.1.0/255.255.255.0\fP.
+.IP \fIsport\fB/udp\fR
+Repeats UDP packets instead of TCP packets.
+.IP \fIport\fB/ssl\fR
+Repeats packets with encryption.
+.IP \fIsport\fB/ssl\fR
+Repeats packets with decryption.
+.IP \fIsport\fB/http\fR
+Repeats packets over http.
+
+.SH DESCRIPTION
+Stone is a TCP/IP packet repeater in the application layer.  It
+repeats TCP and UDP packets from inside to outside of a firewall, or
+from outside to inside.
+
+Stone has following features:
+.TP
+1. Stone supports Win32.
+Formerly, UNIX machines are used as firewalls, but recently
+WindowsNT machines are used, too.  You can easily run Stone on
+WindowsNT and Windows95.  Of course, available on Linux,
+FreeBSD, BSD/OS, SunOS, Solaris, HP-UX and so on.
+.TP
+2.  Simple.
+Stone's source code is only 2000 lines long (written in C
+language), so you can minimize the risk of security
+holes.
+.TP
+3.  Stone supports SSLeay.
+Using SSLeay developed by Eric Young, Stone can encrypt/decrypt
+packets.
+.TP
+4.  Stone is a http proxy.
+Stone can also be a tiny http proxy.
+
+.SH EXAMPLES
+.PD 0
+.IP \fIouter\fP\^: 10
+a machine in the outside of the firewall
+.IP \fIinner\fP\^:
+a machine in the inside of the firewall
+.IP \fIfwall\fP\^:
+the firewall on which the stone is executed
+.PD
+.TP 5
+\fBstone 7 \fIouter\fR
+Repeats the X protocol to the machine designated by the
+environmental variable \fBDISPLAY\fP.  Run X clients under
+\fBDISPLAY=inner:7\fP on \fIouter\fP\^.
+.TP
+\fBstone \fIouter\fB:telnet 10023\fR
+.nf
+Repeats the telnet protocol to \fIouter\fP\^.
+Run \fBtelnet \fIfwall\fB 10023\fR on \fIinner\fP\^.
+.TP
+\fBstone \fIouter\fB:domain/udp domain/udp\fR
+Repeats the DNS query to \fIouter\fP\^.
+Run \fBnslookup - \fIfwall\fR on \fIinner\fP\^.
+.TP
+\fBstone \fIouter\fB:ntp/udp ntp/udp\fR
+Repeats the NTP to \fIouter\fP\^.
+Run \fBntpdate \fIfwall\fP on \fIinner\fP\^.
+.TP
+\fBstone localhost:http 443/ssl\fR
+Make WWW server that supports https.
+Access \fBhttps://\fIfwall\fB/\fR using a WWW browser.
+.TP
+\fBstone localhost:telnet 10023/ssl\fR
+Make telnet server that supports SSL.
+Run \fBSSLtelnet -z ssl \fIfwall\fB 10023\fR on \fIinner\fI\^.
+.TP
+\fBstone proxy 8080\fR
+http proxy.
+.PP
+Where \fIfwall\fP is a http proxy (port 8080):
+.TP
+\fBstone \fIfwall\fB:8080/http 10023 'POST http://\fIouter\fB:8023 HTTP/1.0'\fR
+.br
+.ns
+.TP
+\fBstone localhost:telnet 8023/http
+Run stones on \fIinner\fP and \fIouter\fP respectively.
+Repeats packets over http.
+.TP
+\fBstone \fIfwall\fB:8080/proxy 9080 \'Proxy-Authorization: Basic \fIc2VuZ29rdTpoaXJvYWtp\fB\'\fR
+for browser that does not support proxy authorization.
+.fi
+
+.SH COPYRIGHT
+All rights about this program \fBstone\fP are reserved by the
+original author, Hiroaki Sengoku.  The program is free software;
+you can redistribute it and/or modify it under the terms of the
+GNU General Public License (GPL).
+.SH "NO WARRANTY"
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY.
+
+.SH AUTHOR
+.nf
+Hiroaki Sengoku
+sengoku@gcd.org
+http://www.gcd.org/sengoku/
+.fi

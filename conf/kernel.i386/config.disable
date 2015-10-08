@@ -1,0 +1,204 @@
+options MINIROOTSIZE=2880 
+options VM86 
+options USER_LDT 
+options DUMMY_NOPS 
+options XSERVER 
+options CONSDEVNAME
+options REALBASEMEM
+options REALEXTMEM
+options UCONSOLE 
+options NTP 
+options KTRACE 
+options SYSVMSG 
+options SYSVSEM 
+options SYSVSHM 
+options SHMMAXPGS=1024 
+options LKM 
+options DIAGNOSTIC 
+options DEBUG 
+options KMEMSTATS 
+options DDB 
+options DDB_ONPANIC=1 
+options DDB_HISTORY_SIZE=512 
+options KGDB 
+options KGDB_DEVNAME
+makeoptions DEBUG
+options COMPAT_NOMID 
+options COMPAT_09 
+options COMPAT_10 
+options COMPAT_11 
+options COMPAT_12 
+options COMPAT_13 
+options COMPAT_43 
+options COMPAT_SVR4 
+options COMPAT_IBCS2 
+options COMPAT_LINUX 
+options COMPAT_FREEBSD 
+file-system EXT2FS 
+file-system LFS 
+file-system MFS 
+file-system NFS 
+file-system NTFS 
+file-system CD9660 
+file-system FDESC 
+file-system NULLFS 
+file-system PORTAL 
+file-system PROCFS 
+file-system UMAPFS 
+file-system UNION 
+options QUOTA 
+options NFSSERVER 
+options EXT2FS_SYSTEM_FLAGS 
+options INET6 
+options MROUTING 
+options NS 
+options NSIP 
+options ISO,TPIP 
+options EON 
+options CCITT,LLC,HDLC 
+options NETATALK 
+options PPP_BSDCOMP 
+options PPP_DEFLATE 
+options PPP_FILTER 
+options PFIL_HOOKS 
+options TCP_COMPAT_42 
+options EISAVERBOSE 
+options MIIVERBOSE 
+options PCIVERBOSE 
+options PCI_CONFIG_DUMP 
+options PCMCIAVERBOSE 
+options SCSIVERBOSE 
+config netbsd root
+apm0 at mainbus0
+options PCIBIOSVERBOSE 
+options PCIBIOS_IRQS_HINT=0x0a00 
+options PCIINTR_DEBUG 
+isapnp0 at isa
+pcic at isapnp
+options FRENCH_KBD 
+options FINNISH_KBD 
+options GERMAN_KBD 
+options NORWEGIAN_KBD 
+pckbc0 at isa
+pckbd at pckbc
+pms at pckbc
+pmsi at pckbc
+opms at pckbc
+vga0 at isa
+vga at pci
+pcdisplay0 at isa
+wsdisplay at vga
+wsdisplay at pcdisplay
+wskbd at pckbd
+wsmouse at pms
+wsmouse at pmsi
+pcppi0 at isa
+sysbeep0 at pcppi
+com at puc
+cy at pci
+com at isapnp
+options COM_HAYESP 
+com3 at isa
+ast0 at isa
+com at ast
+boca0 at isa
+com at boca
+tcom0 at isa
+com at tcom
+rtfps0 at isa
+com at rtfps
+cy0 at isa
+lpt0 at isa
+lpt1 at isa
+lpt2 at isa
+aic at pcmcia
+ahc at cardbus
+scsibus at ahc
+scsibus at aic
+sd at scsibus
+st at scsibus
+cd at scsibus
+ch at scsibus
+ss at scsibus
+uk at scsibus
+pciide at pci
+wdc at isapnp
+wdc at pcmcia
+wdc0 at isa
+wdc1 at isa
+wd at wdc
+wd at pciide
+atapibus at wdc
+atapibus at pciide
+cd at atapibus
+sd at atapibus
+uk at atapibus
+fdc1 at isa
+fd0 at fdc0
+en at pci
+esh at pci
+fpa at pci
+lmc at pci
+ntwoc at pci
+ti at pci
+options TLP_MATCH_21040 
+options TLP_MATCH_21041 
+options TLP_MATCH_21140 
+options TLP_MATCH_21142 
+an at pcmcia
+awi at pcmcia
+cnw at pcmcia
+ray at pcmcia
+wi at pcmcia
+mhzc at pcmcia
+com at mhzc
+sm at mhzc
+depca0 at isa
+le at depca
+ntwoc0 at isa
+bicc0 at isa
+le at bicc
+tr0 at isa
+tr1 at isa
+tr at isa
+uhci at pci
+ohci at pci
+usb at uhci
+usb at ohci
+uhub at usb
+uhub at uhub
+ums at uhub
+wsmouse at ums
+ukbd at uhub
+wskbd at ukbd
+uhid at uhub
+ulpt at uhub
+umass at uhub
+atapibus at umass
+scsibus at umass
+aue at uhub
+cue at uhub
+kue at uhub
+ugen at uhub
+pseudo-device ccd
+pseudo-device raid
+pseudo-device vnd
+pseudo-device sl
+pseudo-device strip
+pseudo-device tun
+pseudo-device gre
+pseudo-device ipip
+pseudo-device tb
+pseudo-device sequencer
+pseudo-device rnd 
+options RND_COM 
+pseudo-device vcoda
+com* at pcmcia? function ?           
+pcmcom*        at pcmcia? function ? 
+com*   at pcmcom? slave ?            
+adv*   at cardbus? dev ? function ?
+st*    at atapibus? drive ?
+ukbd*  at uhidev? reportid ?
+uhid*  at uhidev? reportid ?
+url*   at uhub? port ?
+pseudo-device  wsmux

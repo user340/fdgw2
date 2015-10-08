@@ -1,0 +1,100 @@
+version 1.4 (5th Feb 2001)
+	**	Fixed HTTPS proxy support. You can now point your browsers
+	**	proxy configuration at transproxy and it will correctly
+	**	process the CONNECT method.
+
+version 1.3 (1st Oct 2000)
+	**	Added support for passing HTTPS on to the proxy (untested).
+	**	(Alexander V. Lukyanov <lav@long.yar.ru>) Provide patch for
+		IPTABLES as provided in the Linux 2.4 kernel.
+	**	(Moisi Gabriela <mgabi@gabi.1a.ro>) Bug fix for closing sockets
+		when connect(2) or bind(2) fails.
+	**	Added the '-p' option to prevent fail-over to a transparent
+		connection if the proxy connection fails.
+
+version 1.2 (9th Feb 2000)
+	**	(Oleg Bulavsky <bulch@sibnet.ru>) For Solaris: define INADDR_NONE,
+		rename typedef of ipaddr_t to avoid clash. Enclose client_host
+		declaration within LOG_TO_SYSLOG and LOG_TO_FILE conditional.
+	**	(Oleg Bulavsky <bulch@sibnet.ru>) For Solaris: Some problem with
+		the GNU Solaris development utilities prevents strchr(3) from
+		compiling. So conditionally (-DUSE_STRSTR_BUG) use strstr(3).
+	**	Cast isdigit parameters to an int to silence warnings.
+	**	Fix incorrect port numner in README for FreeBSD ipfw commands.
+
+version 1.1 (21st Sep 1999)
+	**	(Vyacheslav Silakov <seal@nordlink.ru>) Provide for the case when
+		a port number is contained in the Host: header.
+	**	Fix problem with parsing data provided by POST method. The new
+		HTTP/1.1 persistent connections parser broke the POST method.
+
+version 1.0 (12th Jul 1999)
+	**	Provide a robust method of reading HTTP requests. Should be
+		fully compliant with HTTP/1.1 persistent connections. The log
+		file includes the request number send over the same connection.
+	**  Provide an access control list for restricting who is allowed
+		access to the transparent proxy. This is much faster that using
+		tcp_wrappers for this function.
+	**	Allow tcp_wrappers as an alternative to provide host access control.
+	**	Fixed up the remapping of a URL to a fixed location by allowing
+		accesses to documents referred to by the fixed location. This should
+		allow images and SSI cgi-bins to work.
+	**	Transparent mode now directly contacts the original source rather
+		than the proxy. This allows transproxy to function as a HTTP proxy
+		on a firewall without a cache.
+	**	Transproxy will now try to connect to the original source if it fails
+		to connect to the cache proxy.
+	**	Only allow server mode specific command-line switches when server
+		mode has been enabled.
+	**	Provided tproxyrun and tproxywatch as examples or usable scripts.
+
+version 0.6 (28th Jun 1999)
+	**	I have decided to use a BSD style COPYRIGHT rather than the
+		FSF COPYLEFT. I feel that it is much less restrictive.
+	**	Installed binary is now called tproxy instead of in.tproxyd.
+	**	Log access to a file is now supported with the -l switch.
+		See the make file for automatically opening the log file.
+	**	(Bill 'Gates' Evans <evans@nasp.cnet.navy.mil>) Implemented
+		a no-daemonise mode. With the -d switch tproxy doesn't go
+		into the background. Usefull when running from inittab.
+
+version 0.5 (25th Jun 1999)
+	**	(Vesselin Atanasov <vesselin@bgnet.bg>) Implemented changes
+		to lookup the proxy host for each request, hence allowing DNS
+		round-robin load sharing.
+	**	(Vesselin Atanasov <vesselin@bgnet.bg>) Included a patch
+		(after coding standard changes) to fix operation with
+		HTTP/1.1 persistent connections by forcing them to be disabled.
+	**	Added some options to either disable syslog(3) logging,
+		use it only for errors, or use it for everything. Check
+		the Makefile.
+	**	Some minor buglet fixes to operation under error conditions.
+	**	(Krzysztof Adamski <kadamski@netsurf.net>) Added remapping of
+		url to a fixed location.
+
+version 0.4 (1st May 1998)
+	**	Fix up README file bug about the /etc/services file entry.
+	**	Applied BSD patches so that it works with the IP filter.
+	**	Some errno.h and SIGCHLD changes to compile with other
+		systems and the new linux glibc.
+
+version 0.3 (6th May 1997)
+	**	Use the SO_KEEPALIVE socket option to allow the TCP/IP
+		layer to detect when a connection has gone away.
+
+	**	Set an alarm for 5 minutes to detect an idle connection.
+
+version 0.2 (18th Feb 1997)
+	**	Parse the request headers looking for a "Host:" header to try
+		and find the real host name the request was being sent to.
+		When this works out it means no DNS lookups at all. More work
+		needs to be done on reliably searching the headers.
+
+	**	Use setuid/setgid instead of setreuid/setregid so that the
+		saved uid and gid also get set.
+
+	**	I found that if a set the SIGCLD singal to SIG_IGN then I
+		don't have to worry about children or zombies!
+
+Version 0.1 (16th Feb 1997)
+	**	Initial version.

@@ -1,0 +1,132 @@
+
+
+
+TTCP(1)                                                   TTCP(1)
+
+
+NNAAMMEE
+       ttcp - test TCP and UDP performance
+
+SSYYNNOOPPSSIISS
+       ttttccpp --tt [--uu] [--ss] [--pp _p_o_r_t]] [--ll _b_u_f_l_e_n]] [--bb _s_i_z_e]] [--nn _n_u_m_-
+       _b_u_f_s]] [--AA _a_l_i_g_n]] [--OO _o_f_f_s_e_t]] [--ff _f_o_r_m_a_t]]  [--DD]  [--vv]]  host
+       [<<in]]
+       ttttccpp   --rr   [--uu]   [--ss]  [--pp _p_o_r_t]]  [--ll _b_u_f_l_e_n]]  [--bb _s_i_z_e]]
+       [--AA _a_l_i_g_n]] [--OO _o_f_f_s_e_t]] [--ff _f_o_r_m_a_t]] [--BB] [--TT] [--vv] [>>out]]
+
+DDEESSCCRRIIPPTTIIOONN
+       _T_t_c_p times the transmission and reception of data  between
+       two  systems  using  the UDP or TCP protocols.  It differs
+       from common ``blast'' tests, which  tend  to  measure  the
+       remote _i_n_e_t_d as much as the network performance, and which
+       usually do not allow measurements at the remote end  of  a
+       UDP transmission.
+
+       For testing, the transmitter should be started with --tt and
+       --ss after the receiver has been started  with  --rr  and  --ss.
+       Tests  lasting  at least tens of seconds should be used to
+       obtain accurate measurements.  Graphical presentations  of
+       throughput  versus  buffer  size  for buffers ranging from
+       tens of bytes to several ``pages'' can illuminate  bottle-
+       necks.
+
+       _T_t_c_p  can  also  be  used as a ``network pipe'' for moving
+       directory hierarchies between systems when  routing  prob-
+       lems exist or when the use of other mechanisms is undesir-
+       able. For example, on the destination machine,  use:  ttcp
+       -r -B | tar xvpf -
+
+       and  on  the  source machine: tar cf - directory | ttcp -t
+       dest_machine
+
+       Additional intermediate machines can be included by:  ttcp
+       -r | ttcp -t next_machine
+
+OOPPTTIIOONNSS
+       -t        Transmit mode.
+
+       -r        Receive mode.
+
+       -u        Use UDP instead of TCP.
+
+       -s        If  transmitting,  source a data pattern to net-
+                 work; if receiving,  sink  (discard)  the  data.
+                 Without  the --ss option, the default is to trans-
+                 mit data from _s_t_d_i_n or print the  received  data
+                 to _s_t_d_o_u_t.
+
+       -l _l_e_n_g_t_h Length  of buffers in bytes (default 8192).  For
+                 UDP, this value is the number of data  bytes  in
+                 each  packet.  The system limits the maximum UDP
+
+
+
+                              local                             1
+
+
+
+
+
+TTCP(1)                                                   TTCP(1)
+
+
+                 packet length. This limit can  be  changed  with
+                 the --bb option.
+
+       -b _s_i_z_e   Set  size  of socket buffer.  The default varies
+                 from system to system.  This  parameter  affects
+                 the  maximum  UDP  packet length.  It may not be
+                 possible to set this parameter on  some  systems
+                 (for example, 4.2BSD).
+
+       -n _n_u_m_b_u_f_s
+                 Number  of  source  buffers transmitted (default
+                 2048).
+
+       -p _p_o_r_t   Port number to send to  or  listen  on  (default
+                 2000).   On some systems, this port may be allo-
+                 cated to another network daemon.
+
+       -D        If transmitting using TCP, do  not  buffer  data
+                 when   sending   (sets  the  TCP_NODELAY  socket
+                 option).  It may not be  possible  to  set  this
+                 parameter on some systems (for example, 4.2BSD).
+
+       -B        When receiving data, output  only  full  blocks,
+                 using  the  block  size  specified  by --ll.  This
+                 option is useful for programs, such  as  _t_a_r(1),
+                 that require complete blocks.
+
+       -A _a_l_i_g_n  Align  the  start  of  buffers  to  this modulus
+                 (default 16384).
+
+       -O _o_f_f_s_e_t Align  the  start  of  buffers  to  this  offset
+                 (default 0).  For example, ``-A8192 -O1'' causes
+                 buffers to  start  at  the  second  byte  of  an
+                 8192-byte page.
+
+       -f _f_o_r_m_a_t Specify,  using one of the following characters,
+                 the format of  the  throughput  rates  as  kilo-
+                 bits/sec     ('k'),     kilobytes/sec     ('K'),
+                 megabits/sec ('m'), megabytes/sec  ('M'),  giga-
+                 bits/sec  ('g'),  or  gigabytes/sec  ('G').  The
+                 default is 'K'.
+
+       -T        ``Touch'' the data as they are read in order  to
+                 measure cache effects.
+
+       -v        Verbose: print more statistics.
+
+       -d        Debug: set the SO_DEBUG socket option.
+
+SSEEEE AALLSSOO
+       ping(1M), traceroute(1M), netsnoop(1M)
+
+
+
+
+
+
+                              local                             2
+
+

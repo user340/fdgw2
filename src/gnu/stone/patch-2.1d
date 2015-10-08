@@ -1,0 +1,128 @@
+? patch-2.1d
+Index: stone.c
+===================================================================
+RCS file: /cvsroot/software/fdgw/src/gnu/stone/stone.c,v
+retrieving revision 1.1.1.1
+diff -u -u -b -r1.1.1.1 stone.c
+--- stone.c	2002/02/20 11:04:25	1.1.1.1
++++ stone.c	2002/02/20 11:10:15
+@@ -370,6 +370,10 @@
+ int Syslog = 0;
+ char SyslogName[STRMAX];
+ #endif
++char *MyName = NULL; 
++#ifdef USE_IPF
++int TransparentMode = 0;
++#endif
+ FILE *LogFp;
+ FILE *AccFp = NULL;
+ char *ConfigFile = NULL;
+@@ -646,12 +650,45 @@
+     return 0;
+ }
+ 
++#ifdef USE_LIBWRAP
++#include <syslog.h>
++#include <tcpd.h>
++#ifndef LIBWRAP_ALLOW_FACILITY
++# define LIBWRAP_ALLOW_FACILITY LOG_AUTH
++#endif
++#ifndef LIBWRAP_ALLOW_SEVERITY
++# define LIBWRAP_ALLOW_SEVERITY LOG_INFO
++#endif
++#ifndef LIBWRAP_DENY_FACILITY
++# define LIBWRAP_DENY_FACILITY LOG_AUTH
++#endif
++#ifndef LIBWRAP_DENY_SEVERITY
++# define LIBWRAP_DENY_SEVERITY LOG_WARNING
++#endif
++int allow_severity = LIBWRAP_ALLOW_FACILITY | LIBWRAP_ALLOW_SEVERITY;
++int deny_severity  = LIBWRAP_DENY_FACILITY  | LIBWRAP_DENY_SEVERITY;
++
++int libwrap_hosts_access(addrp)
++struct in_addr *addrp;
++{
++  struct request_info req;
++  request_init(&req, 
++	       RQ_DAEMON, MyName ? MyName : "stone",
++	       RQ_CLIENT_ADDR, inet_ntoa(addrp->s_addr),
++	       NULL);
++  hosts_access(&req);
++}
++#endif
++
+ /* *addrp is permitted to connect to *stonep ? */
+ int checkXhost(stonep,addrp)
+ Stone *stonep;
+ struct in_addr *addrp;
+ {
+     int i;
++#ifdef USE_LIBWRAP
++   return libwrap_hosts_access(addrp);
++#endif
+     if (!stonep->nhosts) return 1; /* any hosts can access */
+     for (i=0; i < stonep->nhosts; i++) {
+ 	if ((addrp->s_addr & stonep->xhosts[i].mask.s_addr)
+@@ -1584,6 +1621,15 @@
+ 		stone->p,'\n','\n');
+ 	p2->len = strlen(p2->buf);
+     }
++#ifdef USE_IPF
++    /* transparent illusion by IPFilter by <fukachan@fml.org>:
++     * replace &stone->sin (host we try to connect to) with real destination. 
++     */
++    if (TransparentMode) {
++      ipfilter_get_real_dst(p1->sd, &stone->sin);
++      message(LOG_DEBUG, "dst=%s", inet_ntoa(stone->sin.sin_addr));
++    }
++#endif
+     if (reqconn(p2,&stone->sin) < 0) {
+ 	if (ValidSocket(p2->sd)) closesocket(p2->sd);
+ 	if (ValidSocket(p1->sd)) closesocket(p1->sd);
+@@ -2757,6 +2803,10 @@
+ #ifdef USE_SSL
+ 	    "      -z <SSL>          ; OpenSSL option\n"
+ #endif
++#ifdef USE_IPF
++            "      -T                ; enable IPFilter based transparency\n"
++#endif
++            "      -N <name>         ; my name\n"
+ 	    "stone: <display> [<xhost>...]\n"
+ 	    "       <host>:<port> <sport> [<xhost>...]\n"
+ 	    "       proxy <sport> [<xhost>...]\n"
+@@ -3189,6 +3239,17 @@
+ 		    strcpy(ConfigFile,argv[i]);
+ 		    break;
+ 		}	/* drop through */
++	      case 'N':
++		MyName = strdup(argv[++i]);
++#ifdef __NetBSD__
++		if (*MyName) { setproctitle("%s", MyName);}
++#endif
++		break;
++#ifdef USE_IPF
++	      case 'T':
++		TransparentMode = 1;
++		break;
++#endif
+ 	      default:
+ 		message(LOG_ERR,"Invalid Option: %s",argv[i]);
+ 		help(argv[0]);
+@@ -3452,7 +3513,7 @@
+     }
+ #ifndef NO_SYSLOG
+     if (Syslog) {
+-	sprintf(SyslogName,"stone[%d]",getpid());
++	sprintf(SyslogName,"%s[%d]", MyName ? MyName : "stone",getpid());
+ 	openlog(SyslogName,0,LOG_DAEMON);
+     }
+ #endif
+@@ -3534,7 +3595,7 @@
+ #ifndef NO_SYSLOG
+ 	if (Syslog) {
+ 	    closelog();
+-	    sprintf(SyslogName,"stone[%d]",getpid());
++	    sprintf(SyslogName,"%s[%d]", MyName ? MyName : "stone",getpid());
+ 	    openlog(SyslogName,0,LOG_DAEMON);
+ 	}
+ #endif

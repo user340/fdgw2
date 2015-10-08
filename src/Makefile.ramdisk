@@ -1,0 +1,113 @@
+# Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
+#
+# All rights reserved.
+# This program is released under the BSD License, please see LICENSE.
+#
+# CREDITS
+#
+# Ken'ichi Fukamachi <fukachan@fml.org>
+# 	Original fdgw developer, and my advisor.
+#
+
+
+#
+# specify target
+#
+
+IMAGE=		ramdisk-small.fs
+CBIN=		ramdiskbin
+#AUXDEPENDS= 	dot.profile disktab.preinstall termcap.mini
+AUXDEPENDS= dot.profile # 07/30
+
+
+#
+# working directories
+#
+
+MOUNT_POINT?=	${.CURDIR}/mnt
+
+# DEV/RDEV file system device, CDEV/RDEV vnconfig device
+VND?=		vnd0
+VND_DEV=	/dev/${VND}a
+VND_RDEV=	/dev/r${VND}a
+VND_CDEV=	/dev/${VND}d
+VND_CRDEV=	/dev/r${VND}d
+
+TOOL_BIN_DIR?= tools/bin
+
+#
+# image parameters
+#
+
+IMAGE?=		xxx.fs
+MDEC=		${DESTDIR}/usr/mdec
+
+LISTS=		list
+CRUNCHCONF=	${CBIN}.conf
+MTREE=		mtree.conf
+
+#RAMDISKSPC=	256
+RAMDISKSPC=	512
+RAMDISKCYLS=	16
+RAMDISKSIZE!=	expr ${RAMDISKSPC} \* ${RAMDISKCYLS}
+
+
+
+build: ${IMAGE}
+
+${IMAGE}: ${CBIN} ${AUXDEPENDS} ${MTREE} ${LISTS}
+
+
+image:
+	rm -f ${IMAGE}.tmp
+	dd if=/dev/zero of=${IMAGE}.tmp count=${RAMDISKSIZE}
+	vnconfig -v -c ${VND_CDEV} ${IMAGE}.tmp \
+	    512/${RAMDISKSPC}/1/${RAMDISKCYLS}
+	-disklabel ${VND_CDEV} >tmplabel
+	${TOOL_DIR}/bin/nbdisklabel-i386 -r -R ${VND_CDEV} tmplabel
+	newfs -B le -m 0 -o space -i 1800 ${VND_RDEV}
+	test -d ${MOUNT_POINT} || mkdir -p ${MOUNT_POINT}
+	mount ${VND_DEV} ${MOUNT_POINT}
+	${TOOL_DIR}/bin/nbmtree -def ${.CURDIR}/${MTREE} -p ${MOUNT_POINT}/ -U
+	TOPDIR=${TOP} CURDIR=${.CURDIR} OBJDIR=${.OBJDIR} \
+	    TARGDIR=${MOUNT_POINT} sh ${.CURDIR}/runlist.sh ${.CURDIR}/${LISTS}
+	@echo ""
+	@df -i ${MOUNT_POINT}
+	@echo ""
+	@ rm -f log.df.ramdisk
+	@ ( echo "===> ramdisk"; df -i ${MOUNT_POINT} )| sed 1d > log.df.ramdisk
+	umount ${MOUNT_POINT}
+	vnconfig -u ${VND_CDEV}
+	mv -f ${IMAGE}.tmp ${IMAGE}
+
+unconfig:
+	-umount -f ${MOUNT_POINT}
+	-vnconfig -u ${VND_DEV}
+	-/bin/rm -f ${IMAGE} ${IMAGE}.tmp
+
+${CBIN}.mk ${CBIN}.cache ${CBIN}.c: ${CRUNCHCONF}
+	${TOOL_DIR}/bin/nbcrunchgen -D ${TOP}/../../.. -L ${DESTDIR}/usr/lib ${.ALLSRC}
+
+${CBIN}: ${CBIN}.mk ${CBIN}.cache ${CBIN}.c
+	${MAKE} -f ${CBIN}.mk all
+
+# This is listed in ramdiskbin.conf but is built here.
+${CBIN}: libhack.o
+
+# Use stubs to eliminate some large stuff from libc
+HACKSRC=${TOP}/../../utils/libhack
+.include "${HACKSRC}/Makefile.inc"
+
+# turn off small gethostby* temporarily
+HACKOBJS:= getcap.o getgrent.o getnet.o getnetgr.o getpwent.o setlocale.o yplib.o
+
+release:
+
+clean cleandir distclean:
+	/bin/rm -f *.core ${IMAGE} ${IMAGE}.tmp ${CBIN} \
+	    ${CBIN}.mk ${CBIN}.cache *.o *.cro *.c tmplabel
+
+.include <bsd.own.mk>
+.include <bsd.obj.mk>
+.include <bsd.subdir.mk>
+.include <bsd.sys.mk>

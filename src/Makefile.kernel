@@ -1,0 +1,51 @@
+# Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
+#
+# All rights reserved.
+# This program is released under the BSD License, please see LICENSE.
+#
+# CREDITS
+#
+# Ken'ichi Fukamachi <fukachan@fml.org>
+# 	Original fdgw developer, and my advisor.
+#
+
+
+RAMDISK_S?=	ramdisk-small.fs
+KERNEL_CONF?=	FDGW
+.WORKDIR=	${.CURDIR}/compile/${KERNEL_CONF}
+KERN=		${.WORKDIR}/netbsd
+_KERNEL_CONF =	conf/kernel.${ARCH}/${KERNEL_CONF}
+
+build: ${KERN}
+
+image: netbsd
+
+netbsd: netbsd.gz
+	rm -f netbsd
+	ln netbsd.gz netbsd
+
+# make kernel
+${KERN}: ${_KERNEL_CONF}
+	@ test -d ${.WORKDIR} || mkdir -p  ${.WORKDIR}
+	cp -p ${_KERNEL_CONF} ${.WORKDIR}/CONFIG
+	(cd ${.WORKDIR}; \
+		${TOOL_DIR}/bin/nbconfig -s ${_SYS_DIR} ;\
+		make clean;\
+		make depend;\
+		make \
+	)
+
+
+netbsd.gz: .NOTMAIN ${KERN} ${RAMDISK_S}
+	cp ${KERN} netbsd.tmp
+	${TOOL_DIR}/bin/i486--netbsdelf-mdsetimage -v netbsd.tmp ${RAMDISK_S}
+	nm netbsd.tmp > netbsd.symbols
+	${STRIP} netbsd.tmp
+	gzip -9 netbsd.tmp
+	mv netbsd.tmp.gz ${.TARGET}
+
+
+.include <bsd.own.mk>
+.include <bsd.obj.mk>
+.include <bsd.subdir.mk>
+.include <bsd.sys.mk>

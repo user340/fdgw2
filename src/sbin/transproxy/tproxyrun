@@ -1,0 +1,137 @@
+#!/bin/sh
+# vim:ai ts=4 sw=4
+#
+# tproxyrun:
+#
+# Use this file to start tproxy from /etc/inittab. If tproxy ever dies
+# then the filter rules will be removed.
+#
+
+# This is fine for single ethernet card machines. For multiple ethernet
+# cards then use the HOSTNAME2 and HOSTNAME3 variables as examples.
+HOSTNAME1=`grep \`hostname\` /etc/hosts | head -1 | awk '{print$1}'`
+#HOSTNAME2="192.168.1.1"
+#HOSTNAME3="10.1.0.1"
+
+# Details of the proxy we connect to.
+PROXYNAME="localhost"
+PROXYPORT="3128"
+
+# Details of how transproxy will operate.
+TRANSPROXYPORT="10080"
+TRANSPROXYLOG="/tmp/tproxy.log"	# Must be writable by the uid/gid we run as.
+
+# List of address that are allowed to connect.
+ACLS="192.168.1.0 10.1/24"
+
+# URL to force all requests to.
+#FORCE_URL="http://localhost/index.html"
+
+# Check for possibly useless overhead configuration.
+if [ `hostname` = "$PROXYNAME" ]; then
+	echo "Why are you running transproxy and Squid on the same box!?!"
+	echo "See the Squid FAQ for transparent proxying directly into Squid."
+fi
+
+# Add the filter rules.
+case `uname` in
+FreeBSD)
+	ipfw add 10000 allow tcp from any to localhost 80 >/dev/null
+	ipfw add 10001 allow tcp from any to "$HOSTNAME1" 80 >/dev/null
+	if [ -n "$HOSTNAME2" ]; then
+		ipfw add 10002 allow tcp from any to "$HOSTNAME2" 80 >/dev/null
+	fi
+	if [ -n "$HOSTNAME3" ]; then
+		ipfw add 10003 allow tcp from any to "$HOSTNAME3" 80 >/dev/null
+	fi
+	ipfw add 10010 fwd "$HOSTNAME1","$TRANSPROXYPORT" tcp from any to any 80 >/dev/null
+	;;
+Linux)
+	case `uname -r` in
+	2.0.*)
+		ipfwadm -I -a accept -P tcp -D localhost 80
+		ipfwadm -I -a accept -P tcp -D "$HOSTNAME1" 80
+		if [ -n "$HOSTNAME2" ]; then
+			ipfwadm -I -a accept -P tcp -D "$HOSTNAME2" 80
+		fi
+		if [ -n "$HOSTNAME3" ]; then
+			ipfwadm -I -a accept -P tcp -D "$HOSTNAME3" 80
+		fi
+		ipfwadm -I -a accept -P tcp -D 0.0.0.0/0 80 -r "$TRANSPROXYPORT"
+		;;
+	*)
+		ipchains -A input -p tcp -d localhost 80 -j ACCEPT
+		ipchains -A input -p tcp -d "$HOSTNAME1" 80 -j ACCEPT
+		if [ -n "$HOSTNAME2" ]; then
+			ipchains -A input -p tcp -d "$HOSTNAME2" 80 -j ACCEPT
+		fi
+		if [ -n "$HOSTNAME3" ]; then
+			ipchains -A input -p tcp -d "$HOSTNAME3" 80 -j ACCEPT
+		fi
+		ipchains -A input -p tcp -d 0.0.0.0/0 80 -j REDIRECT "$TRANSPROXYPORT"
+		;;
+	esac
+	;;
+esac
+
+# Start the command options as an empty string.
+CMD=""
+
+# Build the ACL list.
+for ACL in $ACLS; do
+	CMD="$CMD -a $ACL"
+done
+
+# Check if a log file is required.
+if [ -n "$TRANSPROXYLOG" ]; then
+	CMD="$CMD -l $TRANSPROXYLOG"
+fi
+
+# Force all accesses to the specified URL.
+if [ -n "$FORCE_URL" ]; then
+	CMD="$CMD -f $FORCE_URL"
+fi
+
+# Start transproxy running.
+/usr/pkg/sbin/tproxy -s "$TRANSPROXYPORT" -d $CMD "$PROXYNAME" "$PROXYPORT"
+
+# Remove the filter rules.
+case `uname` in
+FreeBSD)
+	ipfw delete 10010 10000 10001 >/dev/null
+	if [ -n "$HOSTNAME2" ]; then
+		ipfw delete 10002 >/dev/null
+	fi
+	if [ -n "$HOSTNAME3" ]; then
+		ipfw delete 10003 >/dev/null
+	fi
+	;;
+Linux)
+	case `uname -r` in
+	2.0.*)
+		ipfwadm -I -d accept -P tcp -D localhost 80
+		ipfwadm -I -d accept -P tcp -D "$HOSTNAME1" 80
+		if [ -n "$HOSTNAME2" ]; then
+			ipfwadm -I -d accept -P tcp -D "$HOSTNAME2" 80
+		fi
+		if [ -n "$HOSTNAME3" ]; then
+			ipfwadm -I -d accept -P tcp -D "$HOSTNAME3" 80
+		fi
+		ipfwadm -I -d accept -P tcp -D 0.0.0.0/0 80 -r "$TRANSPROXYPORT"
+		;;
+	*)
+		ipchains -D input -p tcp -d localhost 80 -j ACCEPT
+		ipchains -D input -p tcp -d "$HOSTNAME1" 80 -j ACCEPT
+		if [ -n "$HOSTNAME2" ]; then
+			ipchains -D input -p tcp -d "$HOSTNAME2" 80 -j ACCEPT
+		fi
+		if [ -n "$HOSTNAME3" ]; then
+			ipchains -D input -p tcp -d "$HOSTNAME3" 80 -j ACCEPT
+		fi
+		ipchains -D input -p tcp -d 0.0.0.0/0 80 -j REDIRECT "$TRANSPROXYPORT"
+		;;
+	esac
+	;;
+esac
+
+exit 0

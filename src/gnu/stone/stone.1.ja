@@ -1,0 +1,178 @@
+.\" Roff format skeleton provided by Taketo Kabe <kabe@sra-tohoku.co.jp>
+.TH stone 1 "Version 2.0"
+.SH NAME
+stone \- Simple TCP/UDP Packet Repeater
+.SH SYNOPSYS
+\fBstone\fP [\fB-d\fP] [\fB-n\fP] [\fB-u\fB \fImax\fI] [\fB-f\fP \fIn\fP]
+[\fB-l\fP] [\fB-z\fP \fISSL\fP]
+\fIst\fP [\fB--\fP \fIst\fP]...
+.SH OPTIONS
+.IP \fB-d\fP
+デバッグレベルを増加させます。
+.IP \fB-z\fP 
+SSL 暗号化のオプションです。
+.IP \fB-n\fP
+ホスト名やサービス名の代わりに IP アドレスやサービス番号を表示します。
+.IP \fB-u\fP
+同時に記憶できる UDP パケットの発信元の最大数を指定します。
+デフォルトは 10 です。
+.IP \fB-f\fP
+子プロセスの数を指定します。デフォルトは子プロセス無しです。
+.IP \fB-l\fP
+エラーメッセージ等を syslog へ出力します。
+
+.IP \fIst\fP 
+次のいずれかです。\fIst\fP は「\fB--\fP」で区切ることにより、
+複数個指定できます。
+.RS
+.PD 0
+.IP (1)
+\fIhost\fP:\fIport\fP \fIsport\fP [\fIxhost\fP ...]
+.IP (2)
+\fIhost\fP:\fIport\fP \fIshost\fP:\fIsport\fP [\fIxhost\fP ...]
+.IP (3)
+\fIdisplay\fP [\fIxhost\fP ...]
+.IP (4)
+\fBproxy\fP \fIsport\fP [\fIxhost\fP ...]
+.IP (5)
+\fIhost\fP\fB:\fP\fIport\fP\fB/http\fP \fIrequest\fP [\fIhosts\fP ...]
+.IP (6)
+\fIhost\fP\fB:\fP\fIport\fP\fB/proxy\fP \fIheader\fP [\fIhosts\fP...]
+.PD
+.RE
+
+stone を実行しているマシンのポート \fIsport\fP への接続を、他のマシ
+ン \fIhost\fP のポート \fIport\fP へ中継します。インタフェースを複数持つ
+マシンでは、(2) のようにインタフェースのアドレス \fIshost\fP を指定
+することにより、特定のインタフェースへの接続のみを転送することが
+できます。
+
+.TP
+\fIdisplay\fP [\fIxhost\fP ...]
+X プロトコル中継のための省略記法です。ディスプレイ番号 
+\fIdisplay\fP への接続を、環境変数 DISPLAY で指定した X サーバへ転送
+します。
+.TP
+\fBproxy\fP \fIsport\fP [\fIxhost\fP ...]
+http proxy です。WWW ブラウザの http proxy の設定で、
+stone を実行しているマシンおよびポート \fIsport\fP を指定します。
+.TP
+\fIhost\fP:\fIport\fP\fB/http\fP \fIrequest\fP [\fIhosts\fP ...]
+http リクエストにのせてパケットを中継します。\fIrequest\fP
+は HTTP 1.0 で規定されるリクエストです。
+.TP
+\fIhost\fP\fB:\fP\fIport\fP\fB/proxy\fP \fIheader\fP [\fIhosts\fP...]
+http リクエストヘッダの先頭に \fIheader\fP を追加して中継し
+ます。
+.PP
+\fIxhost\fP を列挙することにより、stone へ接続可能なマシンを制限する
+ことができます。マシン名、あるいはその IP アドレスを空白で区切っ
+て指定すると、そのマシンからの接続のみを中継します。
+
+\fIxhost\fP に「\fB/\fP\fImask\fP」を付けると、特定のネットワークのマシンから
+の接続を許可することができます。例えば、クラス C のネットワーク 
+192.168.1.0 の場合は、「\fB192.168.1.0/255.255.255.0\fP」と指定します。
+
+\fIsport\fP に「\fB/udp\fP」を付けると、TCP パケットを中継する代わりに、
+UDP パケットを中継します。
+
+\fIport\fP に「\fB/ssl\fP」を付けると、パケットを SSL で暗号化して中継します。
+
+\fIsport\fP に「\fB/ssl\fP」を付けると、SSL で暗号化されたパケットを復号化
+して中継します。
+
+\fIsport\fP に「\fB/http\fP」を付けると、http リクエスト上のパケットを中継
+します。
+
+.SH DESCRIPTION
+stone は、アプリケーションレベルの TCP & UDP パケットリピーターです。
+ファイアウォールの内から外へ、あるいは外から内へ、TCP パケットあるいは 
+UDP パケットを中継します。
+.PP
+stone には以下のような特徴があります。
+.IP "1. Win32 に対応している"
+以前は UNIX マシンで構成されることが多かったファイアウォールです
+が、最近は WindowsNT が使われるケースが増えてきました。stone は 
+WindowsNT あるいは Windows95 上で手軽に実行することができます。
+もちろん、Linux, FreeBSD, BSD/OS, SunOS, Solaris, HP-UX などの 
+UNIX マシンでも使うことができます。
+.IP "2. 単純"
+わずか 2000 行 (C 言語) ですので、セキュリティホールが生じる可能
+性を最小限にできます。
+.IP "3. SSLeay 対応"
+Eric Young 氏の SSLeay を使うことにより、暗号化/復号化してパケッ
+トを中継できます。
+.IP "4. http proxy"
+簡易型 http proxy としても使うことができます。
+
+.SH EXAMPLE
+.PD 0
+.IP \fIouter\fP\^: 10
+ファイアウォールの外側にあるマシン
+.IP \fIinner\fP\^:
+ファイアウォールの内側にあるマシン
+.IP \fIfwall\fP\^:
+ファイアウォール. このマシン上で stone を実行
+.PD
+.PP
+.TP
+\fBstone 7 \fIouter\fR
+.nf
+DISPLAY で指定した X server へ X プロトコルを中継
+\fIouter\fP で \fBDISPLAY=\fP\fIinner\fP\fB:7\fP と設定して X クライアントを実行
+.TP
+\fBstone \fIouter\fB:telnet 10023\fR
+\fIouter\fP へ telnet プロトコルを中継
+\fIinner\fP で telnet fwall 10023 を実行
+.TP
+\fBstone \fIouter\fB:domain/udp domain/udp\fR
+DNS 問い合わせを \fIouter\fP へ中継
+\fIinner\fP で \fBnslookup -\fP \fIfwall\fP を実行
+.TP
+\fBstone \fIouter\fB:ntp/udp ntp/udp\fR
+\fIouter\fP へ NTP を中継
+\fIinner\fP で \fBntpdate \fIfwall\fR を実行
+.TP
+\fBstone localhost:http 443/ssl\fR
+WWW サーバを https 対応にする
+WWW ブラウザで \fBhttps://\fIfwall\fB/\fR をアクセス
+.TP
+\fBstone localhost:telnet 10023/ssl\fR
+telnet を SSL 化
+\fIinner\fP で \fBSSLtelnet -z ssl \fIfwall\fB 10023\fR を実行
+.TP
+\fBstone proxy 8080\fR
+http proxy
+.fi
+.PP
+\fIfwall\fP が http proxy (port 8080) である時:
+.TP
+\fBstone \fIfwall\fB:8080/http 10023 'POST http://\fIouter\fB:8023 HTTP/1.0'\fR
+.br
+.ns
+.TP
+\fBstone localhost:telnet 8023/http
+.nf
+\fIinner\fP と \fIouter\fP でそれぞれ stone を実行
+http 上でパケットを中継
+.TP
+\fBstone \fIfwall\fB:8080/proxy 9080 \'Proxy-Authorization: Basic \fIc2VuZ29rdTpoaXJvYWtp\fB\'\fR
+proxy 認証に対応していないブラウザ用
+.fi
+.SH COPYRIGHT
+この stone に関する全ての著作権は、原著作者である仙石浩明が所有
+します。この stone は、GNU General Public License (GPL) に準ずる
+フリーソフトウェアです。個人的に使用する場合は、改変・複製に制限
+はありません。配布する場合は GPL に従って下さい。
+
+.SH DISCLAIMER
+この stone は無保証です。この stone を使って生じたいかなる損害に
+対しても、原著作者は責任を負いません。詳しくは GPL を参照して下
+さい。
+
+.SH AUTHOR
+.nf
+仙石 浩明
+sengoku@gcd.org
+http://www.gcd.org/sengoku/
+.fi

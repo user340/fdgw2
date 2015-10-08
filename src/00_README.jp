@@ -1,0 +1,21 @@
+このディレクトリで行なう作業
+
+make build
+
+	1. lndir で /usr/src の必要な部分を work/src/ にリンクをはる
+
+	2. ramdiskbin を作る
+
+	3. カーネルを作る
+
+
+make install
+
+	1. ramdisk-small.fs を作る
+
+	2. カーネルに mdsetimage で fs をつっこむ 
+
+	3. フロッピーイメージを作る
+
+
+$FML: 00_README.jp,v 1.1 2001/12/15 11:12:38 fukachan Exp $
