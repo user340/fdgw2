@@ -61,55 +61,6 @@ image:
 	(cd obj.${ARCH}.${MODEL};\
 	   ${SU_CMD} "cd `pwd`; ${MAKE} ${MAKE_PARAMS} image" )
 
-
-#
-# clean up
-#
-clean cleandir: _clean_src _clean_fdgw_buildin_pkg _clean_pkg _clean_obj
-
-_clean_src:
-	@ echo "===> clearing src";
-	- (cd src; ${MAKE} clean )
-
-_clean_fdgw_buildin_pkg:
-	@ echo "===> clearing rp-pppoe";
-	- (cd ${GNU_DIR}/rp-pppoe/src ; ${GMAKE} distclean )
-	- rm -f ${STATUS_DIR}/.pppoe_done
-	@ echo "===> clearing stone";
-	- (cd ${GNU_DIR}/stone ; ${GMAKE} distclean )
-	- rm -f ${STATUS_DIR}/.stone_done
-	@ echo "===> clearing transproxy";
-	- (cd src/sbin/transproxy ; make clean RM="rm -f")
-	- rm -f ${STATUS_DIR}/.transproxy_done
-	@ echo "===> clearing pim6sd";
-	- (cd src/usr.sbin/pim6sd/pim6sd ; make clean RM="rm -f")
-	- rm -f ${STATUS_DIR}/.pim6sd_done
-
-_clean_pkg:
-	@ echo "===> clearing squid";
-	- (cd ${PKG_DIR}/squid ; ${GMAKE} distclean )
-	- rm -f ${STATUS_DIR}/.squid_done
-	@ echo "===> clearing jftpgw";
-	- (cd ${PKG_DIR}/jftpgw ; ${GMAKE} distclean )
-	- rm -f ${STATUS_DIR}/.jftpgw_done
-
-_clean_obj:
-	@ for dir in obj.* ; do \
-		if [ -d $$dir ];then\
-		(\
-		  	echo "===> clearing $$dir" ;\
-			cd $$dir ;\
-			${MAKE} clean;\
-		);\
-		fi;\
-	  done
-
-allclean: clean
-	- rm -fr obj.* image.*
-	- rm -fr build.log
-	- rm -fr src/NetBSD
-	- (rm -fr ${PKG_DIR} )
-
 stat:	obj.*.*/log.*
 	@ ${SH} ${UTILS_DIR}/stat.sh	
 
