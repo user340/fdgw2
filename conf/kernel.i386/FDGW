@@ -146,7 +146,7 @@ options 	BUFPAGES=20
 
 # Kernel root file system and dump configuration.
 config		netbsd	root on ? type ?
-config		netbsd	root on sd0a type ffs
+#config		netbsd	root on sd0a type ffs
 #config		netbsd	root on ? type nfs
 
 #
