@@ -13,6 +13,11 @@
 .include "${TOP}/../../../Makefile.inc"
 
 #
+# source
+#
+SRCDIR=	/usr/src
+
+#
 # target image to build
 #
 
@@ -31,25 +36,37 @@ MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec/
 DISKSIZE?=	1475346432
 BIOSBOOT?=	bootxx_ffsv1
 
-#
-# custom
-#
-LOCAL_DIR?=	${CURDIR}/../local/model/${MODEL}
-
 build:
 	@ echo nothing to do
 
 image:	netbsd
 	cp -f ${MDEC}/boot ${.CURDIR}/work
 	cp -f netbsd.gz ${.CURDIR}/work
-	${TOOL_DIR}/bin/nbmakefs -M ${DISKSIZE} -m ${DISKSIZE} -B 1234 -N work/etc -o bsize=16384,fsize=2048,density=8192 ${IMAGE} work
+	cp -pr ${_ETC_DIR}/[a-z]* ${.CURDIR}/etc
+	cp -pr ${_ETC_DIR}/defaults/rc.conf ${.CURDIR}/etc
+	@	if [ -f rc.conf ];then \
+		echo "merge up rc.conf";\
+		awk	-v MASTER=conf/etc/defaults/rc.conf \
+			-f merge_conf.awk \
+			rc.conf |sh > ${.CURDIR}/etc/rc.conf;\
+	fi
+	@	if [ -d ${CURDIR}/work/etc ];then \
+		echo "merging cocnfig(s) from ${CURDIR}/work/etc";\
+		rm -f ${CURDIR}/work/etc/*pwd.db ;\
+		cp -pr ${CURDIR}/work/etc/[a-z]* ${.CURDIR}/etc;\
+		chown -R root ${.CURDIR}/etc;\
+	fi
+	${TOOL_DIR}/bin/nbsed "s/@@BOOTDISK@@/sd0/" < ${SRCDIR}/distrib/common/bootimage/fstab.in > work.fstab
+	cp work.fstab ${.CURDIR}/work/etc/fstab
+	${TOOL_DIR}/bin/nbmakefs -M ${DISKSIZE} -m ${DISKSIZE} -B 1234 -t ffs -N work/etc -o bsize=16384,fsize=2048,density=8192 ${IMAGE} work
 	${TOOL_DIR}/bin/nbinstallboot -v -m i386 ${IMAGE} ${MDEC}/${BIOSBOOT}
-	${TOOL_DIR}/bin/nbsed -e "s/@@SECTORS@@/32/" -e "s/@@HEADS@@/64/" -e "s/@@SECPERCYLINDERS@@/2048/" -e "s/@@CYLINDERS@@/1536/" -e "s/@@IMAGESECTORS@@/3145728/" -e "s/@@FSSECTORS@@/2881536/" -e "s/@@FSOFFSET@@/2048/" -e "s/@@SWAPSECTORS@@/262144/" -e "s/@@SWAPOFFSET@@/2883584/" -e "s/@@BSDPARTSECTORS@@/3143680/" < /vol/usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
+	${TOOL_DIR}/bin/nbsed -e "s/@@SECTORS@@/32/" -e "s/@@HEADS@@/64/" -e "s/@@SECPERCYLINDERS@@/2048/" -e "s/@@CYLINDERS@@/1536/" -e "s/@@IMAGESECTORS@@/3145728/" -e "s/@@FSSECTORS@@/2881536/" -e "s/@@FSOFFSET@@/2048/" -e "s/@@SWAPSECTORS@@/262144/" -e "s/@@SWAPOFFSET@@/2883584/" -e "s/@@BSDPARTSECTORS@@/3143680/" < /usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
 
 	dd if=/dev/zero of=work.mbr seek=3145727 count=1
-	${TOOL_DIR}/bin/i486--netbsdelf-fdisk -f -i -u  -b 195/255/63 -0 -a -s 169/2048/3143680 -F work.mbr
+#${TOOL_DIR}/bin/i486--netbsdelf-fdisk -f -i -u  -b 195/255/63 -0 -a -s 169/2048/3143680 -F work.mbr
 
-	${TOOL_DIR}/bin/i486--netbsdelf-fdisk -f -i -c ${OBJ_DIR}/destdir.i386/usr/mdec/mbr -F work.mbr
+#${TOOL_DIR}/bin/i486--netbsdelf-fdisk -f -i -c ${OBJ_DIR}/destdir.i386/usr/mdec/mbr -F work.mbr
+	${TOOL_DIR}/bin/i486--netbsdelf-fdisk -f -i -u -b 195/255/63 -0 -a -s 169/2048/3143680 -c ${OBJ_DIR}/destdir.i386/usr/mdec/mbr -F work.mbr
 	dd if=work.mbr count=2048 | cat - ${IMAGE} > ${IMAGE}.work.tmp
 	mv ${IMAGE}.work.tmp ${IMAGE}
 
@@ -58,6 +75,7 @@ image:	netbsd
 	rm -f ${IMAGE}.[0-9]* ${MODEL}.img
 	test -d ${IMG_DIR} || mkdir -p ${IMG_DIR}
 	cp -p ${IMAGE} ${IMG_DIR}/${MODEL}.img
+	gzip -9 ${IMG_DIR}/${MODEL}.img
 
 .include <bsd.own.mk>
 .include <bsd.obj.mk>
