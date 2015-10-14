@@ -1,5 +1,0 @@
-/dev/sd0a	/		ffs	rw,log		1 1
-/dev/sd0b	none		none	sw		0 0
-ptyfs		/dev/pts	ptyfs	rw		0 0
-kernfs		/kern		kernfs	rw,noauto	0 0
-procfs		/proc		procfs	rw,noauto	0 0
