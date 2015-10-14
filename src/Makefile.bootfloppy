@@ -15,7 +15,7 @@
 #
 # source
 #
-SRCDIR=	/usr/src
+SRCDIR=	/vol/usr/src
 
 #
 # target image to build
@@ -60,7 +60,7 @@ image:	netbsd
 	cp work.fstab ${.CURDIR}/work/etc/fstab
 	${TOOL_DIR}/bin/nbmakefs -M ${DISKSIZE} -m ${DISKSIZE} -B 1234 -t ffs -N work/etc -o bsize=16384,fsize=2048,density=8192 ${IMAGE} work
 	${TOOL_DIR}/bin/nbinstallboot -v -m i386 ${IMAGE} ${MDEC}/${BIOSBOOT}
-	${TOOL_DIR}/bin/nbsed -e "s/@@SECTORS@@/32/" -e "s/@@HEADS@@/64/" -e "s/@@SECPERCYLINDERS@@/2048/" -e "s/@@CYLINDERS@@/1536/" -e "s/@@IMAGESECTORS@@/3145728/" -e "s/@@FSSECTORS@@/2881536/" -e "s/@@FSOFFSET@@/2048/" -e "s/@@SWAPSECTORS@@/262144/" -e "s/@@SWAPOFFSET@@/2883584/" -e "s/@@BSDPARTSECTORS@@/3143680/" < /usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
+	${TOOL_DIR}/bin/nbsed -e "s/@@SECTORS@@/32/" -e "s/@@HEADS@@/64/" -e "s/@@SECPERCYLINDERS@@/2048/" -e "s/@@CYLINDERS@@/1536/" -e "s/@@IMAGESECTORS@@/3145728/" -e "s/@@FSSECTORS@@/2881536/" -e "s/@@FSOFFSET@@/2048/" -e "s/@@SWAPSECTORS@@/262144/" -e "s/@@SWAPOFFSET@@/2883584/" -e "s/@@BSDPARTSECTORS@@/3143680/" < /vol/usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
 
 	dd if=/dev/zero of=work.mbr seek=3145727 count=1
 #${TOOL_DIR}/bin/i486--netbsdelf-fdisk -f -i -u  -b 195/255/63 -0 -a -s 169/2048/3143680 -F work.mbr

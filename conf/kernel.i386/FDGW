@@ -1,3 +1,14 @@
+# Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
+#
+# All rights reserved.
+# This program is released under the BSD License, please see LICENSE.
+#
+# CREDITS
+#
+# Ken'ichi Fukamachi <fukachan@fml.org>
+# 	Original fdgw developer, and my advisor.
+#
+
 #	$NetBSD: INSTALL_TINY,v 1.134.4.1 2012/06/12 17:47:53 riz Exp $
 #
 #	This kernel should be derived from INSTALL (which is derived
@@ -204,7 +215,7 @@ ppb*	at pci? dev ? function ?	# PCI-PCI bridges
 #puc*	at pci? dev ? function ?	# PCI "universal" comm. cards
 
 # As well as 5 and 7, avoid irq 4 and 3 because we do not probe com* here
-options 	PCIC_ISA_INTR_ALLOC_MASK=0xff47
+#options 	PCIC_ISA_INTR_ALLOC_MASK=0xff47 # 2015/10/14
 
 # PCMCIA bus support
 pcmcia* at pcic? controller ? socket ?

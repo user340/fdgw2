@@ -47,9 +47,9 @@ if [ "X${DONEPROFILE}" = "X" ]; then
 	dmesg() cat /kern/msgbuf
 	grep() sed -n "/$1/p"
 
-	# read configuration from /dev/fd0a (ffs)
+	# read configuration from /dev/sd0a (ffs)
 	test -d conf || mkdir conf 
-	mount /dev/fd0a /conf
+	mount /dev/sd0a /conf
 
 	# symlink(2) for /etc
 	mv /etc /etc.orig
@@ -73,7 +73,7 @@ if [ "X${DONEPROFILE}" = "X" ]; then
                 sh /etc/rc.router
         else
                 echo "*** welcome to fdgw (one floppy NetBSD natbox) ***"
-                echo "error: no /etc (/dev/fd0a)";
+                echo "error: no /etc (/dev/sd0a)";
                 echo "       no configuration!";
 		sh
         fi

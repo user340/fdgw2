@@ -16,8 +16,7 @@
 
 IMAGE=		ramdisk-small.fs
 CBIN=		ramdiskbin
-#AUXDEPENDS= 	dot.profile disktab.preinstall termcap.mini
-AUXDEPENDS= dot.profile # 07/30
+AUXDEPENDS= dot.profile
 
 
 #
@@ -40,16 +39,16 @@ TOOL_BIN_DIR?= tools/bin
 #
 
 IMAGE?=		xxx.fs
-MDEC=		${DESTDIR}/usr/mdec
+#MDEC=		${DESTDIR}/usr/mdec
 
 LISTS=		list
 CRUNCHCONF=	${CBIN}.conf
 MTREE=		mtree.conf
 
-#RAMDISKSPC=	256
 RAMDISKSPC=	512
 RAMDISKCYLS=	16
 RAMDISKSIZE!=	expr ${RAMDISKSPC} \* ${RAMDISKCYLS}
+
 
 
 build: ${IMAGE}
