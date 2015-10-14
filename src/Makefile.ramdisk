@@ -39,7 +39,6 @@ TOOL_BIN_DIR?= tools/bin
 #
 
 IMAGE?=		xxx.fs
-#MDEC=		${DESTDIR}/usr/mdec
 
 LISTS=		list
 CRUNCHCONF=	${CBIN}.conf

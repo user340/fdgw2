@@ -11,7 +11,7 @@
 
 # programs and directories
 
-TOOL_DIR?= /vol/usr/tools
+TOOL_DIR?= /usr/tools
 GMAKE?=		${TOOL_DIR}/bin/nbgmake
 SH?=		/bin/sh
 
