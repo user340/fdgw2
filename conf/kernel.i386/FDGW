@@ -1,14 +1,12 @@
-# Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
+#	$NetBSD: INSTALL_TINY,v 1.134.4.1 2012/06/12 17:47:53 riz Exp $
 #
-# All rights reserved.
-# This program is released under the BSD License, please see LICENSE.
+#	This kernel should be derived from INSTALL (which is derived
+#	from GENERIC) with some features commented out.
 #
-# CREDITS
+#	This kernel has been optimized for space. It is targeted towards
+#	small memory machines (4M). It has no SCSI, PCI or EISA. It does
+#	have pcmcia, for old laptops.
 #
-# Ken'ichi Fukamachi <fukachan@fml.org>
-# 	Original fdgw developer, and my advisor.
-#
-
 
 include "arch/i386/conf/std.i386"
 
@@ -20,7 +18,9 @@ makeoptions	USE_SSP="no"
 # Enable the hooks used for initializing the root memory-disk.
 options 	MEMORY_DISK_HOOKS
 options 	MEMORY_DISK_IS_ROOT	# force root on memory disk
+#options 	MEMORY_DISK_SERVER=0	# no userspace memory disk support
 options 	MEMORY_DISK_SERVER=1	# make the ramdisk writeable
+#options 	MEMORY_DISK_ROOT_SIZE=4096	# size of memory disk, in blocks
 options 	MEMORY_DISK_ROOT_SIZE=8192	# size of memory disk, in blocks
 options 	MEMORY_DISK_RBFLAGS=RB_SINGLE	# boot in single-user mode
 
@@ -207,12 +207,12 @@ ppb*	at pci? dev ? function ?	# PCI-PCI bridges
 options 	PCIC_ISA_INTR_ALLOC_MASK=0xff47
 
 # PCMCIA bus support
-#pcmcia* at pcic? controller ? socket ? # 2015/10/13
+pcmcia* at pcic? controller ? socket ?
 #pcmcia* at tcic? controller ? socket ?
 
 # ISA PCMCIA controllers
-#pcic0	at isa? port 0x3e0 iomem 0xd0000 iosiz 0x10000 # 2015/10/13
-#pcic1	at isa? port 0x3e2 iomem 0xe0000 iosiz 0x4000	# 2015/10/13
+pcic0	at isa? port 0x3e0 iomem 0xd0000 iosiz 0x10000
+pcic1	at isa? port 0x3e2 iomem 0xe0000 iosiz 0x4000
 
 # EISA bus support
 #eisa0	at mainbus?
@@ -359,7 +359,7 @@ wskbd*		at pckbd? console ?
 # IDE and related devices
 
 # PCMCIA IDE controllers
-#wdc*	at pcmcia? function ? # 2015/10/13
+wdc*	at pcmcia? function ?
 
 # ST506, ESDI, and ISA IDE controllers
 # Use flags 0x01 if you want to try to use 32bits data I/O (the driver will
@@ -378,7 +378,7 @@ wd*	at atabus? drive ?		# the drives themselves
 atapibus* at atapi?
 
 # ATAPI devices
-cd*	at atapibus? drive ?		# ATAPI CD-ROM drives
+#cd*	at atapibus? drive ?		# ATAPI CD-ROM drives
 #sd*	at atapibus? drive ?		# ATAPI disk drives
 
 
@@ -425,10 +425,10 @@ wm*		at pci? dev ? function ?
 #ne*	at isapnp?			# NE2000-compatible Ethernet
 
 # PCMCIA network interfaces
-#ep*	at pcmcia? function ?		# 3Com 3c589 and 3c562 Ethernet # 2015/10/13
-#mbe*	at pcmcia? function ?		# MB8696x based Ethernet		# 2015/10/13
-#ne*	at pcmcia? function ?		# NE2000-compatible Ethernet	# 2015/10/13
-#sm*	at pcmcia? function ?		# Megahertz Ethernet			# 2015/10/13
+ep*	at pcmcia? function ?		# 3Com 3c589 and 3c562 Ethernet
+mbe*	at pcmcia? function ?		# MB8696x based Ethernet
+ne*	at pcmcia? function ?		# NE2000-compatible Ethernet
+sm*	at pcmcia? function ?		# Megahertz Ethernet
 
 # ISA network interfaces
 #ate0	at isa? port 0x2a0 irq ?		# AT1700
