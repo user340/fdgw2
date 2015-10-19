@@ -63,7 +63,8 @@ _DIR1+=	bin/stty
 _DIR1+=	bin/sync
 _DIR1+=	bin/test
 _DIR1+=	distrib/utils
-_DIR1+=	distrib/i386/floppies
+_DIR1+=	distrib/common
+_DIR1+=	distrib/i386/liveimage
 _DIR1+= distrib/i386/instkernel
 _DIR1+= distrib/i386/ramdisks
 _DIR1+=	sbin/ifconfig
@@ -124,7 +125,7 @@ _DIR2+=	sys/compat/linux
 #.endif
 
 
-_FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/floppies
+_FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/liveimage
 
 _SYS_DIR=	${BSDSRCDIR}/sys
 
