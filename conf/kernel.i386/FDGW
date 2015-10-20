@@ -29,9 +29,7 @@ makeoptions	USE_SSP="no"
 # Enable the hooks used for initializing the root memory-disk.
 options 	MEMORY_DISK_HOOKS
 options 	MEMORY_DISK_IS_ROOT	# force root on memory disk
-#options 	MEMORY_DISK_SERVER=0	# no userspace memory disk support
 options 	MEMORY_DISK_SERVER=1	# make the ramdisk writeable
-#options 	MEMORY_DISK_ROOT_SIZE=4096	# size of memory disk, in blocks
 options 	MEMORY_DISK_ROOT_SIZE=8192	# size of memory disk, in blocks
 options 	MEMORY_DISK_RBFLAGS=RB_SINGLE	# boot in single-user mode
 
@@ -103,7 +101,7 @@ options 	DDB_HISTORY_SIZE=512	# enable history editing in DDB
 options 	COMPAT_BSDPTY	# /dev/[pt]ty?? ptys.
 
 # File systems
-file-system	FFS		# UFS
+file-system		FFS		# UFS
 #file-system	EXT2FS		# second extended file system (linux)
 #file-system	LFS		# log-structured file system
 #file-system	MFS		# memory file system
@@ -111,7 +109,7 @@ file-system	FFS		# UFS
 #file-system	CD9660		# ISO 9660 + Rock Ridge file system
 file-system	MSDOSFS		# MS-DOS file system
 #file-system	FDESC		# /dev/fd
-#file-system	KERNFS		# /kern
+file-system		KERNFS		# /kern
 #file-system	NULLFS		# loopback file system
 #file-system	PROCFS		# /proc
 #file-system	UMAPFS		# NULLFS + uid and gid remapping
@@ -139,7 +137,7 @@ options 	INET		# IP + ICMP + TCP + UDP
 #options 	PPP_BSDCOMP	# BSD-Compress compression support for PPP
 #options 	PPP_DEFLATE	# Deflate compression support for PPP
 #options 	PPP_FILTER	# Active filter support for PPP (requires bpf)
-#options 	PFIL_HOOKS	# pfil(9) packet filter hooks
+options 	PFIL_HOOKS	# pfil(9) packet filter hooks
 #options 	TCP_DEBUG	# Record last TCP_NDEBUG packets with SO_DEBUG
 
 # These options enable verbose messages for several subsystems.
@@ -196,6 +194,25 @@ options 	WS_KERNEL_FG=WSCOL_GREEN
 # Device configuration
 #
 
+# USB Controller and Devices
+
+ehci*   at pci? dev ? function ?        # Enhanced Host Controller
+gcscehci* at pci? dev ? function ?      # Enhanced Host Controller (Geode CSC)
+ohci*   at pci? dev ? function ?        # Open Host Controller
+uhci*   at pci? dev ? function ?        # Universal Host Controller (Intel)
+
+usb*    at ehci?
+usb*    at gcscehci?
+usb*    at ohci?
+usb*    at uhci?
+
+uhub*   at usb?
+uhub*   at uhub? port ?
+
+# USB Mass Storage
+umass*  at uhub? port ? configuration ? interface ?
+wd*     at umass?
+
 #apm0	at mainbus0			# Advanced power management
 
 
@@ -226,7 +243,7 @@ pcic0	at isa? port 0x3e0 iomem 0xd0000 iosiz 0x10000
 pcic1	at isa? port 0x3e2 iomem 0xe0000 iosiz 0x4000
 
 # EISA bus support
-#eisa0	at mainbus?
+eisa0	at mainbus?
 #eisa0	at pceb?
 
 # ISA bus support
@@ -299,53 +316,53 @@ wskbd*		at pckbd? console ?
 # SCSI Controllers and Devices
 
 # PCI SCSI controllers
-#ahc*	at pci? dev ? function ?	# Adaptec [23]94x, aic78x0 SCSI
-#bha*	at pci? dev ? function ?	# BusLogic 9xx SCSI
-#dpt*	at pci? dev ? function ?	# DPT SmartCache/SmartRAID
-#isp*	at pci? dev ? function ?	# Qlogic ISP [12]0x0 SCSI/FibreChannel
-#mly*	at pci? dev ? function ?	# Mylex AcceleRAID and eXtremeRAID
-#siop*	at pci? dev ? function ?	# NCR 53c8xx SCSI
+ahc*	at pci? dev ? function ?	# Adaptec [23]94x, aic78x0 SCSI
+bha*	at pci? dev ? function ?	# BusLogic 9xx SCSI
+dpt*	at pci? dev ? function ?	# DPT SmartCache/SmartRAID
+isp*	at pci? dev ? function ?	# Qlogic ISP [12]0x0 SCSI/FibreChannel
+mly*	at pci? dev ? function ?	# Mylex AcceleRAID and eXtremeRAID
+siop*	at pci? dev ? function ?	# NCR 53c8xx SCSI
 
 # EISA SCSI controllers
-#ahb*	at eisa? slot ?			# Adaptec 174[02] SCSI
-#ahc*	at eisa? slot ?			# Adaptec 274x, aic7770 SCSI
-#bha*	at eisa? slot ?			# BusLogic 7xx SCSI
-#dpt*	at eisa? slot ?			# DPT SmartCache/SmartRAID
-#uha*	at eisa? slot ?			# UltraStor 24f SCSI
+ahb*	at eisa? slot ?			# Adaptec 174[02] SCSI
+ahc*	at eisa? slot ?			# Adaptec 274x, aic7770 SCSI
+bha*	at eisa? slot ?			# BusLogic 7xx SCSI
+dpt*	at eisa? slot ?			# DPT SmartCache/SmartRAID
+uha*	at eisa? slot ?			# UltraStor 24f SCSI
 
 # PCMCIA SCSI controllers
-#aic*	at pcmcia? function ?		# Adaptec APA-1460 SCSI
+aic*	at pcmcia? function ?		# Adaptec APA-1460 SCSI
 
 # ISA Plug-and-Play SCSI controllers
 #aic*	at isapnp?			# Adaptec AHA-1520B
 
 # ISA SCSI controllers
-#aha0	at isa? port 0x330 irq ? drq ?	# Adaptec 154[02] SCSI
-#aha1	at isa? port 0x334 irq ? drq ?
-#ahc0	at isa? port ? irq ?		# Adaptec 284x SCSI
-#aic0	at isa? port 0x340 irq 11	# Adaptec 152[02] SCSI
-#bha0	at isa? port 0x330 irq ? drq ?	# BusLogic [457]4X SCSI
-#bha1	at isa? port 0x334 irq ? drq ?
+aha0	at isa? port 0x330 irq ? drq ?	# Adaptec 154[02] SCSI
+aha1	at isa? port 0x334 irq ? drq ?
+ahc0	at isa? port ? irq ?		# Adaptec 284x SCSI
+aic0	at isa? port 0x340 irq 11	# Adaptec 152[02] SCSI
+bha0	at isa? port 0x330 irq ? drq ?	# BusLogic [457]4X SCSI
+bha1	at isa? port 0x334 irq ? drq ?
 # The "nca" and "dpt" probes might give false hits or hang your machine.
 #dpt0	at isa? port 0x170 irq ? drq ?	# DPT SmartCache/SmartRAID
 #nca0	at isa? port 0x360 irq 15	# Port-mapped NCR 53C80 controller
 #nca1	at isa? iomem 0xd8000 irq 5	# Memory-mapped controller (T128, etc.)
-#sea0	at isa? iomem 0xc8000 irq 5	# Seagate/Future Domain SCSI
-#uha0	at isa? port 0x330 irq ? drq ?	# UltraStor [13]4f SCSI
-#uha1	at isa? port 0x340 irq ? drq ?
-#wds0	at isa? port 0x350 irq 15 drq 6	# WD7000 and TMC-7000 controllers
-#wds1	at isa? port 0x358 irq 11 drq 5
+sea0	at isa? iomem 0xc8000 irq 5	# Seagate/Future Domain SCSI
+uha0	at isa? port 0x330 irq ? drq ?	# UltraStor [13]4f SCSI
+uha1	at isa? port 0x340 irq ? drq ?
+wds0	at isa? port 0x350 irq 15 drq 6	# WD7000 and TMC-7000 controllers
+wds1	at isa? port 0x358 irq 11 drq 5
 
 # SCSI bus support
-#scsibus* at scsi?
+scsibus* at scsi?
 
 # SCSI devices
-#sd*	at scsibus? target ? lun ?	# SCSI disk drives
-#st*	at scsibus? target ? lun ?	# SCSI tape drives
-#cd*	at scsibus? target ? lun ?	# SCSI CD-ROM drives
-#ch*	at scsibus? target ? lun ?	# SCSI autochangers
-#ss*	at scsibus? target ? lun ?	# SCSI scanners
-#uk*	at scsibus? target ? lun ?	# SCSI unknown
+sd*	at scsibus? target ? lun ?	# SCSI disk drives
+st*	at scsibus? target ? lun ?	# SCSI tape drives
+cd*	at scsibus? target ? lun ?	# SCSI CD-ROM drives
+ch*	at scsibus? target ? lun ?	# SCSI autochangers
+ss*	at scsibus? target ? lun ?	# SCSI scanners
+uk*	at scsibus? target ? lun ?	# SCSI unknown
 
 
 # RAID controllers and devices
@@ -390,7 +407,7 @@ atapibus* at atapi?
 
 # ATAPI devices
 #cd*	at atapibus? drive ?		# ATAPI CD-ROM drives
-#sd*	at atapibus? drive ?		# ATAPI disk drives
+sd*	at atapibus? drive ?		# ATAPI disk drives
 
 
 # Miscellaneous mass storage devices
@@ -473,44 +490,8 @@ sm*	at pcmcia? function ?		# Megahertz Ethernet
 #nsphy*	at mii? dev ?			# NS and compatible PHYs
 #ukphy*	at mii? phy ?			# generic unknown PHYs
 
-
-# Audio Devices
-
-# ISA Plug-and-Play audio devices
-#guspnp* at isapnp?			# Gravis Ultra Sound PnP audio
-#sb*	at isapnp?			# SoundBlaster-compatible audio
-
-# ISA audio devices
-#gus0	at isa? port 0x220 irq 7 drq 1 drq2 6	# Gravis Ultra Sound
-#pas0	at isa? port 0x220 irq 7 drq 1		# ProAudio Spectrum
-#sb0	at isa? port 0x220 irq 7 drq 1 drq2 5	# SoundBlaster
-#wss0	at isa? port 0x530 irq 10 drq 0	drq2 1	# Windows Sound System
-
-# Audio support
-#audio*	at audiobus?
-
-# The spkr driver provides a simple tone interface to the built in speaker.
-#spkr0	at pcppi?		# PC speaker
-
-
-# Joysticks
-
-# ISA Plug-and-Play joysticks
-#joy*	at isapnp?			# Game ports (usually on audio cards)
-
-# ISA joysticks. Probe is a little strange; add only if you have one.
-#joy0	at isa? port 0x201
-
-
-# Miscellaneous Devices
-
-# Planetconnect Satellite receiver driver.
-#satlink0 at isa? port 0x300 drq 1
-
-
 # Pull in optional local configuration
 cinclude "arch/i386/conf/INSTALL.local"
-
 
 # Pseudo-Devices
 
@@ -521,9 +502,11 @@ pseudo-device	md			# memory disk device (ramdisk)
 #pseudo-device	vnd			# disk-like interface to files
 
 # network pseudo-devices
-#pseudo-device	bpfilter		# Berkeley packet filter
-pseudo-device	ipfilter		# IP filter (firewall) and NAT
+pseudo-device	bpfilter		# Berkeley packet filter
+#pseudo-device	ipfilter		# IP filter (firewall) and NAT
 pseudo-device	loop			# network loopback
+pseudo-device	pf
+pseudo-device	npf
 #pseudo-device	ppp			# Point-to-Point Protocol
 #pseudo-device	sl			# Serial Line IP
 #pseudo-device	strip			# Starmode Radio IP (Metricom)

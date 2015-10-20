@@ -26,7 +26,7 @@ export BOOTMODEL
 
 umask 022
 
-ROOTDEV=/dev/sd0a
+ROOTDEV=/dev/md0a
 
 if [ "X${DONEPROFILE}" = "X" ]; then
 	DONEPROFILE=YES
@@ -72,7 +72,7 @@ if [ "X${DONEPROFILE}" = "X" ]; then
         then
                 sh /etc/rc.router
         else
-                echo "*** welcome to fdgw (one floppy NetBSD natbox) ***"
+                echo "*** welcome to fdgw2 (one floppy NetBSD) ***"
                 echo "error: no /etc (/dev/sd0a)";
                 echo "       no configuration!";
 		sh

@@ -61,16 +61,21 @@ copyright () {
 	echo -n " `cat /etc/release_version`"
 	echo    " (`cat conf/etc/release_date`)"
    else
-	echo    "fdgw (single floppy NetBSD/${ARCH} system)"
+	echo    "fdgw2 (single floppy NetBSD/${ARCH} system version 2)"
    fi
 
    echo ""
-   echo "Copyright (C) 2001,2002,2003 Ken'ichi Fukamachi <fukachan@fml.org>"
+   echo "Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>"
    echo ""
-   echo "All rights reserved. This program is free software; you can"
-   echo "redistribute it and/or modify it under the same terms as NetBSD itself."
+   echo "All rights reserved."
+   echo "This program is released under the BSD License as with NetBSD."
    echo ""
-   echo "See http://www.fml.org/software/fdgw/ for configuration details."
+   echo "For details, please see https:/github.com/user340/fdgw2/wiki (japanese)"
+   echo ""
+   echo "CREDITS"
+   echo ""
+   echo "Ken'ichi Fukamachi <fukachan@fml.org>"
+   echo "***Original fdgw developer, and my advisor.***"
    echo ""
 }
 

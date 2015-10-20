@@ -80,6 +80,11 @@ image:
 stat:	obj.*.*/log.*
 	@ ${SH} ${UTILS_DIR}/stat.sh	
 
+clean:
+	rm -fr obj.${ARCH}.${MODEL}
+	rm -fr src/NetBSD
+	rm -fr image.${ARCH}
+
 #
 # utilities for debug
 #

@@ -42,8 +42,8 @@ build:
 image:	netbsd
 	cp -f ${MDEC}/boot ${.CURDIR}/work
 	cp -f netbsd.gz ${.CURDIR}/work
-	cp -pr ${_ETC_DIR}/[a-z]* ${.CURDIR}/etc
-	cp -pr ${_ETC_DIR}/defaults/rc.conf ${.CURDIR}/etc
+	cp -pr ${_ETC_DIR}/[a-z]* ${.CURDIR}/work/etc
+	cp -pr ${_ETC_DIR}/defaults/rc.conf ${.CURDIR}/work/etc
 	@	if [ -f rc.conf ];then \
 		echo "merge up rc.conf";\
 		awk	-v MASTER=conf/etc/defaults/rc.conf \
