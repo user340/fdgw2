@@ -63,7 +63,7 @@ _DIR1+=	bin/stty
 _DIR1+=	bin/sync
 _DIR1+=	bin/test
 _DIR1+=	distrib/utils
-_DIR1+=	distrib/common
+_DIR1+= distrib/common
 _DIR1+=	distrib/i386/liveimage
 _DIR1+= distrib/i386/instkernel
 _DIR1+= distrib/i386/ramdisks
@@ -90,10 +90,8 @@ _DIR1+=	usr.bin/tput
 _DIR1+=	usr.bin/tty
 _DIR1+=	usr.bin/uname
 _DIR1+= usr.bin/printf
-#_DIR1+=	usr.sbin/chown
 _DIR1+=	usr.sbin/chroot
 _DIR1+=	usr.sbin/dhcp
-#_DIR1+=	usr.sbin/ipf # XXX
 _DIR1+=	usr.sbin/pppd
 _DIR1+=	usr.sbin/route6d
 _DIR1+=	usr.sbin/rtadvd
@@ -102,22 +100,18 @@ _DIR1+=	usr.sbin/rtsold
 _DIR1+=	usr.sbin/traceroute6
 _DIR1+= lib/libc
 _DIR1+= lib/libterminfo
-#_DIR1+=	lib/libpcap
 _DIR1+=	sys/netinet
-#_DIR1+= external/bsd/less
 _DIR1+= external/bsd/libpcap
+_DIR1+= usr.sbin/pf
+_DIR1+= usr.sbin/npf
 
-
-#_DIR2=	dist/ipf # XXX
 .if exists (${BSDSRCDIR}/dist/dhcp/Makefile)
 _DIR2+=	dist/dhcp
 .endif
 _DIR2+=	sys/conf
 _DIR2+=	sys/arch/i386/stand
-# begin 2015/06/05
 _DIR2+= common/lib/libc
 _DIR2+= common/include
-# end 2015/06/05
 
 #.if ${NetBSD_VERSION} == 1.6
 # sysctl needs sys/compat/linux
@@ -132,7 +126,7 @@ _SYS_DIR=	${BSDSRCDIR}/sys
 
 
 #
-# floppy image parameters
+# Live-Image parameters
 #
 INO_BYTES=	40960
 
@@ -266,8 +260,6 @@ _init_config:
 	#-rm -f disktab.preinstall termcap.mini
 	ln -s ../${_CONF_DIR} conf
 	ln -s ../${_MODEL_DIR} model
-	#cp distrib/${ARCH}/floppies/disktab.preinstall disktab.preinstall
-	#cp distrib/${ARCH}/floppies/termcap.mini       termcap.mini
 	-rm -f ramdiskbin.conf
 	sed "s/__ARCH__/${ARCH}/g" ${_CBIN}.conf |\
 	sh utils/fix_ramdiskbin.conf.sh > ramdiskbin.conf.new
