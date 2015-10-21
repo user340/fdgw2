@@ -101,56 +101,16 @@ options 	DDB_HISTORY_SIZE=512	# enable history editing in DDB
 options 	COMPAT_BSDPTY	# /dev/[pt]ty?? ptys.
 
 # File systems
-<<<<<<< HEAD
 file-system		FFS			# UFS
 file-system		MSDOSFS		# MS-DOS file system
 file-system		KERNFS		# /kern
 #file-system	NFS		# Network File System client
-=======
-file-system		FFS		# UFS
-#file-system	EXT2FS		# second extended file system (linux)
-#file-system	LFS		# log-structured file system
-#file-system	MFS		# memory file system
-#file-system	NFS		# Network File System client
-#file-system	CD9660		# ISO 9660 + Rock Ridge file system
-file-system	MSDOSFS		# MS-DOS file system
-#file-system	FDESC		# /dev/fd
-file-system		KERNFS		# /kern
-#file-system	NULLFS		# loopback file system
-#file-system	PROCFS		# /proc
-#file-system	UMAPFS		# NULLFS + uid and gid remapping
-#file-system	UNION		# union file system
-#file-system	PTYFS		# /dev/pts/N support
-#file-system	TMPFS		# Efficient memory file-system
-
-# Filesystem options
-#options 	QUOTA		# legacy UFS quotas
-#options 	QUOTA2		# new, in-filesystem UFS quotas
-#options 	NFSSERVER	# Network File System server
-#options 	NFS_V2_ONLY	# Exclude NFS3 code to save space
-#options 	FFS_NO_SNAPSHOT	# No FFS snapshot support
-#options 	EXT2FS_SYSTEM_FLAGS # makes ext2fs file flags (append and
-				# immutable) behave as system flags.
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 
 # Networking options
 options 	GATEWAY		# packet forwarding
 options 	INET		# IP + ICMP + TCP + UDP
-<<<<<<< HEAD
 options 	INET6
 options 	PFIL_HOOKS	# pfil(9) packet filter hooks
-=======
-#options 	MROUTING	# IP multicast routing
-#options 	PIM		# Protocol Independent Multicast
-#options 	ISO,TPIP	# OSI
-#options 	EON		# OSI tunneling over IP
-#options 	NETATALK	# AppleTalk networking protocols
-#options 	PPP_BSDCOMP	# BSD-Compress compression support for PPP
-#options 	PPP_DEFLATE	# Deflate compression support for PPP
-#options 	PPP_FILTER	# Active filter support for PPP (requires bpf)
-options 	PFIL_HOOKS	# pfil(9) packet filter hooks
-#options 	TCP_DEBUG	# Record last TCP_NDEBUG packets with SO_DEBUG
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 
 # These options enable verbose messages for several subsystems.
 # Warning, these may compile large string tables into the kernel!
@@ -177,28 +137,6 @@ options 	WS_KERNEL_FG=WSCOL_GREEN
 #
 
 # USB Controller and Devices
-<<<<<<< HEAD
-=======
-
-ehci*   at pci? dev ? function ?        # Enhanced Host Controller
-gcscehci* at pci? dev ? function ?      # Enhanced Host Controller (Geode CSC)
-ohci*   at pci? dev ? function ?        # Open Host Controller
-uhci*   at pci? dev ? function ?        # Universal Host Controller (Intel)
-
-usb*    at ehci?
-usb*    at gcscehci?
-usb*    at ohci?
-usb*    at uhci?
-
-uhub*   at usb?
-uhub*   at uhub? port ?
-
-# USB Mass Storage
-umass*  at uhub? port ? configuration ? interface ?
-wd*     at umass?
-
-#apm0	at mainbus0			# Advanced power management
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 
 ehci*   at pci? dev ? function ?        # Enhanced Host Controller
 gcscehci* at pci? dev ? function ?      # Enhanced Host Controller (Geode CSC)
@@ -248,10 +186,6 @@ pcic1	at isa? port 0x3e2 iomem 0xe0000 iosiz 0x4000
 
 # EISA bus support
 eisa0	at mainbus?
-<<<<<<< HEAD
-=======
-#eisa0	at pceb?
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 
 # ISA bus support
 isa0	at mainbus?
@@ -291,12 +225,6 @@ uha*	at eisa? slot ?			# UltraStor 24f SCSI
 
 # PCMCIA SCSI controllers
 aic*	at pcmcia? function ?		# Adaptec APA-1460 SCSI
-<<<<<<< HEAD
-=======
-
-# ISA Plug-and-Play SCSI controllers
-#aic*	at isapnp?			# Adaptec AHA-1520B
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 
 # ISA SCSI controllers
 aha0	at isa? port 0x330 irq ? drq ?	# Adaptec 154[02] SCSI
@@ -306,12 +234,6 @@ aic0	at isa? port 0x340 irq 11	# Adaptec 152[02] SCSI
 bha0	at isa? port 0x330 irq ? drq ?	# BusLogic [457]4X SCSI
 bha1	at isa? port 0x334 irq ? drq ?
 # The "nca" and "dpt" probes might give false hits or hang your machine.
-<<<<<<< HEAD
-=======
-#dpt0	at isa? port 0x170 irq ? drq ?	# DPT SmartCache/SmartRAID
-#nca0	at isa? port 0x360 irq 15	# Port-mapped NCR 53C80 controller
-#nca1	at isa? iomem 0xd8000 irq 5	# Memory-mapped controller (T128, etc.)
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 sea0	at isa? iomem 0xc8000 irq 5	# Seagate/Future Domain SCSI
 uha0	at isa? port 0x330 irq ? drq ?	# UltraStor [13]4f SCSI
 uha1	at isa? port 0x340 irq ? drq ?
@@ -328,28 +250,6 @@ cd*	at scsibus? target ? lun ?	# SCSI CD-ROM drives
 ch*	at scsibus? target ? lun ?	# SCSI autochangers
 ss*	at scsibus? target ? lun ?	# SCSI scanners
 uk*	at scsibus? target ? lun ?	# SCSI unknown
-<<<<<<< HEAD
-=======
-
-
-# RAID controllers and devices
-#aac*	at pci? dev ? function ?	# Adaptec AAC family
-#cac*	at eisa? slot ?			# Compaq EISA array controllers
-#cac*	at pci? dev ? function ?	# Compaq PCI array controllers
-#ciss*	at pci? dev ? function ?	# HP Smart Array controllers
-#icp*	at pci? dev ? function ?	# ICP-Vortex GDT & Intel RAID
-#mlx*	at pci? dev ? function ?	# Mylex DAC960 & DEC SWXCR family
-#mlx*	at eisa? slot ?			# Mylex DAC960 & DEC SWXCR family
-#twe*	at pci? dev ? function ?	# 3ware Escalade RAID controllers
-
-#ld*	at aac? unit ?			# logical disk devices
-#ld*	at cac? unit ?
-#ld*	at icp? unit ?
-#ld*	at twe? unit ?
-#ld*	at mlx? unit ?
-
-#icpsp*	at icp? unit ?			# SCSI pass-through
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 
 
 # IDE and related devices
@@ -374,10 +274,6 @@ wd*	at atabus? drive ?		# the drives themselves
 atapibus* at atapi?
 
 # ATAPI devices
-<<<<<<< HEAD
-=======
-#cd*	at atapibus? drive ?		# ATAPI CD-ROM drives
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 sd*	at atapibus? drive ?		# ATAPI disk drives
 
 
@@ -416,7 +312,6 @@ ne*	at pcmcia? function ?		# NE2000-compatible Ethernet
 sm*	at pcmcia? function ?		# Megahertz Ethernet
 
 # ISA network interfaces
-<<<<<<< HEAD
 ate0	at isa? port 0x2a0 irq ?		# AT1700
 ec0	at isa? port 0x250 iomem 0xd8000 irq 9	# 3Com 3c503 Ethernet
 eg0	at isa? port 0x280 irq 9		# 3c505 Ethernet cards
@@ -439,38 +334,6 @@ ne1	at isa? port 0x300 irq 10
 sm0	at isa? port 0x300 irq 10		# SMC91C9x Ethernet
 we0	at isa? port 0x280 iomem 0xd0000 irq 9	# WD/SMC Ethernet
 we1	at isa? port 0x300 iomem 0xcc000 irq 10
-=======
-#ate0	at isa? port 0x2a0 irq ?		# AT1700
-#ec0	at isa? port 0x250 iomem 0xd8000 irq 9	# 3Com 3c503 Ethernet
-#eg0	at isa? port 0x280 irq 9		# 3c505 Ethernet cards
-#el0	at isa? port 0x300 irq 9		# 3c501 Ethernet cards
-#ep0	at isa? port ? irq ?			# 3c509 Ethernet cards
-#ef0	at isa? port 0x360 iomem 0xd0000 irq 7	# 3c507
-#ai0	at isa? port 0x360 iomem 0xd0000 irq 7	# StarLAN
-#fmv0	at isa? port 0x2a0 irq ?		# FMV-180 series
-#ix0	at isa? port 0x300 irq 10		# EtherExpress/16
-#iy0	at isa? port 0x360 irq ?		# EtherExpress PRO 10 ISA
-#lc0	at isa? port 0x320 iomem ? irq ?	# DEC EtherWORKS III (LEMAC)
-#depca0	at isa? port 0x300 iomem 0xc8000 iosiz 0x8000 irq 5	# DEPCA
-#le*	at depca?
-#nele0	at isa? port 0x320 irq 9 drq 7		# NE2100
-#le*	at nele?
-#bicc0	at isa? port 0x320 irq 10 drq 7		# BICC IsoLan
-#le*	at bicc?
-#ne0	at isa? port 0x280 irq 9		# NE[12]000 Ethernet cards
-#ne1	at isa? port 0x300 irq 10
-#sm0	at isa? port 0x300 irq 10		# SMC91C9x Ethernet
-#we0	at isa? port 0x280 iomem 0xd0000 irq 9	# WD/SMC Ethernet
-#we1	at isa? port 0x300 iomem 0xcc000 irq 10
-
-# MII bus support
-#mii*	at tl?
-
-# MII PHY network interfaces
-#tlphy*	at mii? dev ?			# ThunderLAN PHYs
-#nsphy*	at mii? dev ?			# NS and compatible PHYs
-#ukphy*	at mii? phy ?			# generic unknown PHYs
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 
 # Pull in optional local configuration
 cinclude "arch/i386/conf/INSTALL.local"
@@ -482,22 +345,11 @@ pseudo-device	md			# memory disk device (ramdisk)
 
 # network pseudo-devices
 pseudo-device	bpfilter		# Berkeley packet filter
-<<<<<<< HEAD
 pseudo-device	loop			# network loopback
 pseudo-device	pf
 pseudo-device	pflog
 pseudo-device	npf
 pseudo-device	stf
-=======
-#pseudo-device	ipfilter		# IP filter (firewall) and NAT
-pseudo-device	loop			# network loopback
-pseudo-device	pf
-pseudo-device	npf
-#pseudo-device	ppp			# Point-to-Point Protocol
-#pseudo-device	sl			# Serial Line IP
-#pseudo-device	strip			# Starmode Radio IP (Metricom)
-#pseudo-device	tun			# network tunneling over tty
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 
 # miscellaneous pseudo-devices
 pseudo-device	pty		2	# pseudo-terminals (Sysinst needs two)

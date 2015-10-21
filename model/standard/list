@@ -67,11 +67,6 @@ SYMLINK	/bin/cat			usr/sbin/chroot
 SYMLINK /bin/cat			usr/sbin/dhcpd
 
 SPECIAL	/bin/rm ramdiskbin
-<<<<<<< HEAD
-=======
-#SPECIAL ipf	srcdir dist/ipf # XXX
-#SPECIAL ipf	srcdir usr.sbin/ipf/ipf # XXX
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 
 # utility
 COPY	${CURDIR}/utils/x_grep/grep.sh	usr/bin/grep
@@ -93,15 +88,8 @@ COPY	${TOP}/../../../etc/MAKEDEV.awk 				dev/MAKEDEV.awk
 COPY	${TOP}/../../../etc/MAKEDEV.tmpl				dev/MAKEDEV.tmpl
 SPECIAL cd dev; NETBSDSRCDIR=/usr/src MACHINE=i386 MACHINE_ARCH=i386 awk -f MAKEDEV.awk MAKEDEV.tmpl > MAKEDEV
 SPECIAL	cd dev; sh MAKEDEV ramdisk
-<<<<<<< HEAD
 SPECIAL	cd dev; sh MAKEDEV pf
 SPECIAL	cd dev; sh MAKEDEV npf
-=======
-#SPECIAL	cd dev; sh MAKEDEV std
-SPECIAL	cd dev; sh MAKEDEV pf
-SPECIAL	cd dev; sh MAKEDEV npf
-#SPECIAL	cd dev; sh MAKEDEV ipl
->>>>>>> 0f6d71fa269378989e497c7f4e20be9a7c9ec772
 SPECIAL cd dev; sh MAKEDEV bpf
 SPECIAL	/bin/rm dev/MAKEDEV
 
