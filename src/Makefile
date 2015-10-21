@@ -24,11 +24,11 @@ MODEL?=         standard
 LOCALBASE?=	/usr/pkg
 
 # NetBSD source
-BSDSRCDIR?=	/usr/src
+BSDSRCDIR?=	/vol/usr/src
 
 # NetBSD tools
-TOOL_DIR?= /usr/tools
-OBJ_DIR?= /usr/obj
+TOOL_DIR?= /vol/usr/tools
+OBJ_DIR?= /vol/usr/obj
 
 # dir to lndir
 _BSDSRCDIR=	`pwd`/NetBSD
@@ -86,6 +86,7 @@ _DIR1+=	usr.bin/basename
 _DIR1+=	usr.bin/id
 _DIR1+=	usr.bin/logger
 _DIR1+=	usr.bin/sed
+_DIR1+= usr.bin/touch
 _DIR1+=	usr.bin/tput
 _DIR1+=	usr.bin/tty
 _DIR1+=	usr.bin/uname
@@ -429,7 +430,6 @@ _init_ttcp:
 #
 clean cleandir:
 	-make -f Makefile.ramdisk cleandir TOP=${_FLOPPY_DIR}
-	#-rm -f disktab.preinstall termcap.mini conf model
 	-rm -f conf model
 	-rm -f ramdiskbin.conf list rc.conf
 	-rm -f boot *.fs boot.fs* netbsd* *.tmp *~

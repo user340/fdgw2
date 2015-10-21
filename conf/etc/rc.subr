@@ -61,7 +61,7 @@ copyright () {
 	echo -n " `cat /etc/release_version`"
 	echo    " (`cat conf/etc/release_date`)"
    else
-	echo    "fdgw2 (single floppy NetBSD/${ARCH} system version 2)"
+	echo    "fdgw2 (One Floppy NetBSD/${ARCH} system version 2)"
    fi
 
    echo ""

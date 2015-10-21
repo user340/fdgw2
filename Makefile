@@ -1,7 +1,7 @@
 # Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
 #
 # All rights reserved.
-# This program is released under the BSD License, please see LICENSE.
+# This software is released under the BSD License, please see LICENSE.
 #
 # CREDITS
 #
@@ -11,7 +11,7 @@
 
 # programs and directories
 
-TOOL_DIR?= /usr/tools
+TOOL_DIR?= /vol/usr/tools
 GMAKE?=		${TOOL_DIR}/bin/nbgmake
 SH?=		/bin/sh
 
