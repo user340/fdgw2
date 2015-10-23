@@ -97,27 +97,21 @@ _DIR1+=	usr.sbin/pppd
 _DIR1+=	usr.sbin/route6d
 _DIR1+=	usr.sbin/rtadvd
 _DIR1+=	usr.sbin/rtsold
-#_DIR1+=	usr.sbin/syslogd # XXX
 _DIR1+=	usr.sbin/traceroute6
 _DIR1+= lib/libc
 _DIR1+= lib/libterminfo
 _DIR1+=	sys/netinet
 _DIR1+= external/bsd/libpcap
 _DIR1+= usr.sbin/pf
-_DIR1+= usr.sbin/npf
 
-.if exists (${BSDSRCDIR}/dist/dhcp/Makefile)
 _DIR2+=	dist/dhcp
-.endif
 _DIR2+=	sys/conf
 _DIR2+=	sys/arch/i386/stand
 _DIR2+= common/lib/libc
 _DIR2+= common/include
-
-#.if ${NetBSD_VERSION} == 1.6
-# sysctl needs sys/compat/linux
+_DIR2+= dist/pf
+_DIR2+= sys/dist/pf
 _DIR2+=	sys/compat/linux
-#.endif
 
 
 _FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/liveimage
