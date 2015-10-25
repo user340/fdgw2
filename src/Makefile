@@ -24,11 +24,11 @@ MODEL?=         standard
 LOCALBASE?=	/usr/pkg
 
 # NetBSD source
-BSDSRCDIR?=	/usr/src
+BSDSRCDIR?=	/vol/usr/src
 
 # NetBSD tools
-TOOL_DIR?= /usr/tools
-OBJ_DIR?= /usr/obj
+TOOL_DIR?= /vol/usr/tools
+OBJ_DIR?= /vol/usr/obj
 
 # dir to lndir
 _BSDSRCDIR=	`pwd`/NetBSD
@@ -46,15 +46,12 @@ _DIR1+=	bin/cp
 _DIR1+=	bin/date
 _DIR1+=	bin/df
 _DIR1+=	bin/echo
-_DIR1+=	bin/ed
-_DIR1+=	bin/expr
 _DIR1+=	bin/hostname
 _DIR1+=	bin/kill
 _DIR1+=	bin/ln
 _DIR1+=	bin/ls
 _DIR1+=	bin/mkdir
 _DIR1+=	bin/mv
-_DIR1+=	bin/ps
 _DIR1+=	bin/pwd
 _DIR1+=	bin/rm
 _DIR1+=	bin/sh
@@ -79,11 +76,9 @@ _DIR1+=	sbin/ping6
 _DIR1+=	sbin/route
 _DIR1+=	sbin/routed
 _DIR1+=	sbin/reboot
-_DIR1+= sbin/chown
 _DIR1+=	sbin/shutdown
 _DIR1+=	sbin/sysctl
 _DIR1+=	usr.bin/basename
-_DIR1+=	usr.bin/id
 _DIR1+=	usr.bin/logger
 _DIR1+=	usr.bin/sed
 _DIR1+= usr.bin/touch
@@ -91,7 +86,6 @@ _DIR1+=	usr.bin/tput
 _DIR1+=	usr.bin/tty
 _DIR1+=	usr.bin/uname
 _DIR1+= usr.bin/printf
-_DIR1+=	usr.sbin/chroot
 _DIR1+=	usr.sbin/dhcp
 _DIR1+=	usr.sbin/pppd
 _DIR1+=	usr.sbin/route6d

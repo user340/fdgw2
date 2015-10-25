@@ -57,7 +57,6 @@ options 	COMPAT_BSDPTY	# /dev/[pt]ty?? ptys.
 file-system		FFS			# UFS
 file-system		MSDOSFS		# MS-DOS file system
 file-system		KERNFS		# /kern
-#file-system	NFS		# Network File System client
 
 # Networking options
 options 	GATEWAY		# packet forwarding
@@ -162,16 +161,15 @@ wskbd*		at pckbd? console ?
 # PCI SCSI controllers
 ahc*	at pci? dev ? function ?	# Adaptec [23]94x, aic78x0 SCSI
 bha*	at pci? dev ? function ?	# BusLogic 9xx SCSI
-dpt*	at pci? dev ? function ?	# DPT SmartCache/SmartRAID
-isp*	at pci? dev ? function ?	# Qlogic ISP [12]0x0 SCSI/FibreChannel
-mly*	at pci? dev ? function ?	# Mylex AcceleRAID and eXtremeRAID
+#dpt*	at pci? dev ? function ?	# DPT SmartCache/SmartRAID
+#isp*	at pci? dev ? function ?	# Qlogic ISP [12]0x0 SCSI/FibreChannel
 siop*	at pci? dev ? function ?	# NCR 53c8xx SCSI
 
 # EISA SCSI controllers
 ahb*	at eisa? slot ?			# Adaptec 174[02] SCSI
 ahc*	at eisa? slot ?			# Adaptec 274x, aic7770 SCSI
 bha*	at eisa? slot ?			# BusLogic 7xx SCSI
-dpt*	at eisa? slot ?			# DPT SmartCache/SmartRAID
+#dpt*	at eisa? slot ?			# DPT SmartCache/SmartRAID
 uha*	at eisa? slot ?			# UltraStor 24f SCSI
 
 # PCMCIA SCSI controllers
@@ -184,7 +182,6 @@ ahc0	at isa? port ? irq ?		# Adaptec 284x SCSI
 aic0	at isa? port 0x340 irq 11	# Adaptec 152[02] SCSI
 bha0	at isa? port 0x330 irq ? drq ?	# BusLogic [457]4X SCSI
 bha1	at isa? port 0x334 irq ? drq ?
-# The "nca" and "dpt" probes might give false hits or hang your machine.
 sea0	at isa? iomem 0xc8000 irq 5	# Seagate/Future Domain SCSI
 uha0	at isa? port 0x330 irq ? drq ?	# UltraStor [13]4f SCSI
 uha1	at isa? port 0x340 irq ? drq ?
@@ -196,12 +193,6 @@ scsibus* at scsi?
 
 # SCSI devices
 sd*	at scsibus? target ? lun ?	# SCSI disk drives
-st*	at scsibus? target ? lun ?	# SCSI tape drives
-cd*	at scsibus? target ? lun ?	# SCSI CD-ROM drives
-ch*	at scsibus? target ? lun ?	# SCSI autochangers
-ss*	at scsibus? target ? lun ?	# SCSI scanners
-uk*	at scsibus? target ? lun ?	# SCSI unknown
-
 
 # IDE and related devices
 
@@ -231,49 +222,49 @@ sd*	at atapibus? drive ?		# ATAPI disk drives
 # Network Interfaces
 
 # PCI network interfaces
-en*	at pci? dev ? function ?	# ENI/Adaptec ATM
-ep*	at pci? dev ? function ?	# 3Com 3c59x/3c90x Ethernet
-fpa*	at pci? dev ? function ?	# DEC DEFPA FDDI
-le*	at pci? dev ? function ?	# PCnet-PCI Ethernet
-ne*	at pci? dev ? function ?	# NE2000-compatible Ethernet
+#en*	at pci? dev ? function ?	# ENI/Adaptec ATM
+#ep*	at pci? dev ? function ?	# 3Com 3c59x/3c90x Ethernet
+#fpa*	at pci? dev ? function ?	# DEC DEFPA FDDI
+#le*	at pci? dev ? function ?	# PCnet-PCI Ethernet
+#ne*	at pci? dev ? function ?	# NE2000-compatible Ethernet
 fxp*	at pci? dev ? function ?	# Intel EtherExpress PRO 10+/100B
 bge*	at pci? dev ? function ?
 rtk*	at pci? dev ? function ?
 wm*		at pci? dev ? function ?
 
 # EISA network interfaces
-ep*	at eisa? slot ?			# 3Com 3c579 Ethernet
-fea*	at eisa? slot ?			# DEC DEFEA FDDI
+#ep*	at eisa? slot ?			# 3Com 3c579 Ethernet
+#fea*	at eisa? slot ?			# DEC DEFEA FDDI
 
 # PCMCIA network interfaces
-ep*	at pcmcia? function ?		# 3Com 3c589 and 3c562 Ethernet
-mbe*	at pcmcia? function ?		# MB8696x based Ethernet
-ne*	at pcmcia? function ?		# NE2000-compatible Ethernet
-sm*	at pcmcia? function ?		# Megahertz Ethernet
+#ep*	at pcmcia? function ?		# 3Com 3c589 and 3c562 Ethernet
+#mbe*	at pcmcia? function ?		# MB8696x based Ethernet
+#ne*	at pcmcia? function ?		# NE2000-compatible Ethernet
+#sm*	at pcmcia? function ?		# Megahertz Ethernet
 
 # ISA network interfaces
-ate0	at isa? port 0x2a0 irq ?		# AT1700
-ec0	at isa? port 0x250 iomem 0xd8000 irq 9	# 3Com 3c503 Ethernet
-eg0	at isa? port 0x280 irq 9		# 3c505 Ethernet cards
-el0	at isa? port 0x300 irq 9		# 3c501 Ethernet cards
-ep0	at isa? port ? irq ?			# 3c509 Ethernet cards
-ef0	at isa? port 0x360 iomem 0xd0000 irq 7	# 3c507
-ai0	at isa? port 0x360 iomem 0xd0000 irq 7	# StarLAN
-fmv0	at isa? port 0x2a0 irq ?		# FMV-180 series
-ix0	at isa? port 0x300 irq 10		# EtherExpress/16
-iy0	at isa? port 0x360 irq ?		# EtherExpress PRO 10 ISA
-lc0	at isa? port 0x320 iomem ? irq ?	# DEC EtherWORKS III (LEMAC)
-depca0	at isa? port 0x300 iomem 0xc8000 iosiz 0x8000 irq 5	# DEPCA
-le*	at depca?
-nele0	at isa? port 0x320 irq 9 drq 7		# NE2100
-le*	at nele?
-bicc0	at isa? port 0x320 irq 10 drq 7		# BICC IsoLan
-le*	at bicc?
-ne0	at isa? port 0x280 irq 9		# NE[12]000 Ethernet cards
-ne1	at isa? port 0x300 irq 10
-sm0	at isa? port 0x300 irq 10		# SMC91C9x Ethernet
-we0	at isa? port 0x280 iomem 0xd0000 irq 9	# WD/SMC Ethernet
-we1	at isa? port 0x300 iomem 0xcc000 irq 10
+#ate0	at isa? port 0x2a0 irq ?		# AT1700
+#ec0	at isa? port 0x250 iomem 0xd8000 irq 9	# 3Com 3c503 Ethernet
+#eg0	at isa? port 0x280 irq 9		# 3c505 Ethernet cards
+#el0	at isa? port 0x300 irq 9		# 3c501 Ethernet cards
+#ep0	at isa? port ? irq ?			# 3c509 Ethernet cards
+#ef0	at isa? port 0x360 iomem 0xd0000 irq 7	# 3c507
+#ai0	at isa? port 0x360 iomem 0xd0000 irq 7	# StarLAN
+#fmv0	at isa? port 0x2a0 irq ?		# FMV-180 series
+#ix0	at isa? port 0x300 irq 10		# EtherExpress/16
+#iy0	at isa? port 0x360 irq ?		# EtherExpress PRO 10 ISA
+#lc0	at isa? port 0x320 iomem ? irq ?	# DEC EtherWORKS III (LEMAC)
+#depca0	at isa? port 0x300 iomem 0xc8000 iosiz 0x8000 irq 5	# DEPCA
+#le*	at depca?
+#nele0	at isa? port 0x320 irq 9 drq 7		# NE2100
+#le*	at nele?
+#bicc0	at isa? port 0x320 irq 10 drq 7		# BICC IsoLan
+#le*	at bicc?
+#ne0	at isa? port 0x280 irq 9		# NE[12]000 Ethernet cards
+#ne1	at isa? port 0x300 irq 10
+#sm0	at isa? port 0x300 irq 10		# SMC91C9x Ethernet
+#we0	at isa? port 0x280 iomem 0xd0000 irq 9	# WD/SMC Ethernet
+#we1	at isa? port 0x300 iomem 0xcc000 irq 10
 
 # Pull in optional local configuration
 cinclude "arch/i386/conf/INSTALL.local"
@@ -287,7 +278,6 @@ pseudo-device	md			# memory disk device (ramdisk)
 pseudo-device	bpfilter		# Berkeley packet filter
 pseudo-device	loop			# network loopback
 pseudo-device	pf
-pseudo-device	npf
 pseudo-device	stf
 
 # miscellaneous pseudo-devices
