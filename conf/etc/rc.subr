@@ -75,7 +75,7 @@ copyright () {
    echo "CREDITS"
    echo ""
    echo "Ken'ichi Fukamachi <fukachan@fml.org>"
-   echo "***Original fdgw developer, and my advisor.***"
+   echo " Original fdgw developer, and my advisor."
    echo ""
 }
 

@@ -1,2 +1,14 @@
 # fdgw2 -- One floppy NetBSD system version 2
-このプログラム群は2条項BSDライセンスで保護されています。詳しくはLICENSEをご覧ください。また、fdgw2の詳細についてはwikiをご覧ください。
+Copyright (C) 2015 Yuuki Enomoto<br>
+<br>
+All rights reserved.<br>
+This program is released under the BSD License as with NetBSD.<br>
+For details, please see ...<br>
+<br>
+https://github.com/user340/fdgw2/wiki<br>
+or<br>
+http://e-yuuki.org/develop/fdgw2.html<br>
+<br>
+# CREDITS
+**Ken'ichi Fukamachi**<br>
+Original fdgw developer, and my advisor.<br>

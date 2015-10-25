@@ -1,11 +1,17 @@
+# Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
 #
-# Copyright (C) 2001,2002 Ken'ichi Fukamachi <fukachan@fml.org>
+# All rights reserved.
+# This program is released under the BSD License as with NetBSD.
+# For details, please see ...
 #
-# All rights reserved. This program is free software; you can
-# redistribute it and/or modify it under the same terms as NetBSD itself.
+# https://github.com/user340/fdgw2/wiki
+# or
+# http://e-yuuki.org/develop/fdgw2.html
 #
-# $FML: Makefile.bootfloppy,v 1.26 2004/01/28 05:42:07 fukachan Exp $
+# CREDITS
 #
+# Ken'ichi Fukamachi <fukachan@fml.org>
+#     Original fdgw developer, and my advisor.
 
 .include "${TOP}/../../../Makefile.inc"
 
