@@ -1,17 +1,13 @@
 # Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
 #
 # All rights reserved.
-# This program is released under the BSD License as with NetBSD.
-# For details, please see ...
-#
-# https://github.com/user340/fdgw2/wiki
-# or
-# http://e-yuuki.org/develop/fdgw2.html
+# This program is released under the BSD License, please see LICENSE.
 #
 # CREDITS
 #
 # Ken'ichi Fukamachi <fukachan@fml.org>
-#     Original fdgw developer, and my advisor.
+# 	Original fdgw developer, and my advisor.
+#
 
 
 ARCH?=		i386
@@ -28,11 +24,11 @@ MODEL?=         standard
 LOCALBASE?=	/usr/pkg
 
 # NetBSD source
-BSDSRCDIR?=	/vol/usr/src
+BSDSRCDIR?=	/usr/src
 
 # NetBSD tools
-TOOL_DIR?= /vol/usr/tools
-OBJ_DIR?= /vol/usr/obj
+TOOL_DIR?= /usr/tools
+OBJ_DIR?= /usr/obj
 
 # dir to lndir
 _BSDSRCDIR=	`pwd`/NetBSD
@@ -45,10 +41,9 @@ _EXTRACT_PROGRAM= ${_ENV} ${SH} ${UTILS_DIR}/extract.sh
 # individual directories to link to
 _DIR1=	etc
 _DIR1+=	bin/cat
-_DIR1+= bin/chmod
 _DIR1+=	bin/cp
 _DIR1+=	bin/date
-_DIR1+=	bin/df
+_DIR1+= bin/mkdir
 _DIR1+=	bin/echo
 _DIR1+=	bin/hostname
 _DIR1+=	bin/kill
@@ -73,7 +68,6 @@ _DIR1+=	sbin/init
 _DIR1+=	sbin/mount
 _DIR1+=	sbin/mount_ffs
 _DIR1+=	sbin/mount_kernfs
-_DIR1+=	sbin/mount_msdos
 _DIR1+=	sbin/umount
 _DIR1+=	sbin/ping
 _DIR1+=	sbin/ping6
@@ -82,16 +76,11 @@ _DIR1+=	sbin/routed
 _DIR1+=	sbin/reboot
 _DIR1+=	sbin/shutdown
 _DIR1+=	sbin/sysctl
-_DIR1+=	usr.bin/basename
-_DIR1+=	usr.bin/logger
 _DIR1+=	usr.bin/sed
 _DIR1+= usr.bin/touch
-_DIR1+=	usr.bin/tput
 _DIR1+=	usr.bin/tty
-_DIR1+=	usr.bin/uname
 _DIR1+= usr.bin/printf
-_DIR1+=	usr.sbin/dhcp
-_DIR1+=	usr.sbin/pppd
+#_DIR1+=	usr.sbin/pppd
 _DIR1+=	usr.sbin/route6d
 _DIR1+=	usr.sbin/rtadvd
 _DIR1+=	usr.sbin/rtsold
@@ -102,7 +91,6 @@ _DIR1+=	sys/netinet
 _DIR1+= external/bsd/libpcap
 _DIR1+= usr.sbin/pf
 
-_DIR2+=	dist/dhcp
 _DIR2+=	sys/conf
 _DIR2+=	sys/arch/i386/stand
 _DIR2+= common/lib/libc
@@ -208,7 +196,6 @@ INIT_RULES =	_init_mesg     \
 		_lndir         \
 		_init_config   \
 		_init_model_pre_configure \
-		_init_dhcp     \
 		_init_resolver
 
 INIT_RULES +=	_init_model_post_configure
@@ -230,10 +217,6 @@ _lndir:
 	  test -d ${_BSDSRCDIR}/$$DIR || mkdir -p ${_BSDSRCDIR}/$$DIR; \
 	  lndir ${BSDSRCDIR}/$$DIR ${_BSDSRCDIR}/$$DIR; \
 	done
-	#test -d ${_BSDSRCDIR}/usr.sbin/dhcp || mkdir -p ${_BSDSRCDIR}/usr.sbin/dhcp
-	#lndir /root/fdgw/src/usr.sbin/dhcp ${_BSDSRCDIR}/usr.sbin/dhcp
-	#test -d ${_BSDSRCDIR}/usr.sbin/bind || mkdir -p ${_BSDSRCDIR}/usr.sbin/bind
-	#lndir /root/fdgw/src/usr.sbin/bind ${_BSDSRCDIR}/usr.sbin/bind
 	(cd ${_BSDSRCDIR}/distrib; ln -s -f ${BSDSRCDIR}/distrib/Makefile.inc)
 	(cd ${_BSDSRCDIR}/sbin; ln -s -f ${BSDSRCDIR}/sbin/Makefile.inc)
 	(cd ${_BSDSRCDIR}; ln -s -f ${BSDSRCDIR}/Makefile.inc)
@@ -357,10 +340,6 @@ _init_stone:
 	  );\
 	  fi
 	@ touch ${STATUS_DIR}/.stone_done
-
-_init_dhcp:
-	(cd ${_BSDSRCDIR}/usr.sbin/dhcp;make)
-	#:
 
 _init_resolver:
 	(cd utils/resolver/; make ${_ARGS})

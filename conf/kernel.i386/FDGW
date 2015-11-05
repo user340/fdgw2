@@ -1,17 +1,13 @@
 # Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
 #
 # All rights reserved.
-# This program is released under the BSD License as with NetBSD.
-# For details, please see ...
-#
-# https://github.com/user340/fdgw2/wiki
-# or
-# http://e-yuuki.org/develop/fdgw2.html
+# This program is released under the BSD License, please see LICENSE.
 #
 # CREDITS
 #
 # Ken'ichi Fukamachi <fukachan@fml.org>
-#     Original fdgw developer, and my advisor.
+# 	Original fdgw developer, and my advisor.
+#
 
 #	$NetBSD: INSTALL_TINY,v 1.134.4.1 2012/06/12 17:47:53 riz Exp $
 #
@@ -94,7 +90,7 @@ config		netbsd	root on ? type ?
 # builtin terminal emulations
 options 	WSEMUL_VT100		# VT100 / VT220 emulation
 # customization of console and kernel output - see dev/wscons/wsdisplayvar.h
-options 	WS_KERNEL_FG=WSCOL_GREEN
+#options 	WS_KERNEL_FG=WSCOL_GREEN
 
 #
 # Device configuration

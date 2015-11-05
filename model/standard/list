@@ -1,45 +1,35 @@
 # Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
 #
 # All rights reserved.
-# This program is released under the BSD License as with NetBSD.
-# For details, please see ...
-#
-# https://github.com/user340/fdgw2/wiki
-# or
-# http://e-yuuki.org/develop/fdgw2.html
+# This program is released under the BSD License, please see LICENSE.
 #
 # CREDITS
 #
 # Ken'ichi Fukamachi <fukachan@fml.org>
-#     Original fdgw developer, and my advisor.
+# 	Original fdgw developer, and my advisor.
+#
 
 
 # copy the crunched binary, link to it, and kill it
 COPY	${OBJDIR}/ramdiskbin		ramdiskbin
 
 LINK	ramdiskbin			bin/cat
-LINK	ramdiskbin			bin/chio
-LINK	ramdiskbin			bin/chmod
 LINK	ramdiskbin			bin/cp
-LINK	ramdiskbin			bin/dd
-LINK	ramdiskbin			bin/df
 LINK	ramdiskbin			bin/ln
 LINK	ramdiskbin			bin/ls
-LINK	ramdiskbin			bin/mkdir
 LINK	ramdiskbin			bin/mv
 LINK	ramdiskbin			bin/pwd
-LINK	ramdiskbin			bin/rm
 LINK	ramdiskbin			bin/sh
 LINK	ramdiskbin			bin/stty
 LINK	ramdiskbin			bin/sync
+LINK	ramdiskbin			bin/mkdir
+LINK	ramdiskbin			bin/rm
 LINK    ramdiskbin                      bin/test
 LINK    ramdiskbin                      bin/[
 LINK    ramdiskbin                      bin/hostname
-#LINK    ramdiskbin                      bin/ps
 LINK    ramdiskbin                      bin/kill
 LINK    ramdiskbin                      bin/echo
 LINK    ramdiskbin                      bin/date
-#LINK    ramdiskbin                      bin/expr
 
 LINK	ramdiskbin			sbin/halt
 LINK	ramdiskbin			sbin/ifconfig
@@ -48,26 +38,18 @@ LINK	ramdiskbin			sbin/kernfs
 LINK	ramdiskbin			sbin/mount
 LINK	ramdiskbin			sbin/mount_ffs
 LINK	ramdiskbin			sbin/mount_kernfs
-LINK	ramdiskbin			sbin/msdos
 LINK	ramdiskbin			sbin/ping
 LINK	ramdiskbin			sbin/reboot
 LINK	ramdiskbin			sbin/route
+LINK	ramdiskbin			sbin/routed
 LINK	ramdiskbin			sbin/umount
 LINK	ramdiskbin			sbin/sysctl
 LINK	ramdiskbin			sbin/pfctl
 
 SYMLINK	/bin/cat			usr/bin/more
 SYMLINK	/bin/cat			usr/bin/sed
-SYMLINK	/bin/cat			usr/bin/tar
-SYMLINK /bin/cat			usr/bin/logger
-#SYMLINK /bin/cat			usr/bin/id
-SYMLINK /bin/cat			usr/bin/basename
-SYMLINK /bin/cat			usr/bin/uname
-SYMLINK /bin/cat			usr/bin/tput
 SYMLINK /bin/cat			usr/bin/touch
-
-#SYMLINK	/bin/cat			usr/sbin/chroot
-#SYMLINK /bin/cat			usr/sbin/dhcpd
+SYMLINK /bin/cat			usr/sbin/route6d
 
 SPECIAL	/bin/rm ramdiskbin
 
@@ -104,13 +86,13 @@ COPY	${CURDIR}/dot.profile		.profile
 # prepare /etc/ and /usr/pkg/
 SPECIAL df -i ${MOUNT_POINT}/etc/
 SPECIAL mkdir -p ${MOUNT_POINT}/etc/rc.d
-SPECIAL mkdir -p ${MOUNT_POINT}/etc/ppp
 SPECIAL mkdir -p ${MOUNT_POINT}/usr
 SPECIAL mkdir -p ${MOUNT_POINT}/usr/pkg
 SPECIAL mkdir -p ${MOUNT_POINT}/usr/pkg/bin
 SPECIAL mkdir -p ${MOUNT_POINT}/usr/pkg/sbin
-#SPECIAL touch    ${MOUNT_POINT}/var/db/dhcpd.leases
 SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf ${MOUNT_POINT}/etc/rc.d
+SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/routed ${MOUNT_POINT}/etc/rc.d
+SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/route6d ${MOUNT_POINT}/etc/rc.d
 
 
 # XXX parepare /etc on /dev/fd0a not /dev/vnd0a 
