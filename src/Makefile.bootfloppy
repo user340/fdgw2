@@ -35,7 +35,7 @@ STRIP?=		strip
 MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec
 DISKSIZE?=	2621440
 SWAPSIZE?=	163840
-BIOSBOOT?=	bootxx_ffsv2
+BIOSBOOT?=	bootxx_ffsv1
 
 IMAGESECTORS!=		expr ${DISKSIZE} / 512
 SWAPSECTORS!=		expr ${SWAPSIZE} / 512 || true
