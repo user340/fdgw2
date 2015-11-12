@@ -24,11 +24,11 @@ MODEL?=         standard
 LOCALBASE?=	/usr/pkg
 
 # NetBSD source
-BSDSRCDIR?=	/usr/src
+BSDSRCDIR?=	/vol/usr/src
 
 # NetBSD tools
-TOOL_DIR?= /usr/tools
-OBJ_DIR?= /usr/obj
+TOOL_DIR?= /vol/usr/tools
+OBJ_DIR?= /vol/usr/obj
 
 # dir to lndir
 _BSDSRCDIR=	`pwd`/NetBSD
