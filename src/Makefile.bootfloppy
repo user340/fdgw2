@@ -30,17 +30,19 @@ IMG_DIR=	../image.${ARCH}
 STRIP?=		strip
 
 #
-# parameters for bootable floppy 
+# parameters for bootable USB
 #
 MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec
-DISKSIZE?=	2621440
-SWAPSIZE?=	163840
+DISKSIZE?=	2621440 # 2.5MB
+SWAPSIZE?=	163840  # DISKSIZE / 16
 BIOSBOOT?=	bootxx_ffsv1
 
+#
+# parameters for diskproto.mbr.in
+#
 IMAGESECTORS!=		expr ${DISKSIZE} / 512
 SWAPSECTORS!=		expr ${SWAPSIZE} / 512 || true
-#LABELSECTORS?=		2048
-LABELSECTORS?=		63
+LABELSECTORS?=		2048
 FSSECTORS!=			expr ${IMAGESECTORS} - ${SWAPSECTORS} - ${LABELSECTORS}
 HEADS?=				64
 SECTORS?=			32
@@ -49,6 +51,10 @@ SECPERCYLINDERS!= 	expr ${HEADS} \* ${SECTORS}
 BSDPARTSECTORS!= 	expr ${IMAGESECTORS} - ${LABELSECTORS}
 FSOFFSET=			${LABELSECTORS}
 SWAPOFFSET!=		expr ${LABELSECTORS} + ${FSSECTORS}
+
+#
+# parameters for MBR
+#
 MBRSEEK!=			expr ${IMAGESECTORS} - 1
 MBRHEADS=			255
 MBRSECTORS=			63
@@ -77,9 +83,11 @@ image:	netbsd
 	fi
 	${TOOL_DIR}/bin/nbsed "s/@@BOOTDISK@@/sd0/" < ${SRCDIR}/distrib/common/bootimage/fstab.in > work.fstab
 	cp work.fstab ${.CURDIR}/work/etc/fstab
+
 	${TOOL_DIR}/bin/nbmakefs -M ${DISKSIZE} -m ${DISKSIZE} -B 1234 -t ffs -N work/etc \
-	-o bsize=16384,fsize=2048,density=8192,version=2 ${IMAGE} work
+	-o bsize=16384,fsize=2048,density=8192 ${IMAGE} work
 	${TOOL_DIR}/bin/nbinstallboot -v -m i386 ${IMAGE} ${MDEC}/${BIOSBOOT}
+
 	${TOOL_DIR}/bin/nbsed \
 	-e "s/@@SECTORS@@/${SECTORS}/" \
 	-e "s/@@HEADS@@/${HEADS}/" \
@@ -94,6 +102,7 @@ image:	netbsd
 	< /vol/usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
 
 	dd if=/dev/zero of=work.mbr seek=${MBRSEEK} count=1
+
 	${TOOL_DIR}/bin/i486--netbsdelf-fdisk -f -i -u \
 	-b ${MBRCYLINDERS}/${MBRHEADS}/${MBRSECTORS} \
 	-0 -a -s ${MBRNETBSD}/${FSOFFSET}/${BSDPARTSECTORS} \
