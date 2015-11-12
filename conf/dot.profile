@@ -1,14 +1,3 @@
-# Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
-#
-# All rights reserved.
-# This program is released under the BSD License, please see LICENSE.
-#
-# CREDITS
-#
-# Ken'ichi Fukamachi <fukachan@fml.org>
-# 	Original fdgw developer, and my advisor.
-#
-
 SHELL=/bin/sh
 export SHELL
 PATH=/sbin:/bin:/usr/bin:/usr/sbin:/:/usr/pkg/sbin:/usr/pkg/bin

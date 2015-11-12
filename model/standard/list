@@ -16,12 +16,11 @@ COPY	${OBJDIR}/ramdiskbin		ramdiskbin
 LINK	ramdiskbin			bin/cat
 LINK	ramdiskbin			bin/cp
 LINK	ramdiskbin			bin/ln
-LINK	ramdiskbin			bin/ls
 LINK	ramdiskbin			bin/mv
-LINK	ramdiskbin			bin/pwd
+#LINK	ramdiskbin			bin/pwd
 LINK	ramdiskbin			bin/sh
 LINK	ramdiskbin			bin/stty
-LINK	ramdiskbin			bin/sync
+#LINK	ramdiskbin			bin/sync
 LINK	ramdiskbin			bin/mkdir
 LINK	ramdiskbin			bin/rm
 LINK    ramdiskbin                      bin/test

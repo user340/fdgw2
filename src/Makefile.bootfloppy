@@ -33,8 +33,24 @@ STRIP?=		strip
 # parameters for bootable floppy 
 #
 MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec/
-DISKSIZE?=	1475346432
+DISKSIZE?=	2621440 # 2.50MB
+SWAPSIZE?=	163840  # ${DISKSIZE} / 16
 BIOSBOOT?=	bootxx_ffsv1
+
+IMAGESECTORS!=		expr ${DISKSIZE} / 512
+SWAPSECTORS!=		expr ${SWAPSIZE} / 512 || true
+#LABELSECTORS?=		63
+LABELSECTORS?=	2048
+FSSECTORS!=			expr ${IMAGESECTORS} - ${SWAPSECTORS} - ${LABELSECTORS}
+#HEADS?=				2
+#SECTORS?=			18
+HEADS?=				64
+SECTORS?=			32
+CYLINDERS!=			expr ${IMAGESECTORS} / \( ${HEADS} \* ${SECTORS} \)
+SECPERCYLINDERS!= 	expr ${HEADS} \* ${SECTORS}
+BSDPARTSECTORS!= 	expr ${IMAGESECTORS} - ${LABELSECTORS}
+FSOFFSET=			${LABELSECTORS}
+SWAPOFFSET!=		expr ${LABELSECTORS} + ${FSSECTORS}
 
 build:
 	@ echo nothing to do
@@ -60,12 +76,9 @@ image:	netbsd
 	cp work.fstab ${.CURDIR}/work/etc/fstab
 	${TOOL_DIR}/bin/nbmakefs -M ${DISKSIZE} -m ${DISKSIZE} -B 1234 -t ffs -N work/etc -o bsize=16384,fsize=2048,density=8192 ${IMAGE} work
 	${TOOL_DIR}/bin/nbinstallboot -v -m i386 ${IMAGE} ${MDEC}/${BIOSBOOT}
-	${TOOL_DIR}/bin/nbsed -e "s/@@SECTORS@@/32/" -e "s/@@HEADS@@/64/" -e "s/@@SECPERCYLINDERS@@/2048/" -e "s/@@CYLINDERS@@/1536/" -e "s/@@IMAGESECTORS@@/3145728/" -e "s/@@FSSECTORS@@/2881536/" -e "s/@@FSOFFSET@@/2048/" -e "s/@@SWAPSECTORS@@/262144/" -e "s/@@SWAPOFFSET@@/2883584/" -e "s/@@BSDPARTSECTORS@@/3143680/" < /usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
+	${TOOL_DIR}/bin/nbsed -e "s/@@SECTORS@@/${SECTORS}/" -e "s/@@HEADS@@/${HEADS}/" -e "s/@@SECPERCYLINDERS@@/${SECPERCYLINDERS}/" -e "s/@@CYLINDERS@@/${CYLINDERS}/" -e "s/@@IMAGESECTORS@@/${IMAGESECTORS}/" -e "s/@@FSSECTORS@@/${FSSECTORS}/" -e "s/@@FSOFFSET@@/${FSOFFSET}/" -e "s/@@SWAPSECTORS@@/${SWAPSECTORS}/" -e "s/@@SWAPOFFSET@@/${SWAPOFFSET}/" -e "s/@@BSDPARTSECTORS@@/${BSDPARTSECTORS}/" < /usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
 
 	dd if=/dev/zero of=work.mbr seek=3145727 count=1
-#${TOOL_DIR}/bin/i486--netbsdelf-fdisk -f -i -u  -b 195/255/63 -0 -a -s 169/2048/3143680 -F work.mbr
-
-#${TOOL_DIR}/bin/i486--netbsdelf-fdisk -f -i -c ${OBJ_DIR}/destdir.i386/usr/mdec/mbr -F work.mbr
 	${TOOL_DIR}/bin/i486--netbsdelf-fdisk -f -i -u -b 195/255/63 -0 -a -s 169/2048/3143680 -c ${OBJ_DIR}/destdir.i386/usr/mdec/mbr -F work.mbr
 	dd if=work.mbr count=2048 | cat - ${IMAGE} > ${IMAGE}.work.tmp
 	mv ${IMAGE}.work.tmp ${IMAGE}
