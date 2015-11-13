@@ -15,7 +15,7 @@
 #
 # source
 #
-SRCDIR=	/vol/usr/src
+SRCDIR=	/usr/src
 
 #
 # target image to build
@@ -91,7 +91,7 @@ image:	netbsd
 	-e "s/@@SWAPSECTORS@@/${SWAPSECTORS}/" \
 	-e "s/@@SWAPOFFSET@@/${SWAPOFFSET}/" \
 	-e "s/@@BSDPARTSECTORS@@/${BSDPARTSECTORS}/" \
-	< /vol/usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
+	< /usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
 
 	${TOOL_DIR}/bin/nbdisklabel-i386 -R -F ${IMAGE} work.diskproto
 
