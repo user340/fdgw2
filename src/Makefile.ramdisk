@@ -32,7 +32,7 @@ VND_RDEV=	/dev/r${VND}a
 VND_CDEV=	/dev/${VND}d
 VND_CRDEV=	/dev/r${VND}d
 
-TOOL_BIN_DIR?= tools/bin
+TOOL_BIN_DIR?= /tools/bin
 
 #
 # image parameters
@@ -62,7 +62,7 @@ image:
 	    512/${RAMDISKSPC}/1/${RAMDISKCYLS}
 	-disklabel ${VND_CDEV} >tmplabel
 	${TOOL_DIR}/bin/nbdisklabel-i386 -r -R ${VND_CDEV} tmplabel
-	newfs -B le -m 0 -o space -i 1800 ${VND_RDEV}
+	newfs -B le -m 0 -o space -O 1 -i 1800 ${VND_RDEV}
 	test -d ${MOUNT_POINT} || mkdir -p ${MOUNT_POINT}
 	mount ${VND_DEV} ${MOUNT_POINT}
 	${TOOL_DIR}/bin/nbmtree -def ${.CURDIR}/${MTREE} -p ${MOUNT_POINT}/ -U
