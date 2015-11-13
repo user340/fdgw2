@@ -17,16 +17,13 @@ LINK	ramdiskbin			bin/cat
 LINK	ramdiskbin			bin/cp
 LINK	ramdiskbin			bin/ln
 LINK	ramdiskbin			bin/mv
-#LINK	ramdiskbin			bin/pwd
 LINK	ramdiskbin			bin/sh
 LINK	ramdiskbin			bin/stty
-#LINK	ramdiskbin			bin/sync
 LINK	ramdiskbin			bin/mkdir
 LINK	ramdiskbin			bin/rm
 LINK    ramdiskbin                      bin/test
 LINK    ramdiskbin                      bin/[
 LINK    ramdiskbin                      bin/hostname
-LINK    ramdiskbin                      bin/kill
 LINK    ramdiskbin                      bin/echo
 LINK    ramdiskbin                      bin/date
 
@@ -44,6 +41,7 @@ LINK	ramdiskbin			sbin/routed
 LINK	ramdiskbin			sbin/umount
 LINK	ramdiskbin			sbin/sysctl
 LINK	ramdiskbin			sbin/pfctl
+LINK	ramdiskbin			sbin/shutdown
 
 SYMLINK	/bin/cat			usr/bin/more
 SYMLINK	/bin/cat			usr/bin/sed
