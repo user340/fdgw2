@@ -11,5 +11,6 @@ http://e-yuuki.org/develop/fdgw2.html<br>
 <br>
 # CREDITS
 **Ken'ichi Fukamachi**<br>
-Original fdgw developer, and my advisor.<br>
-
+**Izumi Tsutsui**<br>
+**Jun Ebihara**<br>
+**Japan NetBSD Users' Group**
