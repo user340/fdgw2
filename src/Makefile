@@ -172,8 +172,7 @@ image:
 	@ echo ""
 	@ echo "image 3. make a bootable floppy and inject netbsd into it for ${MODEL} model"
 	@ echo ""
-	${TOOL_DIR}/bin/nbmake -f Makefile.bootfloppy ${_ARGS} image ||\
-		(make -f Makefile.bootfloppy ${_ARGS} unconfig; exit 1)
+	${TOOL_DIR}/bin/nbmake -f Makefile.bootfloppy ${_ARGS} image || exit 1
 	@ echo ""
 	@ echo "building image for ${MODEL} model stage done."
 	@ echo ""	
