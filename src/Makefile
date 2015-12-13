@@ -89,6 +89,7 @@ _DIR2+= common/include
 _DIR2+= dist/pf
 _DIR2+= sys/dist/pf
 _DIR2+=	sys/compat/linux
+_DIR2+= sys/external
 
 
 _FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/liveimage

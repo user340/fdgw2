@@ -1,0 +1,39 @@
+
+"make image" needs root privilege
+
+(cd obj.i386.standard; su - root -c "cd `pwd`; bmake MODEL=standard  KERNEL_CONF=FDGW  BIOSBOOT=bootxx_ffsv1  OPSYS=NetBSD  SH=/bin/sh	 GNU_DIR=gnu  PDS_DIR=pds  PKG_DIR=pkg  STATUS_DIR=pkg  UTILS_DIR=utils  TOOL_DIR=/usr/tools image" )
+tset: standard error: Inappropriate ioctl for device
+
+
+image 1. make ramdisk-small.fs for standard model
+
+/usr/tools/bin/nbmake -f Makefile.ramdisk MOUNT_POINT=/home/yuuki/fdgw2/obj.i386.standard/mnt  TOP=`pwd`/NetBSD/distrib/i386/liveimage  _SYS_DIR=/usr/src/sys  _CONF_DIR=conf/  BSDSRCDIR=`pwd`/NetBSD  CURDIR=/home/yuuki/fdgw2/obj.i386.standard _ETC_DIR=conf/etc  MODEL=standard ARCH=i386  INO_BYTES=40960  RAMDISK_S=ramdisk-small.fs  BIOSBOOT=bootxx_ffsv1  TOOL_DIR=/usr/tools  OBJ_DIR=/usr/obj image || (make -f Makefile.ramdisk MOUNT_POINT=/home/yuuki/fdgw2/obj.i386.standard/mnt  TOP=`pwd`/NetBSD/distrib/i386/liveimage  _SYS_DIR=/usr/src/sys  _CONF_DIR=conf/  BSDSRCDIR=`pwd`/NetBSD  CURDIR=/home/yuuki/fdgw2/obj.i386.standard _ETC_DIR=conf/etc  MODEL=standard ARCH=i386  INO_BYTES=40960  RAMDISK_S=ramdisk-small.fs  BIOSBOOT=bootxx_ffsv1  TOOL_DIR=/usr/tools  OBJ_DIR=/usr/obj unconfig ; exit 1)
+rm -f ramdisk-small.fs.tmp
+dd if=/dev/zero of=ramdisk-small.fs.tmp count=8192
+8192+0 records in
+8192+0 records out
+4194304 bytes transferred in 0.147 secs (28532680 bytes/sec)
+vnconfig -v -c /dev/vnd0d ramdisk-small.fs.tmp  512/512/1/16
+/dev/vnd0d: 4194304 bytes on ramdisk-small.fs.tmp using geometry 512/512/1/16
+/usr/tools/bin/nbdisklabel /dev/vnd0d >tmplabel
+nbdisklabel: unknown label: use -M/-B and $MACHINE/$MACHINE_ARCH
+*** Error code 1 (ignored)
+/usr/tools/bin/nbdisklabel -r -R /dev/vnd0d tmplabel
+nbdisklabel: unknown label: use -M/-B and $MACHINE/$MACHINE_ARCH
+*** Error code 1
+
+Stop.
+nbmake[1]: stopped in /home/yuuki/fdgw2/obj.i386.standard
+umount -f /home/yuuki/fdgw2/obj.i386.standard/mnt
+umount: /home/yuuki/fdgw2/obj.i386.standard/mnt: not currently mounted
+*** Error code 1 (ignored)
+vnconfig -u /dev/vnd0a
+/bin/rm -f ramdisk-small.fs ramdisk-small.fs.tmp
+*** Error code 1
+
+Stop.
+bmake: stopped in /home/yuuki/fdgw2/obj.i386.standard
+*** Error code 1
+
+Stop.
+bmake: stopped in /home/yuuki/fdgw2

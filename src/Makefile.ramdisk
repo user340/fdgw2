@@ -55,8 +55,8 @@ image:
 	dd if=/dev/zero of=${IMAGE}.tmp count=${RAMDISKSIZE}
 	vnconfig -v -c ${VND_CDEV} ${IMAGE}.tmp \
 	    512/${RAMDISKSPC}/1/${RAMDISKCYLS}
-	-disklabel ${VND_CDEV} >tmplabel
-	${TOOL_DIR}/bin/nbdisklabel-i386 -r -R ${VND_CDEV} tmplabel
+	-${TOOL_DIR}/bin/nbdisklabel ${VND_CDEV} >tmplabel
+	${TOOL_DIR}/bin/nbdisklabel -r -R ${VND_CDEV} tmplabel
 	newfs -B le -m 0 -o space -O 1 -i 1800 ${VND_RDEV}
 	test -d ${MOUNT_POINT} || mkdir -p ${MOUNT_POINT}
 	mount ${VND_DEV} ${MOUNT_POINT}
