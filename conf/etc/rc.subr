@@ -20,7 +20,6 @@ checkyesno() {
         esac
 }
 
-
 load_file () {
    local file=$1
 
@@ -31,7 +30,6 @@ load_file () {
 	exit 1
    fi
 }
-
 
 install_file () {
    local file=$1
@@ -44,17 +42,7 @@ install_file () {
    fi
 }
 
-
 copyright () {
-   if [ -f /etc/release_version ];then
-	echo    "NetBSD one floppy NATBOX"
-	echo    "fdgw "
-	echo -n " `cat /etc/release_version`"
-	echo    " (`cat conf/etc/release_date`)"
-   else
-	echo    "fdgw2 (One Floppy NetBSD system version 2)"
-   fi
-
    echo ""
    echo "Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>"
    echo ""

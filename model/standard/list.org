@@ -41,7 +41,7 @@ LINK	ramdiskbin			sbin/shutdown
 SYMLINK	/bin/cat			usr/bin/more
 SYMLINK	/bin/cat			usr/bin/sed
 SYMLINK /bin/cat			usr/bin/touch
-#SYMLINK /bin/cat			usr/sbin/route6d
+SYMLINK /bin/cat			usr/sbin/route6d
 
 SPECIAL	/bin/rm ramdiskbin
 
@@ -55,12 +55,10 @@ COPY	${TOP}/../../../etc/master.passwd	etc/master.passwd
 COPY	${TOP}/../../../etc/protocols	etc/protocols
 COPY	${TOP}/../../../etc/netconfig	etc/netconfig
 COPY	${TOP}/../../../etc/services	etc/services
-SPECIAL cat etc/services | grep -E '^#' -v | grep '\[' -v > etc/services.tmp
-SPECIAL rm etc/services
-SPECIAL mv etc/services.tmp etc/services
 
 SPECIAL	pwd_mkdb -p -d ./ etc/master.passwd
 SPECIAL /bin/rm etc/spwd.db
+#SPECIAL /bin/rm etc/pwd.db
 
 # copy the MAKEDEV script and make some devices
 COPY	${TOP}/../../../etc/MAKEDEV.awk 				dev/MAKEDEV.awk
@@ -78,10 +76,16 @@ SPECIAL /bin/rm dev/MAKEDEV.tmpl
 COPY	${CURDIR}/dot.profile		.profile
 
 # prepare /etc/ and /usr/pkg/
-SPECIAL mkdir -p ${WORK_RAM}/etc/rc.d
-SPECIAL mkdir -p ${WORK_RAM}/usr
-SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf ${WORK_RAM}/etc/rc.d
-SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/routed ${WORK_RAM}/etc/rc.d
+SPECIAL df -i ${MOUNT_POINT}/etc/
+SPECIAL mkdir -p ${MOUNT_POINT}/etc/rc.d
+SPECIAL mkdir -p ${MOUNT_POINT}/usr
+SPECIAL mkdir -p ${MOUNT_POINT}/usr/pkg
+SPECIAL mkdir -p ${MOUNT_POINT}/usr/pkg/bin
+SPECIAL mkdir -p ${MOUNT_POINT}/usr/pkg/sbin
+SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf ${MOUNT_POINT}/etc/rc.d
+SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/routed ${MOUNT_POINT}/etc/rc.d
+SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/route6d ${MOUNT_POINT}/etc/rc.d
+
 
 # XXX parepare /etc on /dev/fd0a not /dev/vnd0a 
-SPECIAL cp -pr   ${WORK_RAM}/etc ${CURDIR}/work
+SPECIAL cp -pr   ${MOUNT_POINT}/etc ${CURDIR}/work

@@ -9,7 +9,7 @@ ARCH?=		i386
 _CONF_DIR=	conf/
 _MODEL_DIR=	model/
 
-MODEL?=         standard
+MODEL?=	   standard
 
 #
 # directories for targets and sources
@@ -62,7 +62,7 @@ _DIR1+=	sbin/mount_ffs
 _DIR1+=	sbin/mount_kernfs
 _DIR1+=	sbin/umount
 _DIR1+=	sbin/ping
-_DIR1+=	sbin/ping6
+#_DIR1+=	sbin/ping6
 _DIR1+=	sbin/route
 _DIR1+=	sbin/routed
 _DIR1+=	sbin/reboot
@@ -72,7 +72,7 @@ _DIR1+=	usr.bin/sed
 _DIR1+= usr.bin/touch
 _DIR1+=	usr.bin/tty
 _DIR1+= usr.bin/printf
-_DIR1+=	usr.sbin/route6d
+#_DIR1+=	usr.sbin/route6d
 _DIR1+=	usr.sbin/rtadvd
 _DIR1+=	usr.sbin/rtsold
 _DIR1+=	usr.sbin/traceroute6
@@ -164,12 +164,13 @@ image:
 	@ echo ""
 	@ echo "image 1. make ramdisk-small.fs for ${MODEL} model"
 	@ echo ""
-	${TOOL_DIR}/bin/nbmake -f Makefile.ramdisk ${_ARGS} image ||\
-		(make -f Makefile.ramdisk ${_ARGS} unconfig ; exit 1)
+	${TOOL_DIR}/bin/nbmake -f Makefile.ramdisk ${_ARGS} image
+	ls /home/yuuki/fdgw2/obj.i386.standard/work/etc
 	@ echo ""
 	@ echo "image 2. inject mdsetimage into NetBSD Kernel for ${MODEL} model"
 	@ echo ""
 	${TOOL_DIR}/bin/nbmake -f Makefile.kernel ${_ARGS} image
+	ls /home/yuuki/fdgw2/obj.i386.standard/work/etc
 	@ echo ""
 	@ echo "image 3. make a bootable floppy and inject netbsd into it for ${MODEL} model"
 	@ echo ""
@@ -219,6 +220,7 @@ _lndir:
 _init_dir:
 	@ test -d work || mkdir -p work
 	@ test -d work/etc || mkdir -p work/etc
+	@ test -d work_ramdisk || mkdir -p work_ramdisk
 
 _init_config:
 	-rm -f dot.profile mtree.conf conf model
