@@ -44,6 +44,8 @@ image:
 	BSDSRCDIR=${BSDSRCDIR} TARGDIR=${WORK_RAM} sh ${.CURDIR}/runlist.sh ${.CURDIR}/${LISTS}
 	${TOOL_DIR}/bin/nbmakefs -M ${RAMDISKSIZE}k -m ${RAMDISKSIZE}k \
 	-B 1234 -t ffs -N ${WORK_RAM}/etc ${IMAGE}.tmp ${WORK_RAM}
+#${TOOL_DIR}/bin/nbdisklabel -w -B le -M i386 ${IMAGE}.tmp 4.2BSD
+	${TOOL_DIR}/bin/nbdisklabel -w -B le -M i386 ${IMAGE}.tmp
 	mv -f ${IMAGE}.tmp ${IMAGE}
 
 ${CBIN}.mk ${CBIN}.cache ${CBIN}.c: ${CRUNCHCONF}

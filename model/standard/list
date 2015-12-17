@@ -41,7 +41,6 @@ LINK	ramdiskbin			sbin/shutdown
 SYMLINK	/bin/cat			usr/bin/more
 SYMLINK	/bin/cat			usr/bin/sed
 SYMLINK /bin/cat			usr/bin/touch
-#SYMLINK /bin/cat			usr/sbin/route6d
 
 SPECIAL	/bin/rm ramdiskbin
 

@@ -28,7 +28,8 @@ STRIP?=		strip
 # parameters for bootable USB
 #
 MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec
-DISKSIZE?=	3019898 # about 2.88MB
+#DISKSIZE?=	3019898 # about 2.88MB
+DISKSIZE?=	3145728
 #SWAPSIZE?=	163840  # DISKSIZE / 16
 SWAPSIZE?=	0  # DISKSIZE / 16
 BIOSBOOT?=	bootxx_ffsv1
@@ -88,7 +89,7 @@ image:	netbsd
 	-e "s/@@BSDPARTSECTORS@@/${BSDPARTSECTORS}/" \
 	< /usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
 
-	${TOOL_DIR}/bin/nbdisklabel -R -F ${IMAGE} work.diskproto
+	${TOOL_DIR}/bin/nbdisklabel -R -F -M i386 -B le ${IMAGE} work.diskproto
 
 	rm -f ${IMAGE}.[0-9]* ${MODEL}.img
 	test -d ${IMG_DIR} || mkdir -p ${IMG_DIR}
