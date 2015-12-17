@@ -163,12 +163,10 @@ image:
 	@ echo "image 1. make ramdisk-small.fs for ${MODEL} model"
 	@ echo ""
 	${TOOL_DIR}/bin/nbmake -f Makefile.ramdisk ${_ARGS} image
-	ls /home/yuuki/fdgw2/obj.i386.standard/work/etc
 	@ echo ""
 	@ echo "image 2. inject mdsetimage into NetBSD Kernel for ${MODEL} model"
 	@ echo ""
 	${TOOL_DIR}/bin/nbmake -f Makefile.kernel ${_ARGS} image
-	ls /home/yuuki/fdgw2/obj.i386.standard/work/etc
 	@ echo ""
 	@ echo "image 3. make a bootable floppy and inject netbsd into it for ${MODEL} model"
 	@ echo ""

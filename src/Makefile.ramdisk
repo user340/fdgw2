@@ -30,7 +30,23 @@ LISTS=		list
 CRUNCHCONF=	${CBIN}.conf
 MTREE=		mtree.conf
 
-RAMDISKSIZE= 4096
+RAMDISKSIZE= 4194304
+SWAPSIZE=	0
+
+#
+# parameters for diskproto.mbr.in
+#
+IMAGESECTORS!=		expr ${RAMDISKSIZE} / 512
+SWAPSECTORS!=		expr ${SWAPSIZE} / 512 || true
+LABELSECTORS?=		0
+FSSECTORS!=			expr ${IMAGESECTORS} - ${SWAPSECTORS} - ${LABELSECTORS}
+HEADS?=				64
+SECTORS?=			32
+CYLINDERS!=			expr ${IMAGESECTORS} / \( ${HEADS} \* ${SECTORS} \)
+SECPERCYLINDERS!= 	expr ${HEADS} \* ${SECTORS}
+BSDPARTSECTORS!= 	expr ${RAMDISKSIZE} / 512
+FSOFFSET=			${LABELSECTORS}
+SWAPOFFSET!=		expr ${LABELSECTORS} + ${FSSECTORS}
 
 build: ${IMAGE}
 
@@ -42,10 +58,22 @@ image:
 	${TOOL_DIR}/bin/nbmtree -def ${.CURDIR}/${MTREE} -p ${WORK_RAM}/ -U
 	TOPDIR=${TOP} CURDIR=${.CURDIR} OBJDIR=${.OBJDIR} WORK_RAM=${WORK_RAM} \
 	BSDSRCDIR=${BSDSRCDIR} TARGDIR=${WORK_RAM} sh ${.CURDIR}/runlist.sh ${.CURDIR}/${LISTS}
-	${TOOL_DIR}/bin/nbmakefs -M ${RAMDISKSIZE}k -m ${RAMDISKSIZE}k \
+	${TOOL_DIR}/bin/nbmakefs -M ${RAMDISKSIZE} -m ${RAMDISKSIZE} \
 	-B 1234 -t ffs -N ${WORK_RAM}/etc ${IMAGE}.tmp ${WORK_RAM}
-#${TOOL_DIR}/bin/nbdisklabel -w -B le -M i386 ${IMAGE}.tmp 4.2BSD
-	${TOOL_DIR}/bin/nbdisklabel -w -B le -M i386 ${IMAGE}.tmp
+	${TOOL_DIR}/bin/nbsed \
+	-e "s/@@SECTORS@@/${SECTORS}/" \
+	-e "s/@@HEADS@@/${HEADS}/" \
+	-e "s/@@SECPERCYLINDERS@@/${SECPERCYLINDERS}/" \
+	-e "s/@@CYLINDERS@@/${CYLINDERS}/" \
+	-e "s/@@IMAGESECTORS@@/${IMAGESECTORS}/" \
+	-e "s/@@FSSECTORS@@/${FSSECTORS}/" \
+	-e "s/@@FSOFFSET@@/${FSOFFSET}/" \
+	-e "s/@@SWAPSECTORS@@/${SWAPSECTORS}/" \
+	-e "s/@@SWAPOFFSET@@/${SWAPOFFSET}/" \
+	-e "s/@@BSDPARTSECTORS@@/${BSDPARTSECTORS}/" \
+	< /usr/src/distrib/common/bootimage/diskproto.mbr.in > work.ramdiskproto
+
+	${TOOL_DIR}/bin/nbdisklabel -R -F -M i386 -B le ${IMAGE}.tmp work.ramdiskproto
 	mv -f ${IMAGE}.tmp ${IMAGE}
 
 ${CBIN}.mk ${CBIN}.cache ${CBIN}.c: ${CRUNCHCONF}
