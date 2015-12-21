@@ -25,7 +25,9 @@ makeoptions	USE_SSP="no"
 options 	MEMORY_DISK_HOOKS
 options 	MEMORY_DISK_IS_ROOT	# force root on memory disk
 options 	MEMORY_DISK_SERVER=1	# make the ramdisk writeable
-options 	MEMORY_DISK_ROOT_SIZE=8192	# size of memory disk, in blocks
+#options 	MEMORY_DISK_ROOT_SIZE=8192	# size of memory disk, in blocks
+#options 	MEMORY_DISK_ROOT_SIZE=16384	# size of memory disk, in blocks
+options 	MEMORY_DISK_ROOT_SIZE=24576	# size of memory disk, in blocks
 options 	MEMORY_DISK_RBFLAGS=RB_SINGLE	# boot in single-user mode
 
 maxusers	2		# estimated number of users
@@ -69,7 +71,7 @@ options		ALTQ_PRIQ
 
 # These options enable verbose messages for several subsystems.
 # Warning, these may compile large string tables into the kernel!
-options 	SCSIVERBOSE	# human readable SCSI error messages
+#options 	SCSIVERBOSE	# human readable SCSI error messages # change
 
 # Squeeze...
 options 	NVNODE=50
@@ -83,9 +85,7 @@ config		netbsd	root on ? type ?
 # wscons options
 #
 # builtin terminal emulations
-options 	WSEMUL_VT100		# VT100 / VT220 emulation
-# customization of console and kernel output - see dev/wscons/wsdisplayvar.h
-#options 	WS_KERNEL_FG=WSCOL_GREEN
+#options 	WSEMUL_VT100		# VT100 / VT220 emulation change
 
 #
 # Device configuration
@@ -135,12 +135,6 @@ eisa0	at mainbus?
 # ISA bus support
 isa0	at mainbus?
 isa0	at pcib?
-
-# Coprocessor Support
-
-# Math Coprocessor support
-#npx0	at isa? port 0xf0 irq 13	# x86 math coprocessor
-
 
 # Console Devices
 
@@ -273,7 +267,6 @@ pseudo-device	md			# memory disk device (ramdisk)
 pseudo-device	bpfilter		# Berkeley packet filter
 pseudo-device	loop			# network loopback
 pseudo-device	pf
-#pseudo-device	stf
 
 # miscellaneous pseudo-devices
 pseudo-device	pty		2	# pseudo-terminals (Sysinst needs two)

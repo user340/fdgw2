@@ -53,10 +53,6 @@ COPY	${TOP}/../../../etc/group			etc/group
 COPY	${TOP}/../../../etc/master.passwd	etc/master.passwd
 COPY	${TOP}/../../../etc/protocols	etc/protocols
 COPY	${TOP}/../../../etc/netconfig	etc/netconfig
-COPY	${TOP}/../../../etc/services	etc/services
-SPECIAL cat etc/services | grep -E '^#' -v | grep '\[' -v > etc/services.tmp
-SPECIAL rm etc/services
-SPECIAL mv etc/services.tmp etc/services
 
 SPECIAL	pwd_mkdb -p -d ./ etc/master.passwd
 SPECIAL /bin/rm etc/spwd.db

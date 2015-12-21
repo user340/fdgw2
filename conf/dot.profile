@@ -8,8 +8,6 @@ HOME=/
 export HOME
 BLOCKSIZE=1k
 export BLOCKSIZE
-EDITOR=ed
-export EDITOR
 BOOTMODEL=small
 export BOOTMODEL
 umask 022

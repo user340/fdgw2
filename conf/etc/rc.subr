@@ -49,15 +49,7 @@ copyright () {
    echo "All rights reserved."
    echo "This program is released under the BSD License as with NetBSD."
    echo ""
-   echo "For details, please see https:/github.com/user340/fdgw2/wiki (japanese)"
-   echo ""
-   echo "CREDITS"
-   echo ""
-   echo "Ken'ichi Fukamachi <fukachan@fml.org>"
-   echo "***Original fdgw developer, and my advisor.***"
-   echo ""
 }
-
 
 check_prog_exist () {
    local file=$1
