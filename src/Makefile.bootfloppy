@@ -28,7 +28,6 @@ STRIP?=		strip
 # parameters for bootable USB
 #
 MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec
-#DISKSIZE?=	3019898 # about 2.88MB
 DISKSIZE?=	3145728 # 3.0MB
 SWAPSIZE?=	0  # DISKSIZE / 16 <- false
 BIOSBOOT?=	bootxx_ffsv1

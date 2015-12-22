@@ -25,9 +25,7 @@ makeoptions	USE_SSP="no"
 options 	MEMORY_DISK_HOOKS
 options 	MEMORY_DISK_IS_ROOT	# force root on memory disk
 options 	MEMORY_DISK_SERVER=1	# make the ramdisk writeable
-#options 	MEMORY_DISK_ROOT_SIZE=8192	# size of memory disk, in blocks
-#options 	MEMORY_DISK_ROOT_SIZE=16384	# size of memory disk, in blocks
-options 	MEMORY_DISK_ROOT_SIZE=24576	# size of memory disk, in blocks
+options 	MEMORY_DISK_ROOT_SIZE=16384	# size of memory disk, in blocks
 options 	MEMORY_DISK_RBFLAGS=RB_SINGLE	# boot in single-user mode
 
 maxusers	2		# estimated number of users
@@ -43,9 +41,9 @@ options 	PIPE_SOCKETPAIR		# smaller, but slower pipe(2)
 no options 	EXEC_AOUT	# we don't a.out support
 
 # Diagnostic/debugging support options
-options 	DDB		# in-kernel debugger
-options 	DDB_ONPANIC=1	# see also sysctl(8): `ddb.onpanic'
-options 	DDB_HISTORY_SIZE=512	# enable history editing in DDB
+#options 	DDB		# in-kernel debugger
+#options 	DDB_ONPANIC=1	# see also sysctl(8): `ddb.onpanic'
+#options 	DDB_HISTORY_SIZE=512	# enable history editing in DDB
 
 # Compatibility options
 options 	COMPAT_BSDPTY	# /dev/[pt]ty?? ptys.
@@ -69,10 +67,6 @@ options		ALTQ_RIO
 options		ALTQ_HFSC
 options		ALTQ_PRIQ
 
-# These options enable verbose messages for several subsystems.
-# Warning, these may compile large string tables into the kernel!
-#options 	SCSIVERBOSE	# human readable SCSI error messages # change
-
 # Squeeze...
 options 	NVNODE=50
 options 	NBUF=20
@@ -80,12 +74,6 @@ options 	BUFPAGES=20
 
 # Kernel root file system and dump configuration.
 config		netbsd	root on ? type ?
-
-#
-# wscons options
-#
-# builtin terminal emulations
-#options 	WSEMUL_VT100		# VT100 / VT220 emulation change
 
 #
 # Device configuration
@@ -256,7 +244,7 @@ wm*		at pci? dev ? function ?
 #we1	at isa? port 0x300 iomem 0xcc000 irq 10
 
 # Pull in optional local configuration
-cinclude "arch/i386/conf/INSTALL.local"
+#cinclude "arch/i386/conf/INSTALL.local"
 
 # Pseudo-Devices
 

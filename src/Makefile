@@ -112,7 +112,6 @@ BIOSBOOT?=	bootxx_ffsv1
 #
 WARNS=1
 
-# conf/etc not conf/1.5/etc in obj.*
 ETC_DIR?=	conf/etc
 
 _ARGS?=		MOUNT_POINT=${MOUNT_POINT} \

@@ -36,7 +36,7 @@ LINK	ramdiskbin			sbin/routed
 LINK	ramdiskbin			sbin/umount
 LINK	ramdiskbin			sbin/sysctl
 LINK	ramdiskbin			sbin/pfctl
-LINK	ramdiskbin			sbin/shutdown
+#LINK	ramdiskbin			sbin/shutdown
 
 SYMLINK	/bin/cat			usr/bin/more
 SYMLINK	/bin/cat			usr/bin/sed
