@@ -28,9 +28,8 @@ STRIP?=		strip
 # parameters for bootable USB
 #
 MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec
-DISKSIZE?=	2621440 # 2.5MB
-#SWAPSIZE?=	163840  # DISKSIZE / 16
-SWAPSIZE?=	0  # DISKSIZE / 16
+DISKSIZE?=	3145728 # 3.0MB
+SWAPSIZE?=	0  # DISKSIZE / 16 <- false
 BIOSBOOT?=	bootxx_ffsv1
 
 #
@@ -46,7 +45,8 @@ CYLINDERS!=			expr ${IMAGESECTORS} / \( ${HEADS} \* ${SECTORS} \)
 SECPERCYLINDERS!= 	expr ${HEADS} \* ${SECTORS}
 BSDPARTSECTORS!= 	expr ${DISKSIZE} / 512
 FSOFFSET=			${LABELSECTORS}
-SWAPOFFSET!=		expr ${LABELSECTORS} + ${FSSECTORS}
+#SWAPOFFSET!=		expr ${LABELSECTORS} + ${FSSECTORS}
+SWAPOFFSET=			0
 
 build:
 	@ echo nothing to do
@@ -60,13 +60,13 @@ image:	netbsd
 		echo "merge up rc.conf";\
 		awk	-v MASTER=conf/etc/defaults/rc.conf \
 			-f merge_conf.awk \
-			rc.conf |sh > ${.CURDIR}/etc/rc.conf;\
+			rc.conf |sh > ${.CURDIR}/work/etc/rc.conf;\
 	fi
 	@	if [ -d ${CURDIR}/work/etc ];then \
 		echo "merging cocnfig(s) from ${CURDIR}/work/etc";\
 		rm -f ${CURDIR}/work/etc/*pwd.db ;\
 		cp -pr ${CURDIR}/work/etc/[a-z]* ${.CURDIR}/etc;\
-		chown -R root ${.CURDIR}/etc;\
+		chown -R root ${.CURDIR}/work/etc;\
 	fi
 	${TOOL_DIR}/bin/nbsed "s/@@BOOTDISK@@/sd0/" < ${SRCDIR}/distrib/common/bootimage/fstab.in > work.fstab
 	cp work.fstab ${.CURDIR}/work/etc/fstab
@@ -88,7 +88,7 @@ image:	netbsd
 	-e "s/@@BSDPARTSECTORS@@/${BSDPARTSECTORS}/" \
 	< /usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
 
-	${TOOL_DIR}/bin/nbdisklabel-i386 -R -F ${IMAGE} work.diskproto
+	${TOOL_DIR}/bin/nbdisklabel -R -F -M i386 -B le ${IMAGE} work.diskproto
 
 	rm -f ${IMAGE}.[0-9]* ${MODEL}.img
 	test -d ${IMG_DIR} || mkdir -p ${IMG_DIR}
