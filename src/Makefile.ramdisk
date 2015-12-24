@@ -59,7 +59,7 @@ image:
 	TOPDIR=${TOP} CURDIR=${.CURDIR} OBJDIR=${.OBJDIR} WORK_RAM=${WORK_RAM} \
 	BSDSRCDIR=${BSDSRCDIR} TARGDIR=${WORK_RAM} sh ${.CURDIR}/runlist.sh ${.CURDIR}/${LISTS}
 	${TOOL_DIR}/bin/nbmakefs -M ${RAMDISKSIZE} -m ${RAMDISKSIZE} \
-	-o bsize=16384,fsize=2048,density=8192 -B 1234 -t ffs -N ${WORK_RAM}/etc \
+	-o bsize=16384,fsize=2048,density=8192 -f 2000 -B 1234 -t ffs -N ${WORK_RAM}/etc \
 	${IMAGE}.tmp ${WORK_RAM}
 
 	${TOOL_DIR}/bin/nbsed \

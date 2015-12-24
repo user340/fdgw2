@@ -14,10 +14,18 @@ load_file     /etc/rc.conf
 # link for /bin/ps
 ln -s /conf/netbsd /netbsd
 
+
+# run pre hook before rc.router main stats
+if [ -f /etc/rc.router.pre ]; then
+	. /etc/rc.router.pre
+fi
+
+
 if [ -f /etc/myname ];then
    hostname `cat /etc/myname`
    echo "hostname: `hostname`"
 fi
+
 
 # check cloned devices.
 if_tmp=`ifconfig -l`
@@ -81,6 +89,7 @@ else
 	fi
 fi
 
+
 if checkyesno ip6forwarding; then
 	if check_prog_exist /sbin/sysctl ;then
 		echo "enable IPv6 router"
@@ -92,6 +101,7 @@ else
 		/sbin/sysctl -w net.inet6.ip6.forwarding=0
 	fi
 fi
+
 
 if ifconfig lo0 inet6 >/dev/null 2>&1; then
 	# We have IPv6 support in kernel.
@@ -110,6 +120,199 @@ if ifconfig lo0 inet6 >/dev/null 2>&1; then
 	route add -inet6 2002:ff00:: -prefixlen 24 ::1 -reject
 	route add -inet6 ::0.0.0.0 -prefixlen 96 ::1 -reject
 fi
+
+
+if checkyesno syslogd; then
+   if [ -f /etc/syslog.conf ];then
+	echo "starting syslogd"
+	cp /dev/null var/run/utmp
+	syslogd $syslogd_flags
+   else
+	echo "Error: no /etc/syslog.conf"
+   fi
+fi
+
+
+if checkyesno dhcpd; then
+   if [ -f /etc/dhcpd.conf ];then
+	echo "starting dhcpd"
+	/usr/sbin/dhcpd $dhcpd_flags >/dev/null 2>&1
+   else
+	echo "Error: no /etc/dhcpd.conf"
+   fi
+fi
+
+
+if checkyesno ipfilter; then
+   if [ -f /etc/ipf.conf ];then
+      echo "enable IP Filter"
+      /sbin/ipf -E -f /etc/ipf.conf
+      /usr/sbin/ipfstat -i
+      /usr/sbin/ipfstat -o
+   else
+	echo "Error: no /etc/ipf.conf"
+   fi
+
+   if checkyesno ipnat; then
+      if [ -f /etc/ipnat.conf ];then
+   	echo "enable NAT by IP Filter"
+   	/usr/sbin/ipnat -f /etc/ipnat.conf
+   	/usr/sbin/ipnat -l
+      else
+	echo "Error: no /etc/ipnat.conf"
+      fi
+   fi
+
+   if checkyesno ipmon; then
+   	echo 'starting ipmon'
+	ipmon $ipmon_flags &
+   fi
+fi
+
+
+if checkyesno pppoe; then
+   if check_prog_exist /usr/pkg/sbin/adsl-start ;then
+	echo 'starting ADSL (pppoe)';
+	/usr/pkg/sbin/adsl-start
+   fi
+fi
+
+
+if checkyesno rtsold; then
+   if check_prog_exist /usr/sbin/rtsold ;then
+	echo "starting rtsold";
+	/usr/sbin/rtsold $rtsold_flags
+   fi
+fi
+
+
+if checkyesno rtadvd; then
+   if check_prog_exist /usr/sbin/rtadvd ;then
+	echo "starting rtadvd";
+	/usr/sbin/rtadvd $rtadvd_flags
+   fi
+fi
+
+
+if checkyesno route6d; then
+   if check_prog_exist /usr/sbin/route6d ;then
+	echo "starting route6d";
+	/usr/sbin/route6d $route6d_flags
+   fi
+fi
+
+
+if checkyesno pim6sd; then
+   if check_prog_exist /usr/sbin/pim6sd ;then
+	echo "starting pim6sd";
+	/usr/sbin/pim6sd $pim6sd_flags
+   fi
+fi
+
+
+if checkyesno http_proxy; then
+   echo -n 'starting http proxy: ';
+   if check_prog_exist /usr/pkg/sbin/squid ;then
+	echo -n 'squid ';
+	/usr/pkg/sbin/squidmaster &
+   fi
+
+   echo '.';
+fi
+
+
+if checkyesno ftp_proxy; then
+   echo 'starting ftp proxy';
+
+   if check_prog_exist /usr/pkg/sbin/jftpgw ;then
+	/usr/pkg/sbin/jftpgw -f /etc/jftpgw/jftpgw.conf
+   fi
+fi
+
+
+if checkyesno ssh_proxy; then
+   echo 'starting ssh proxy';
+
+   if check_prog_exist /usr/pkg/sbin/stone ;then
+	/usr/pkg/sbin/stone -N ssh-proxy -l -T localhost:0 localhost:10022 &
+   fi
+fi
+
+
+if checkyesno smtp_proxy; then
+   echo 'starting smtp proxy';
+
+   if check_prog_exist /usr/pkg/sbin/stone ;then
+	/usr/pkg/sbin/stone -N smtp-proxy -l -T localhost:0 localhost:10025 &
+   fi
+fi
+
+
+if checkyesno pop_proxy; then
+   echo 'starting pop proxy';
+
+   if check_prog_exist /usr/pkg/sbin/stone ;then
+	/usr/pkg/sbin/stone -N pop-proxy -l -T localhost:0 localhost:10110 &
+   fi
+fi
+
+
+if checkyesno https_proxy; then
+   echo 'starting https proxy';
+
+   if check_prog_exist /usr/pkg/sbin/stone ;then
+	/usr/pkg/sbin/stone -N https-proxy -l -T localhost:0 localhost:10443 &
+   fi
+fi
+
+
+if checkyesno anoncvs_proxy; then
+   echo 'starting anoncvs proxy';
+
+   if check_prog_exist /usr/pkg/sbin/stone ;then
+	/usr/pkg/sbin/stone -N anoncvs-proxy -l -T localhost:0 localhost:12401 &
+   fi
+fi
+
+
+if checkyesno irc_proxy; then
+   echo 'starting irc proxy';
+
+   if check_prog_exist /usr/pkg/sbin/stone ;then
+	/usr/pkg/sbin/stone -N irc-proxy -l -T localhost:0 localhost:16667 &
+   fi
+fi
+
+
+if checkyesno bridge_flap; then
+   echo 'starting bridge flapping';
+
+   /usr/sbin/brflap $bridge_flap_interface $bridge_flap_interval &
+fi
+
+
+if checkyesno gentraffic; then
+   echo 'starting traffic generator';
+
+   if [ "X$gentraffic_driver" = "Xttcp" ];then
+	/usr/pkg/bin/gentraffic $ttcp_options &
+   else
+	echo "error: unknown gentraffic driver: $gentraffic_driver"
+   fi
+fi
+
+
+# run local hook after rc.router main stats
+if [ -f /etc/rc.router.local ]; then
+	. /etc/rc.router.local
+fi
+
+
+# run post hook after rc.router main stats
+if [ -f /etc/rc.router.post ]; then
+	. /etc/rc.router.post
+fi
+
 
 echo ""
 
