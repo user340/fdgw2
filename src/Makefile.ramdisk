@@ -73,7 +73,7 @@ image:
 	-e "s/@@SWAPSECTORS@@/${SWAPSECTORS}/" \
 	-e "s/@@SWAPOFFSET@@/${SWAPOFFSET}/" \
 	-e "s/@@BSDPARTSECTORS@@/${BSDPARTSECTORS}/" \
-	< /usr/src/distrib/common/bootimage/diskproto.mbr.in > work.ramdiskproto
+	< ${BSDSRCDIR}/distrib/common/bootimage/diskproto.mbr.in > work.ramdiskproto
 
 	${TOOL_DIR}/bin/nbdisklabel -R -F -M i386 -B le ${IMAGE}.tmp work.ramdiskproto
 	mv -f ${IMAGE}.tmp ${IMAGE}
