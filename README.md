@@ -7,7 +7,7 @@ For details, please see ...<br>
 <br>
 https://github.com/user340/fdgw2/wiki<br>
 or<br>
-http://e-yuuki.org/develop/fdgw2.html<br>
+https://e-yuuki.org/develop/fdgw2.html<br>
 <br>
 # CREDITS
 **Ken'ichi Fukamachi**<br>
