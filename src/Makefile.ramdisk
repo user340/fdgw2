@@ -55,10 +55,10 @@ ${IMAGE}: ${CBIN} ${AUXDEPENDS} ${MTREE} ${LISTS}
 image:
 	rm -f ${IMAGE}.tmp
 	test -d ${WORK_RAM} || mkdir -p ${WORK_RAM}
-	if [ `uname` eq 'Linux' ];then
-		cat ${.CURDIR}/${MTREE} | ${TOOL_DIR}/bin/nbsed -e 's/wheel/root/' > ${.CURDIR}/${MTREE}.tmp
-		rm -f ${.CURDIR}/${MTREE}
-		mv ${.CURDIR}/${MTREE}.tmp ${.CURDIR}/${MTREE}
+	@ if [ `uname` eq "Linux" ]; then
+		cat ${.CURDIR}/${MTREE} | ${TOOL_DIR}/bin/nbsed -e 's/wheel/root/' > ${.CURDIR}/${MTREE}.tmp; \
+		rm -f ${.CURDIR}/${MTREE}; \
+		mv ${.CURDIR}/${MTREE}.tmp ${.CURDIR}/${MTREE}; \
 	fi
 	${TOOL_DIR}/bin/nbmtree -def ${.CURDIR}/${MTREE} -p ${WORK_RAM}/ -U
 	TOPDIR=${TOP} CURDIR=${.CURDIR} OBJDIR=${.OBJDIR} WORK_RAM=${WORK_RAM} TOOL_DIR=${TOOL_DIR} \
