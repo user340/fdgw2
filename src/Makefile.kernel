@@ -25,9 +25,9 @@ ${KERN}: ${_KERNEL_CONF}
 	cp -p ${_KERNEL_CONF} ${.WORKDIR}/CONFIG
 	(cd ${.WORKDIR}; \
 		${TOOL_DIR}/bin/nbconfig -s ${_SYS_DIR} ;\
-		${TOOL_DIR}/bin/nbmake clean;\
-		${TOOL_DIR}/bin/nbmake depend;\
-		${TOOL_DIR}/bin/nbmake \
+		${TOOL_DIR}/bin/nbmake-i386 clean;\
+		${TOOL_DIR}/bin/nbmake-i386 depend;\
+		${TOOL_DIR}/bin/nbmake-i386 \
 	)
 
 
