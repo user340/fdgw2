@@ -56,7 +56,7 @@ image:
 	rm -f ${IMAGE}.tmp
 	test -d ${WORK_RAM} || mkdir -p ${WORK_RAM}
 	${TOOL_DIR}/bin/nbmtree -def ${.CURDIR}/${MTREE} -p ${WORK_RAM}/ -U
-	TOPDIR=${TOP} CURDIR=${.CURDIR} OBJDIR=${.OBJDIR} WORK_RAM=${WORK_RAM} \
+	TOPDIR=${TOP} CURDIR=${.CURDIR} OBJDIR=${.OBJDIR} WORK_RAM=${WORK_RAM} TOOL_DIR=${TOOL_DIR} \
 	BSDSRCDIR=${BSDSRCDIR} TARGDIR=${WORK_RAM} sh ${.CURDIR}/runlist.sh ${.CURDIR}/${LISTS}
 	${TOOL_DIR}/bin/nbmakefs -M ${RAMDISKSIZE} -m ${RAMDISKSIZE} \
 	-o bsize=16384,fsize=2048,density=8192 -f 2000 -B 1234 -t ffs -N ${WORK_RAM}/etc \
