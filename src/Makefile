@@ -196,7 +196,7 @@ _lndir:
 	(cd ${_BSDSRCDIR}/sbin; ln -s -f ${BSDSRCDIR}/sbin/Makefile.inc)
 	(cd ${_BSDSRCDIR}; ln -s -f ${BSDSRCDIR}/Makefile.inc)
 	for DIR in ${_DIR1} ; do \
-	  (cd ${_BSDSRCDIR}/$$DIR; echo cleaning in $$DIR; make cleandir) \
+	  (cd ${_BSDSRCDIR}/$$DIR; echo cleaning in $$DIR; ${TOOL_DIR}/bin/nbmake cleandir) \
 	done
 	@ touch ${_BSDSRCDIR}/.lndir_done
 
@@ -212,7 +212,7 @@ _init_config:
 	ln -s ../${_CONF_DIR} conf
 	ln -s ../${_MODEL_DIR} model
 	-rm -f ramdiskbin.conf
-	sed "s/__ARCH__/${ARCH}/g" ${_CBIN}.conf |\
+	${TOOL_DIR}/bin/nbsed "s/__ARCH__/${ARCH}/g" ${_CBIN}.conf |\
 	sh utils/fix_ramdiskbin.conf.sh > ramdiskbin.conf.new
 	mv ramdiskbin.conf.new ramdiskbin.conf
 	-rm -f list
@@ -221,13 +221,13 @@ _init_config:
 	ln -s ${_RC_CONF} rc.conf
 
 _init_resolver:
-	(cd utils/resolver/; make ${_ARGS})
+	(cd utils/resolver/; ${TOOL_DIR}/bin/nbmake ${_ARGS})
 
 #
 # cleaning
 #
 clean cleandir:
-	-make -f Makefile.ramdisk cleandir TOP=${_FLOPPY_DIR}
+	-${TOOL_DIR}/bin/nbmake -f Makefile.ramdisk cleandir TOP=${_FLOPPY_DIR}
 	-rm -f conf model
 	-rm -f ramdiskbin.conf list rc.conf
 	-rm -f boot *.fs boot.fs* netbsd* *.tmp *~
@@ -235,4 +235,4 @@ clean cleandir:
 
 allclean: clean
 	-rm -fr work
-	-make -f Makefile.ramdisk unconfig TOP=${_FLOPPY_DIR}
+	-${TOOL_DIR}/bin/nbmake -f Makefile.ramdisk unconfig TOP=${_FLOPPY_DIR}
