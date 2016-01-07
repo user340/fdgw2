@@ -5,10 +5,10 @@
 #
 
 
-RAMDISK_S?=	ramdisk-small.fs
+RAMDISK_S?=		ramdisk-small.fs
 KERNEL_CONF?=	FDGW
-.WORKDIR=	${.CURDIR}/compile/${KERNEL_CONF}
-KERN=		${.WORKDIR}/netbsd
+.WORKDIR=		${.CURDIR}/compile/${KERNEL_CONF}
+KERN=			${.WORKDIR}/netbsd
 _KERNEL_CONF =	conf/kernel.${ARCH}/${KERNEL_CONF}
 
 build: ${KERN}
@@ -25,9 +25,9 @@ ${KERN}: ${_KERNEL_CONF}
 	cp -p ${_KERNEL_CONF} ${.WORKDIR}/CONFIG
 	(cd ${.WORKDIR}; \
 		${TOOL_DIR}/bin/nbconfig -s ${_SYS_DIR} ;\
-		make clean;\
-		make depend;\
-		make \
+		${TOOL_DIR}/bin/nbmake-i386 clean;\
+		${TOOL_DIR}/bin/nbmake-i386 depend;\
+		${TOOL_DIR}/bin/nbmake-i386 \
 	)
 
 
@@ -38,7 +38,6 @@ netbsd.gz: .NOTMAIN ${KERN} ${RAMDISK_S}
 	${STRIP} netbsd.tmp
 	gzip -9 netbsd.tmp
 	mv netbsd.tmp.gz ${.TARGET}
-
 
 .include <bsd.own.mk>
 .include <bsd.obj.mk>

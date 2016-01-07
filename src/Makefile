@@ -139,11 +139,11 @@ build: _prepare_build_system
 	@ echo ""
 	@ echo "build stage 1. make ramdiskbin for ${MODEL} model"
 	@ echo ""
-	${TOOL_DIR}/bin/nbmake -f Makefile.ramdisk ${_ARGS} build
+	${TOOL_DIR}/bin/nbmake-i386 -f Makefile.ramdisk ${_ARGS} build
 	@ echo ""
 	@ echo "build stage 2. make netbsd kernel for ${MODEL} model"
 	@ echo ""
-	${TOOL_DIR}/bin/nbmake -f Makefile.kernel ${_ARGS} build
+	${TOOL_DIR}/bin/nbmake-i386 -f Makefile.kernel ${_ARGS} build
 	@ echo ""
 	@ echo "build stage for ${MODEL} model done."
 	@ echo ""	
@@ -152,15 +152,15 @@ image:
 	@ echo ""
 	@ echo "image 1. make ramdisk-small.fs for ${MODEL} model"
 	@ echo ""
-	${TOOL_DIR}/bin/nbmake -f Makefile.ramdisk ${_ARGS} image
+	${TOOL_DIR}/bin/nbmake-i386 -f Makefile.ramdisk ${_ARGS} image
 	@ echo ""
 	@ echo "image 2. inject mdsetimage into NetBSD Kernel for ${MODEL} model"
 	@ echo ""
-	${TOOL_DIR}/bin/nbmake -f Makefile.kernel ${_ARGS} image
+	${TOOL_DIR}/bin/nbmake-i386 -f Makefile.kernel ${_ARGS} image
 	@ echo ""
 	@ echo "image 3. make a bootable floppy and inject netbsd into it for ${MODEL} model"
 	@ echo ""
-	${TOOL_DIR}/bin/nbmake -f Makefile.bootfloppy ${_ARGS} image || exit 1
+	${TOOL_DIR}/bin/nbmake-i386 -f Makefile.bootfloppy ${_ARGS} image
 	@ echo ""
 	@ echo "building image for ${MODEL} model stage done."
 	@ echo ""	
@@ -196,7 +196,7 @@ _lndir:
 	(cd ${_BSDSRCDIR}/sbin; ln -s -f ${BSDSRCDIR}/sbin/Makefile.inc)
 	(cd ${_BSDSRCDIR}; ln -s -f ${BSDSRCDIR}/Makefile.inc)
 	for DIR in ${_DIR1} ; do \
-	  (cd ${_BSDSRCDIR}/$$DIR; echo cleaning in $$DIR; make cleandir) \
+	  (cd ${_BSDSRCDIR}/$$DIR; echo cleaning in $$DIR; ${TOOL_DIR}/bin/nbmake-i386 cleandir) \
 	done
 	@ touch ${_BSDSRCDIR}/.lndir_done
 
@@ -212,7 +212,7 @@ _init_config:
 	ln -s ../${_CONF_DIR} conf
 	ln -s ../${_MODEL_DIR} model
 	-rm -f ramdiskbin.conf
-	sed "s/__ARCH__/${ARCH}/g" ${_CBIN}.conf |\
+	${TOOL_DIR}/bin/nbsed "s/__ARCH__/${ARCH}/g" ${_CBIN}.conf |\
 	sh utils/fix_ramdiskbin.conf.sh > ramdiskbin.conf.new
 	mv ramdiskbin.conf.new ramdiskbin.conf
 	-rm -f list
@@ -221,13 +221,13 @@ _init_config:
 	ln -s ${_RC_CONF} rc.conf
 
 _init_resolver:
-	(cd utils/resolver/; make ${_ARGS})
+	(cd utils/resolver/; ${TOOL_DIR}/bin/nbmake-i386 ${_ARGS})
 
 #
 # cleaning
 #
 clean cleandir:
-	-make -f Makefile.ramdisk cleandir TOP=${_FLOPPY_DIR}
+	-${TOOL_DIR}/bin/nbmake-i386 -f Makefile.ramdisk cleandir TOP=${_FLOPPY_DIR}
 	-rm -f conf model
 	-rm -f ramdiskbin.conf list rc.conf
 	-rm -f boot *.fs boot.fs* netbsd* *.tmp *~
@@ -235,4 +235,4 @@ clean cleandir:
 
 allclean: clean
 	-rm -fr work
-	-make -f Makefile.ramdisk unconfig TOP=${_FLOPPY_DIR}
+	-${TOOL_DIR}/bin/nbmake-i386 -f Makefile.ramdisk unconfig TOP=${_FLOPPY_DIR}

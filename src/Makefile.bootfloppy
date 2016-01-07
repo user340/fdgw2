@@ -29,7 +29,7 @@ STRIP?=		strip
 #
 MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec
 DISKSIZE?=	3145728 # 3.0MB
-SWAPSIZE?=	0  # DISKSIZE / 16 <- false
+SWAPSIZE?=	0
 BIOSBOOT?=	bootxx_ffsv1
 
 #
@@ -86,7 +86,7 @@ image:	netbsd
 	-e "s/@@SWAPSECTORS@@/${SWAPSECTORS}/" \
 	-e "s/@@SWAPOFFSET@@/${SWAPOFFSET}/" \
 	-e "s/@@BSDPARTSECTORS@@/${BSDPARTSECTORS}/" \
-	< /usr/src/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
+	< ${SRCDIR}/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
 
 	${TOOL_DIR}/bin/nbdisklabel -R -F -M i386 -B le ${IMAGE} work.diskproto
 

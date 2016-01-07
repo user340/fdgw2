@@ -54,17 +54,17 @@ COPY	${TOP}/../../../etc/master.passwd	etc/master.passwd
 COPY	${TOP}/../../../etc/protocols	etc/protocols
 COPY	${TOP}/../../../etc/netconfig	etc/netconfig
 
-SPECIAL	pwd_mkdb -p -d ./ etc/master.passwd
+SPECIAL	${TOOL_DIR}/bin/nbpwd_mkdb -p -d ./ etc/master.passwd
 SPECIAL /bin/rm etc/spwd.db
 
 # copy the MAKEDEV script and make some devices
 COPY	${TOP}/../../../etc/MAKEDEV.awk 				dev/MAKEDEV.awk
 COPY	${TOP}/../../../etc/MAKEDEV.tmpl				dev/MAKEDEV.tmpl
 SPECIAL cd dev; NETBSDSRCDIR=/usr/src MACHINE=i386 MACHINE_ARCH=i386 awk -f MAKEDEV.awk MAKEDEV.tmpl > MAKEDEV
-SPECIAL	cd dev; sh MAKEDEV ramdisk
-SPECIAL	cd dev; sh MAKEDEV pf
-SPECIAL	cd dev; sh MAKEDEV npf
-SPECIAL cd dev; sh MAKEDEV bpf
+SPECIAL	cd dev; sh MAKEDEV -m ${TOOL_DIR}/bin/nbmknod ramdisk
+SPECIAL	cd dev; sh MAKEDEV -m ${TOOL_DIR}/bin/nbmknod pf
+SPECIAL	cd dev; sh MAKEDEV -m ${TOOL_DIR}/bin/nbmknod npf
+SPECIAL cd dev; sh MAKEDEV -m ${TOOL_DIR}/bin/nbmknod bpf
 SPECIAL	/bin/rm dev/MAKEDEV
 SPECIAL /bin/rm dev/MAKEDEV.awk
 SPECIAL /bin/rm dev/MAKEDEV.tmpl
