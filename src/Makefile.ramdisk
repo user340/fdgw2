@@ -55,7 +55,7 @@ ${IMAGE}: ${CBIN} ${AUXDEPENDS} ${MTREE} ${LISTS}
 image:
 	rm -f ${IMAGE}.tmp
 	test -d ${WORK_RAM} || mkdir -p ${WORK_RAM}
-	@ if [ `uname` eq "Linux" ]; then
+	@ if [ `uname` eq "Linux" ]; then \
 		cat ${.CURDIR}/${MTREE} | ${TOOL_DIR}/bin/nbsed -e 's/wheel/root/' > ${.CURDIR}/${MTREE}.tmp; \
 		rm -f ${.CURDIR}/${MTREE}; \
 		mv ${.CURDIR}/${MTREE}.tmp ${.CURDIR}/${MTREE}; \
