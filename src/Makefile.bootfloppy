@@ -8,11 +8,6 @@
 .include "${TOP}/../../../Makefile.inc"
 
 #
-# source
-#
-SRCDIR=	/usr/src
-
-#
 # target image to build
 #
 
@@ -68,7 +63,7 @@ image:	netbsd
 		cp -pr ${CURDIR}/work/etc/[a-z]* ${.CURDIR}/etc;\
 		chown -R root ${.CURDIR}/work/etc;\
 	fi
-	${TOOL_DIR}/bin/nbsed "s/@@BOOTDISK@@/sd0/" < ${SRCDIR}/distrib/common/bootimage/fstab.in > work.fstab
+	${TOOL_DIR}/bin/nbsed "s/@@BOOTDISK@@/sd0/" < ${BSDSRCDIR}/distrib/common/bootimage/fstab.in > work.fstab
 	cp work.fstab ${.CURDIR}/work/etc/fstab
 
 	${TOOL_DIR}/bin/nbmakefs -M ${DISKSIZE} -m ${DISKSIZE} -B 1234 -t ffs -N work/etc \
@@ -86,7 +81,7 @@ image:	netbsd
 	-e "s/@@SWAPSECTORS@@/${SWAPSECTORS}/" \
 	-e "s/@@SWAPOFFSET@@/${SWAPOFFSET}/" \
 	-e "s/@@BSDPARTSECTORS@@/${BSDPARTSECTORS}/" \
-	< ${SRCDIR}/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
+	< ${BSDSRCDIR}/distrib/common/bootimage/diskproto.mbr.in > work.diskproto
 
 	${TOOL_DIR}/bin/nbdisklabel -R -F -M i386 -B le ${IMAGE} work.diskproto
 

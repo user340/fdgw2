@@ -254,5 +254,5 @@ pseudo-device	loop			# network loopback
 pseudo-device	pf
 
 # miscellaneous pseudo-devices
-pseudo-device	pty		2	# pseudo-terminals (Sysinst needs two)
+#pseudo-device	pty		2	# pseudo-terminals (Sysinst needs two)
 options 	NO_DEV_PTM
