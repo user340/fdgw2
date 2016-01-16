@@ -9,7 +9,7 @@ ARCH?=		i386
 _CONF_DIR=	conf/
 _MODEL_DIR=	model/
 
-MODEL?=	   standard
+MODEL?=	   natbox
 
 #
 # directories for targets and sources
