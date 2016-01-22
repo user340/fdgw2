@@ -31,12 +31,9 @@ LINK	ramdiskbin			sbin/mount_ffs
 LINK	ramdiskbin			sbin/mount_kernfs
 LINK	ramdiskbin			sbin/ping
 LINK	ramdiskbin			sbin/reboot
-LINK	ramdiskbin			sbin/route
-LINK	ramdiskbin			sbin/routed
 LINK	ramdiskbin			sbin/umount
 LINK	ramdiskbin			sbin/sysctl
 LINK	ramdiskbin			sbin/pfctl
-#LINK	ramdiskbin			sbin/shutdown
 
 SYMLINK	/bin/cat			usr/bin/more
 SYMLINK	/bin/cat			usr/bin/sed
