@@ -23,7 +23,7 @@ BSDSRCDIR?=	/usr/src
 
 # NetBSD tools
 TOOL_DIR?= /usr/tools
-OBJ_DIR?= /usr/obj
+#OBJ_DIR?= /usr/obj
 
 # dir to lndir
 _BSDSRCDIR=	`pwd`/NetBSD
@@ -121,8 +121,8 @@ _ARGS?=		MOUNT_POINT=${MOUNT_POINT} \
 		INO_BYTES=${INO_BYTES} \
 		RAMDISK_S=${RAMDISK_S} \
 		BIOSBOOT=${BIOSBOOT} \
-		TOOL_DIR=${TOOL_DIR} \
-		OBJ_DIR=${OBJ_DIR}
+		TOOL_DIR=${TOOL_DIR}
+#OBJ_DIR=${OBJ_DIR}
 
 #
 # MAIN RULE
