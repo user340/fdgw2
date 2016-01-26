@@ -22,7 +22,8 @@ STRIP?=		strip
 #
 # parameters for bootable USB
 #
-MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec
+#MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec
+MDEC=		../mdec/${ARCH}
 #DISKSIZE?=	3145728 # 3.0MB
 DISKSIZE?= 2621440 # 2.5MB
 SWAPSIZE?=	0
