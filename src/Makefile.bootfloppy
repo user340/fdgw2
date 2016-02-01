@@ -22,9 +22,7 @@ STRIP?=		strip
 #
 # parameters for bootable USB
 #
-#MDEC=		${OBJ_DIR}/destdir.i386/usr/mdec
 MDEC=		../mdec/${ARCH}
-#DISKSIZE?=	3145728 # 3.0MB
 DISKSIZE?= 2621440 # 2.5MB
 SWAPSIZE?=	0
 BIOSBOOT?=	bootxx_ffsv1
@@ -42,7 +40,6 @@ CYLINDERS!=			expr ${IMAGESECTORS} / \( ${HEADS} \* ${SECTORS} \)
 SECPERCYLINDERS!= 	expr ${HEADS} \* ${SECTORS}
 BSDPARTSECTORS!= 	expr ${DISKSIZE} / 512
 FSOFFSET=			${LABELSECTORS}
-#SWAPOFFSET!=		expr ${LABELSECTORS} + ${FSSECTORS}
 SWAPOFFSET=			0
 
 build:
