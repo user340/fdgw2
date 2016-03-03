@@ -21,7 +21,7 @@ KERNEL_CONF?=	FDGW
 BIOSBOOT?=		bootxx_ffsv1
 
 # root privilege control
-SU_CMD?=	su - root -c
+#SU_CMD?=	su - root -c
 
 MAKE_PARAMS = 	MODEL=${MODEL} \
 		KERNEL_CONF=${KERNEL_CONF} \

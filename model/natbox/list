@@ -8,36 +8,36 @@
 # copy the crunched binary, link to it, and kill it
 COPY	${OBJDIR}/ramdiskbin		ramdiskbin
 
-LINK	ramdiskbin			bin/cat
-LINK	ramdiskbin			bin/cp
-LINK	ramdiskbin			bin/ln
-LINK	ramdiskbin			bin/mv
-LINK	ramdiskbin			bin/sh
-LINK	ramdiskbin			bin/stty
-LINK	ramdiskbin			bin/mkdir
-LINK	ramdiskbin			bin/rm
-LINK    ramdiskbin                      bin/test
-LINK    ramdiskbin                      bin/[
-LINK    ramdiskbin                      bin/hostname
-LINK    ramdiskbin                      bin/echo
-LINK    ramdiskbin                      bin/date
+LINK	ramdiskbin		bin/cat
+LINK	ramdiskbin		bin/cp
+LINK	ramdiskbin		bin/ln
+LINK	ramdiskbin		bin/mv
+LINK	ramdiskbin		bin/sh
+LINK	ramdiskbin		bin/stty
+LINK	ramdiskbin		bin/mkdir
+LINK	ramdiskbin		bin/rm
+LINK	ramdiskbin		bin/test
+LINK	ramdiskbin		bin/[
+LINK	ramdiskbin		bin/hostname
+LINK	ramdiskbin		bin/echo
+LINK	ramdiskbin		bin/date
 
-LINK	ramdiskbin			sbin/halt
-LINK	ramdiskbin			sbin/ifconfig
-LINK	ramdiskbin			sbin/init
-LINK	ramdiskbin			sbin/kernfs
-LINK	ramdiskbin			sbin/mount
-LINK	ramdiskbin			sbin/mount_ffs
-LINK	ramdiskbin			sbin/mount_kernfs
-LINK	ramdiskbin			sbin/ping
-LINK	ramdiskbin			sbin/reboot
-LINK	ramdiskbin			sbin/umount
-LINK	ramdiskbin			sbin/sysctl
-LINK	ramdiskbin			sbin/pfctl
+LINK	ramdiskbin		sbin/halt
+LINK	ramdiskbin		sbin/ifconfig
+LINK	ramdiskbin		sbin/init
+LINK	ramdiskbin		sbin/kernfs
+LINK	ramdiskbin		sbin/mount
+LINK	ramdiskbin		sbin/mount_ffs
+LINK	ramdiskbin		sbin/mount_kernfs
+LINK	ramdiskbin		sbin/ping
+LINK	ramdiskbin		sbin/reboot
+LINK	ramdiskbin		sbin/umount
+LINK	ramdiskbin		sbin/sysctl
+LINK	ramdiskbin		sbin/pfctl
 
-SYMLINK	/bin/cat			usr/bin/more
-SYMLINK	/bin/cat			usr/bin/sed
-SYMLINK /bin/cat			usr/bin/touch
+SYMLINK	/bin/cat		usr/bin/more
+SYMLINK	/bin/cat		usr/bin/sed
+SYMLINK /bin/cat		usr/bin/touch
 
 SPECIAL	/bin/rm ramdiskbin
 
@@ -73,7 +73,8 @@ COPY	${CURDIR}/dot.profile		.profile
 SPECIAL mkdir -p ${WORK_RAM}/etc/rc.d
 SPECIAL mkdir -p ${WORK_RAM}/usr
 SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf ${WORK_RAM}/etc/rc.d
-SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/routed ${WORK_RAM}/etc/rc.d
+SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf_boot ${WORK_RAM}/etc/rc.d
+SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pflogd ${WORK_RAM}/etc/rc.d
 
 # XXX parepare /etc on /dev/fd0a not /dev/vnd0a 
 SPECIAL cp -pr   ${WORK_RAM}/etc ${CURDIR}/work

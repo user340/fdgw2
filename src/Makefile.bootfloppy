@@ -56,12 +56,6 @@ image:	netbsd
 			-f merge_conf.awk \
 			rc.conf |sh > ${.CURDIR}/work/etc/rc.conf;\
 	fi
-	@	if [ -d ${CURDIR}/work/etc ];then \
-		echo "merging cocnfig(s) from ${CURDIR}/work/etc";\
-		rm -f ${CURDIR}/work/etc/*pwd.db ;\
-		cp -pr ${CURDIR}/work/etc/[a-z]* ${.CURDIR}/etc;\
-		chown -R root ${.CURDIR}/work/etc;\
-	fi
 	${TOOL_DIR}/bin/nbsed "s/@@BOOTDISK@@/sd0/" < ${BSDSRCDIR}/distrib/common/bootimage/fstab.in > work.fstab
 	cp work.fstab ${.CURDIR}/work/etc/fstab
 

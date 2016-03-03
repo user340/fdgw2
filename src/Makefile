@@ -129,8 +129,8 @@ _ARGS?=		MOUNT_POINT=${MOUNT_POINT} \
 #
 
 all: 
-	@ echo "make build   (need NOT priviledge)"
-	@ echo "make install (need root priviledge)"
+	@ echo "make build"
+	@ echo "make install"
 
 build: _prepare_build_system
 	@ echo ""
