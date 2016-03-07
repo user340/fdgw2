@@ -9,6 +9,7 @@
 TOOL_DIR?=	/usr/tools
 GMAKE?=		${TOOL_DIR}/bin/nbgmake
 SH?=		/bin/sh
+FDGW2=		`pwd`
 
 UTILS_DIR?=	src/utils
 
@@ -20,16 +21,14 @@ MODEL?=         natbox
 KERNEL_CONF?=	FDGW
 BIOSBOOT?=		bootxx_ffsv1
 
-# root privilege control
-SU_CMD?=	su - root -c
-
 MAKE_PARAMS = 	MODEL=${MODEL} \
 		KERNEL_CONF=${KERNEL_CONF} \
 		BIOSBOOT=${BIOSBOOT} \
 		OPSYS=NetBSD \
 		SH=${SH}	\
 		UTILS_DIR=${UTILS_DIR:S|^src/||} \
-		TOOL_DIR=${TOOL_DIR}
+		TOOL_DIR=${TOOL_DIR} \
+		FDGW2=${FDGW2}
 
 all:
 	@ echo "make build   (need NOT priviledge)"
@@ -43,12 +42,10 @@ image:
 	@ echo ""	
 	@ echo "\"make image\" needs root privilege"
 	@ echo ""	
-	(cd obj.${ARCH}.${MODEL};\
-	${SU_CMD} "cd `pwd`; ${MAKE} ${MAKE_PARAMS} image" )
+	(cd obj.${ARCH}.${MODEL}; ${MAKE} ${MAKE_PARAMS} image )
 
 clean:
 	rm -fr obj.${ARCH}.${MODEL}
-	rm -fr src/NetBSD
 	rm -fr image.${ARCH}
 	rm -fr src/etc/*
 

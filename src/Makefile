@@ -35,7 +35,7 @@ _EXTRACT_PROGRAM= ${_ENV} ${SH} ${UTILS_DIR}/extract.sh
 
 # individual directories to link to
 _DIR1=	etc
-_DIR1+=	bin/cat
+#_DIR1+=	bin/cat
 _DIR1+=	bin/cp
 _DIR1+=	bin/date
 _DIR1+= bin/mkdir
@@ -86,6 +86,8 @@ _DIR2+= sys/dist/pf
 _DIR2+=	sys/compat/linux
 _DIR2+= sys/external
 
+_DIR3+= bin/cat
+
 _FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/liveimage
 _SYS_DIR=	${BSDSRCDIR}/sys
 
@@ -121,7 +123,7 @@ _ARGS?=		MOUNT_POINT=${MOUNT_POINT} \
 		INO_BYTES=${INO_BYTES} \
 		RAMDISK_S=${RAMDISK_S} \
 		BIOSBOOT=${BIOSBOOT} \
-		TOOL_DIR=${TOOL_DIR}
+		TOOL_DIR=${TOOL_DIR} \
 #OBJ_DIR=${OBJ_DIR}
 
 #
@@ -184,7 +186,9 @@ _init_mesg:
 	@ echo "
 
 _lndir:
+	pwd
 	@ test -d ${_BSDSRCDIR} || mkdir -p ${_BSDSRCDIR}
+	# From NetBSD source sets.
 	for DIR in ${_DIR1} ${_DIR2}; do \
 	  test -d ${_BSDSRCDIR}/$$DIR || mkdir -p ${_BSDSRCDIR}/$$DIR; \
 	  lndir ${BSDSRCDIR}/$$DIR ${_BSDSRCDIR}/$$DIR; \
@@ -193,6 +197,9 @@ _lndir:
 	(cd ${_BSDSRCDIR}/sbin; ln -s -f ${BSDSRCDIR}/sbin/Makefile.inc)
 	(cd ${_BSDSRCDIR}; ln -s -f ${BSDSRCDIR}/Makefile.inc)
 	for DIR in ${_DIR1} ; do \
+	  (cd ${_BSDSRCDIR}/$$DIR; echo cleaning in $$DIR; ${TOOL_DIR}/bin/nbmake-i386 cleandir) \
+	done
+	for DIR in ${_DIR3} ; do \
 	  (cd ${_BSDSRCDIR}/$$DIR; echo cleaning in $$DIR; ${TOOL_DIR}/bin/nbmake-i386 cleandir) \
 	done
 	@ touch ${_BSDSRCDIR}/.lndir_done
