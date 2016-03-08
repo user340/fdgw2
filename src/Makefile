@@ -38,7 +38,7 @@ _DIR1=	etc
 #_DIR1+=	bin/cat
 _DIR1+=	bin/cp
 _DIR1+=	bin/date
-_DIR1+= bin/mkdir
+_DIR1+= bin/df
 _DIR1+=	bin/echo
 _DIR1+=	bin/hostname
 _DIR1+=	bin/kill
@@ -87,6 +87,8 @@ _DIR2+=	sys/compat/linux
 _DIR2+= sys/external
 
 _DIR3+= bin/cat
+_DIR3+= bin/pwd
+_DIR3+= bin/ls
 
 _FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/liveimage
 _SYS_DIR=	${BSDSRCDIR}/sys
