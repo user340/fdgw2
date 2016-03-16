@@ -23,7 +23,6 @@ BSDSRCDIR?=	/usr/src
 
 # NetBSD tools
 TOOL_DIR?= /usr/tools
-#OBJ_DIR?= /usr/obj
 
 # dir to lndir
 _BSDSRCDIR=	`pwd`/NetBSD
@@ -35,7 +34,7 @@ _EXTRACT_PROGRAM= ${_ENV} ${SH} ${UTILS_DIR}/extract.sh
 
 # individual directories to link to
 _DIR1=	etc
-#_DIR1+=	bin/cat
+_DIR1+=	bin/cat
 _DIR1+=	bin/cp
 _DIR1+=	bin/date
 _DIR1+= bin/df
@@ -43,8 +42,10 @@ _DIR1+=	bin/echo
 _DIR1+=	bin/hostname
 _DIR1+=	bin/kill
 _DIR1+=	bin/ln
+_DIR1+= bin/ls
 _DIR1+=	bin/mkdir
 _DIR1+=	bin/mv
+_DIR1+= bin/pwd
 _DIR1+=	bin/rm
 _DIR1+=	bin/sh
 _DIR1+=	bin/sleep
@@ -86,10 +87,6 @@ _DIR2+= sys/dist/pf
 _DIR2+= sys/external
 _DIR2+= sys/sys
 
-_DIR3+= bin/cat
-_DIR3+= bin/pwd
-_DIR3+= bin/ls
-
 _FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/liveimage
 _SYS_DIR=	${BSDSRCDIR}/sys
 
@@ -125,8 +122,7 @@ _ARGS?=		MOUNT_POINT=${MOUNT_POINT} \
 		INO_BYTES=${INO_BYTES} \
 		RAMDISK_S=${RAMDISK_S} \
 		BIOSBOOT=${BIOSBOOT} \
-		TOOL_DIR=${TOOL_DIR} \
-#OBJ_DIR=${OBJ_DIR}
+		TOOL_DIR=${TOOL_DIR}
 
 #
 # MAIN RULE
@@ -199,9 +195,6 @@ _lndir:
 	(cd ${_BSDSRCDIR}/sbin; ln -s -f ${BSDSRCDIR}/sbin/Makefile.inc)
 	(cd ${_BSDSRCDIR}; ln -s -f ${BSDSRCDIR}/Makefile.inc)
 	for DIR in ${_DIR1} ; do \
-	  (cd ${_BSDSRCDIR}/$$DIR; echo cleaning in $$DIR; ${TOOL_DIR}/bin/nbmake-i386 cleandir) \
-	done
-	for DIR in ${_DIR3} ; do \
 	  (cd ${_BSDSRCDIR}/$$DIR; echo cleaning in $$DIR; ${TOOL_DIR}/bin/nbmake-i386 cleandir) \
 	done
 	@ touch ${_BSDSRCDIR}/.lndir_done

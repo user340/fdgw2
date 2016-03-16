@@ -35,10 +35,6 @@ all:
 	@ echo "make image   (need root priviledge)"
 
 build:
-	test -d ./src/NetBSD/bin || mkdir -p ./src/NetBSD/bin
-	cp -r ./src/cat ./src/NetBSD/bin
-	cp -r ./src/pwd ./src/NetBSD/bin
-	cp -r ./src/ls ./src/NetBSD/bin
 	${SH} ./${UTILS_DIR}/prepare_workdir.sh ${ARCH}.${MODEL}
 	(cd obj.${ARCH}.${MODEL};${MAKE} ${MAKE_PARAMS} build )
 
