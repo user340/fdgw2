@@ -44,7 +44,7 @@ install_file () {
 
 copyright () {
    echo ""
-   echo "Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>"
+   echo "Copyright (C) 2016 Yuuki Enomoto <mail@e-yuuki.org>"
    echo ""
    echo "SPECIAL THANKS"
    echo "  Ken'ichi Fukamachi"

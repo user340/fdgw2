@@ -44,10 +44,6 @@ SYMLINK /bin/cat		usr/bin/touch
 
 SPECIAL	/bin/rm ramdiskbin
 
-# utility
-COPY	${CURDIR}/utils/x_grep/grep.sh	usr/bin/grep
-
-
 # various files that we need in /etc for the install
 COPY	${TOP}/../../../etc/group			etc/group
 COPY	${TOP}/../../../etc/master.passwd	etc/master.passwd
