@@ -35,7 +35,7 @@ if [ "X${DONEPROFILE}" = "X" ]; then
 	then
 		sh /etc/rc.router
 	else
-		echo "*** welcome to fdgw2 (one floppy NetBSD) ***"
+		echo "*** welcome to fdgw2 ***"
 		echo "error: no /etc (/dev/sd0a)";
 		echo "       no configuration!";
 		sh

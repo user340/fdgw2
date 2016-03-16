@@ -46,8 +46,9 @@ copyright () {
    echo ""
    echo "Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>"
    echo ""
-   echo "All rights reserved."
-   echo "This program is released under the BSD License as with NetBSD."
+   echo "SPECIAL THANKS"
+   echo "  Ken'ichi Fukamachi"
+   echo "  Japan NetBSD users group"
    echo ""
 }
 

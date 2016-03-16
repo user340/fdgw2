@@ -35,10 +35,10 @@ _EXTRACT_PROGRAM= ${_ENV} ${SH} ${UTILS_DIR}/extract.sh
 
 # individual directories to link to
 _DIR1=	etc
-_DIR1+=	bin/cat
+#_DIR1+=	bin/cat
 _DIR1+=	bin/cp
 _DIR1+=	bin/date
-_DIR1+= bin/mkdir
+_DIR1+= bin/df
 _DIR1+=	bin/echo
 _DIR1+=	bin/hostname
 _DIR1+=	bin/kill
@@ -55,6 +55,9 @@ _DIR1+= distrib/common
 _DIR1+=	distrib/i386/liveimage
 _DIR1+= distrib/i386/instkernel
 _DIR1+= distrib/i386/ramdisks
+_DIR1+= external/bsd/libpcap
+_DIR1+= lib/libc
+_DIR1+= lib/libterminfo
 _DIR1+=	sbin/ifconfig
 _DIR1+=	sbin/init
 _DIR1+=	sbin/mount
@@ -65,26 +68,28 @@ _DIR1+=	sbin/ping
 _DIR1+=	sbin/reboot
 _DIR1+=	sbin/shutdown
 _DIR1+=	sbin/sysctl
+_DIR1+=	sys/netinet
 _DIR1+=	usr.bin/sed
 _DIR1+= usr.bin/touch
 _DIR1+=	usr.bin/tty
 _DIR1+= usr.bin/printf
+_DIR1+= usr.sbin/pf
 _DIR1+=	usr.sbin/rtadvd
 _DIR1+=	usr.sbin/rtsold
-_DIR1+= lib/libc
-_DIR1+= lib/libterminfo
-_DIR1+=	sys/netinet
-_DIR1+= external/bsd/libpcap
-_DIR1+= usr.sbin/pf
 
-_DIR2+=	sys/conf
-_DIR2+=	sys/arch/i386/stand
-_DIR2+= common/lib/libc
 _DIR2+= common/include
+_DIR2+= common/lib/libc
 _DIR2+= dist/pf
-_DIR2+= sys/dist/pf
+_DIR2+=	sys/arch/i386
 _DIR2+=	sys/compat/linux
+_DIR2+=	sys/conf
+_DIR2+= sys/dist/pf
 _DIR2+= sys/external
+_DIR2+= sys/sys
+
+_DIR3+= bin/cat
+_DIR3+= bin/pwd
+_DIR3+= bin/ls
 
 _FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/liveimage
 _SYS_DIR=	${BSDSRCDIR}/sys
@@ -121,7 +126,7 @@ _ARGS?=		MOUNT_POINT=${MOUNT_POINT} \
 		INO_BYTES=${INO_BYTES} \
 		RAMDISK_S=${RAMDISK_S} \
 		BIOSBOOT=${BIOSBOOT} \
-		TOOL_DIR=${TOOL_DIR}
+		TOOL_DIR=${TOOL_DIR} \
 #OBJ_DIR=${OBJ_DIR}
 
 #
@@ -129,8 +134,8 @@ _ARGS?=		MOUNT_POINT=${MOUNT_POINT} \
 #
 
 all: 
-	@ echo "make build   (need NOT priviledge)"
-	@ echo "make install (need root priviledge)"
+	@ echo "make build"
+	@ echo "make install"
 
 build: _prepare_build_system
 	@ echo ""
@@ -184,7 +189,9 @@ _init_mesg:
 	@ echo "
 
 _lndir:
+	pwd
 	@ test -d ${_BSDSRCDIR} || mkdir -p ${_BSDSRCDIR}
+	# From NetBSD source sets.
 	for DIR in ${_DIR1} ${_DIR2}; do \
 	  test -d ${_BSDSRCDIR}/$$DIR || mkdir -p ${_BSDSRCDIR}/$$DIR; \
 	  lndir ${BSDSRCDIR}/$$DIR ${_BSDSRCDIR}/$$DIR; \
@@ -193,6 +200,9 @@ _lndir:
 	(cd ${_BSDSRCDIR}/sbin; ln -s -f ${BSDSRCDIR}/sbin/Makefile.inc)
 	(cd ${_BSDSRCDIR}; ln -s -f ${BSDSRCDIR}/Makefile.inc)
 	for DIR in ${_DIR1} ; do \
+	  (cd ${_BSDSRCDIR}/$$DIR; echo cleaning in $$DIR; ${TOOL_DIR}/bin/nbmake-i386 cleandir) \
+	done
+	for DIR in ${_DIR3} ; do \
 	  (cd ${_BSDSRCDIR}/$$DIR; echo cleaning in $$DIR; ${TOOL_DIR}/bin/nbmake-i386 cleandir) \
 	done
 	@ touch ${_BSDSRCDIR}/.lndir_done
