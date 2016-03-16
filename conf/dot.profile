@@ -1,15 +1,8 @@
-SHELL=/bin/sh
-export SHELL
-PATH=/sbin:/bin:/usr/bin:/usr/sbin:/
-export PATH
-TERM=wsvt25
-export TERM
-HOME=/
-export HOME
-BLOCKSIZE=1k
-export BLOCKSIZE
-BOOTMODEL=small
-export BOOTMODEL
+export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/
+export TERM=wsvt25
+export HOME=/
+export BLOCKSIZE=1k
+export BOOTMODEL=small
 umask 022
 ROOTDEV=/dev/md0a
 if [ "X${DONEPROFILE}" = "X" ]; then
