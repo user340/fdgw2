@@ -38,6 +38,7 @@ _DIR1+=	bin/cat
 _DIR1+=	bin/cp
 _DIR1+=	bin/date
 _DIR1+= bin/df
+_DIR1+= bin/dd
 _DIR1+=	bin/echo
 _DIR1+=	bin/hostname
 _DIR1+=	bin/kill
