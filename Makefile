@@ -17,7 +17,7 @@ UTILS_DIR?=	src/utils
 # specify default image
 #
 ARCH?=			i386
-MODEL?=         natbox
+MODEL?=         rescue
 KERNEL_CONF?=	FDGW
 BIOSBOOT?=		bootxx_ffsv1
 
