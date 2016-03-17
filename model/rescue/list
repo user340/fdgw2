@@ -27,6 +27,12 @@ LINK	ramdiskbin		bin/hostname
 LINK	ramdiskbin		bin/echo
 LINK	ramdiskbin		bin/date
 
+LINK	ramdiskbin		sbin/fdisk
+LINK	ramdiskbin		sbin/fsck
+LINK	ramdiskbin		sbin/fsck_ext2fs
+LINK	ramdiskbin		sbin/fsck_ffs
+LINK	ramdiskbin		sbin/fsck_lfs
+LINK	ramdiskbin		sbin/fsck_msdos
 LINK	ramdiskbin		sbin/halt
 LINK	ramdiskbin		sbin/ifconfig
 LINK	ramdiskbin		sbin/init
