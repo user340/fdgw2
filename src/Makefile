@@ -9,7 +9,7 @@ ARCH?=		i386
 _CONF_DIR=	conf/
 _MODEL_DIR=	model/
 
-MODEL?=	   natbox
+MODEL?=		rescue
 
 #
 # directories for targets and sources
@@ -35,10 +35,12 @@ _EXTRACT_PROGRAM= ${_ENV} ${SH} ${UTILS_DIR}/extract.sh
 # individual directories to link to
 _DIR1=	etc
 _DIR1+=	bin/cat
+_DIR1+=	bin/chio
 _DIR1+=	bin/cp
 _DIR1+=	bin/date
-_DIR1+= bin/df
 _DIR1+= bin/dd
+_DIR1+= bin/df
+_DIR1+= bin/domainname
 _DIR1+=	bin/echo
 _DIR1+=	bin/hostname
 _DIR1+=	bin/kill
@@ -46,6 +48,7 @@ _DIR1+=	bin/ln
 _DIR1+= bin/ls
 _DIR1+=	bin/mkdir
 _DIR1+=	bin/mv
+_DIR1+=	bin/pax
 _DIR1+= bin/pwd
 _DIR1+=	bin/rm
 _DIR1+=	bin/sh
