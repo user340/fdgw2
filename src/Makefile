@@ -68,6 +68,7 @@ _DIR1+= sbin/fsck_ext2fs
 _DIR1+= sbin/fsck_ffs
 _DIR1+= sbin/fsck_lfs
 _DIR1+= sbin/fsck_msdos
+_DIR1+= sbin/fsdb
 _DIR1+=	sbin/ifconfig
 _DIR1+=	sbin/init
 _DIR1+=	sbin/mount
