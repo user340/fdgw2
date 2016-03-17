@@ -87,7 +87,7 @@ ${CBIN}.mk ${CBIN}.cache ${CBIN}.c: ${CRUNCHCONF}
 	${TOOL_DIR}/bin/nbcrunchgen -D ${TOP}/../../.. -L /usr/src/lib ${.ALLSRC}
 
 ${CBIN}: ${CBIN}.mk ${CBIN}.cache ${CBIN}.c
-	${MAKE} -f ${CBIN}.mk all
+	${MAKE} SMALLPROG=1 SMALLPROG_INET6=1 -f ${CBIN}.mk all
 
 # This is listed in ramdiskbin.conf but is built here.
 ${CBIN}: libhack.o
