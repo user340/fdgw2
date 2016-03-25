@@ -27,6 +27,7 @@ LINK	ramdiskbin		bin/hostname
 LINK	ramdiskbin		bin/echo
 LINK	ramdiskbin		bin/date
 
+LINK	ramdiskbin		sbin/disklabel
 LINK	ramdiskbin		sbin/fdisk
 LINK	ramdiskbin		sbin/fsck
 LINK	ramdiskbin		sbin/fsck_ext2fs
@@ -40,13 +41,26 @@ LINK	ramdiskbin		sbin/ifconfig
 LINK	ramdiskbin		sbin/init
 LINK	ramdiskbin		sbin/kernfs
 LINK	ramdiskbin		sbin/mount
+LINK	ramdiskbin		sbin/mount_ados
+LINK	ramdiskbin		sbin/mount_cd9660
+LINK	ramdiskbin		sbin/mount_efs
+LINK	ramdiskbin		sbin/mount_ext2fs
+LINK	ramdiskbin		sbin/mount_fdesc
 LINK	ramdiskbin		sbin/mount_ffs
+LINK	ramdiskbin		sbin/mount_filecore
 LINK	ramdiskbin		sbin/mount_kernfs
+LINK	ramdiskbin		sbin/mount_lfs
+LINK	ramdiskbin		sbin/mount_msdos
+LINK	ramdiskbin		sbin/mount_nfs
+LINK	ramdiskbin		sbin/mount_ntfs
+LINK	ramdiskbin		sbin/mount_null
+LINK	ramdiskbin		sbin/mount_overlay
+LINK	ramdiskbin		sbin/mount_procfs
+LINK	ramdiskbin		sbin/mount_smbfs
 LINK	ramdiskbin		sbin/ping
 LINK	ramdiskbin		sbin/reboot
 LINK	ramdiskbin		sbin/umount
 LINK	ramdiskbin		sbin/sysctl
-LINK	ramdiskbin		sbin/pfctl
 
 SYMLINK	/bin/cat		usr/bin/more
 SYMLINK	/bin/cat		usr/bin/sed
@@ -81,8 +95,6 @@ COPY	${CURDIR}/dot.profile		.profile
 SPECIAL mkdir -p ${WORK_RAM}/etc/rc.d
 SPECIAL mkdir -p ${WORK_RAM}/usr
 SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf ${WORK_RAM}/etc/rc.d
-SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf_boot ${WORK_RAM}/etc/rc.d
-SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pflogd ${WORK_RAM}/etc/rc.d
 
 # XXX parepare /etc on /dev/fd0a not /dev/vnd0a 
 SPECIAL cp -pr   ${WORK_RAM}/etc ${CURDIR}/work

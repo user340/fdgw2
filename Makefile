@@ -9,7 +9,6 @@
 TOOL_DIR?=	/usr/tools
 GMAKE?=		${TOOL_DIR}/bin/nbgmake
 SH?=		/bin/sh
-FDGW2=		`pwd`
 
 UTILS_DIR?=	src/utils
 
@@ -27,8 +26,7 @@ MAKE_PARAMS = 	MODEL=${MODEL} \
 		OPSYS=NetBSD \
 		SH=${SH}	\
 		UTILS_DIR=${UTILS_DIR:S|^src/||} \
-		TOOL_DIR=${TOOL_DIR} \
-		FDGW2=${FDGW2}
+		TOOL_DIR=${TOOL_DIR}
 
 all:
 	@ echo "make build   (need NOT priviledge)"

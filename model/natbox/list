@@ -72,8 +72,6 @@ COPY	${CURDIR}/dot.profile		.profile
 SPECIAL mkdir -p ${WORK_RAM}/etc/rc.d
 SPECIAL mkdir -p ${WORK_RAM}/usr
 SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf ${WORK_RAM}/etc/rc.d
-SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf_boot ${WORK_RAM}/etc/rc.d
-SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pflogd ${WORK_RAM}/etc/rc.d
 
 # XXX parepare /etc on /dev/fd0a not /dev/vnd0a 
 SPECIAL cp -pr   ${WORK_RAM}/etc ${CURDIR}/work

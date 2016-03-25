@@ -62,6 +62,7 @@ _DIR1+= distrib/i386/ramdisks
 _DIR1+=	distrib/utils
 _DIR1+= lib/libc
 _DIR1+= lib/libterminfo
+_DIR1+= sbin/disklabel
 _DIR1+= sbin/fdisk
 _DIR1+= sbin/fsck
 _DIR1+= sbin/fsck_ext2fs
@@ -73,8 +74,22 @@ _DIR1+= sbin/gpt
 _DIR1+=	sbin/ifconfig
 _DIR1+=	sbin/init
 _DIR1+=	sbin/mount
+_DIR1+=	sbin/mount_ados
+_DIR1+=	sbin/mount_cd9660
+_DIR1+=	sbin/mount_efs
+_DIR1+=	sbin/mount_ext2fs
+_DIR1+=	sbin/mount_fdesc
 _DIR1+=	sbin/mount_ffs
+_DIR1+=	sbin/mount_filecore
 _DIR1+=	sbin/mount_kernfs
+_DIR1+=	sbin/mount_lfs
+_DIR1+=	sbin/mount_msdos
+_DIR1+=	sbin/mount_nfs
+_DIR1+=	sbin/mount_ntfs
+_DIR1+=	sbin/mount_null
+_DIR1+=	sbin/mount_overlay
+_DIR1+=	sbin/mount_procfs
+_DIR1+=	sbin/mount_smbfs
 _DIR1+=	sbin/umount
 _DIR1+=	sbin/ping
 _DIR1+=	sbin/reboot
@@ -97,24 +112,24 @@ _DIR2+=	sys/compat/linux
 _DIR2+=	sys/conf
 _DIR2+= sys/dist/pf
 _DIR2+= sys/external
-_DIR2+= sys/sys
+_DIR1+= sys/sys
 
 _FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/liveimage
-_SYS_DIR=	${BSDSRCDIR}/sys
+_SYS_DIR=		${BSDSRCDIR}/sys
 
 #
 # Live-Image parameters
 #
-INO_BYTES=	40960
+INO_BYTES=		40960
 
-IMAGE=		boot.fs
+IMAGE=			boot.fs
 MOUNT_POINT=	${.CURDIR}/mnt
-_LISTS?=	model/${MODEL}/list
-_CBIN?=		model/${MODEL}/ramdiskbin
-_RC_CONF?=	model/${MODEL}/rc.conf
+_LISTS?=		model/${MODEL}/list
+_CBIN?=			model/${MODEL}/ramdiskbin
+_RC_CONF?=		model/${MODEL}/rc.conf
 
-RAMDISK_S?=	ramdisk-small.fs
-BIOSBOOT?=	bootxx_ffsv1
+RAMDISK_S?=		ramdisk-small.fs
+BIOSBOOT?=		bootxx_ffsv1
 
 
 #
