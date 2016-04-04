@@ -112,7 +112,7 @@ _DIR2+=	sys/compat/linux
 _DIR2+=	sys/conf
 _DIR2+= sys/dist/pf
 _DIR2+= sys/external
-_DIR1+= sys/sys
+_DIR2+= sys/sys
 
 _FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/liveimage
 _SYS_DIR=		${BSDSRCDIR}/sys
