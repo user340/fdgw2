@@ -59,7 +59,6 @@ LINK	ramdiskbin		sbin/mount_procfs
 LINK	ramdiskbin		sbin/ping
 LINK	ramdiskbin		sbin/reboot
 LINK	ramdiskbin		sbin/umount
-LINK	ramdiskbin		sbin/sysctl
 
 SYMLINK	/bin/cat		usr/bin/more
 SYMLINK	/bin/cat		usr/bin/sed
@@ -86,7 +85,7 @@ SPECIAL /bin/rm dev/MAKEDEV.awk
 SPECIAL /bin/rm dev/MAKEDEV.tmpl
 
 # and the installation tools
-COPY	${CURDIR}/dot.profile		.profile
+COPY	${CURDIR}/dot.profile		.sshrc
 
 # prepare /etc/ and /usr/pkg/
 SPECIAL mkdir -p ${WORK_RAM}/etc/rc.d
