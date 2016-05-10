@@ -56,7 +56,6 @@ LINK	ramdiskbin		sbin/mount_ntfs
 LINK	ramdiskbin		sbin/mount_null
 LINK	ramdiskbin		sbin/mount_overlay
 LINK	ramdiskbin		sbin/mount_procfs
-LINK	ramdiskbin		sbin/mount_smbfs
 LINK	ramdiskbin		sbin/ping
 LINK	ramdiskbin		sbin/reboot
 LINK	ramdiskbin		sbin/umount

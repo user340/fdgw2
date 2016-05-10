@@ -21,7 +21,7 @@ LOCALBASE?=	/usr/pkg
 # NetBSD source
 BSDSRCDIR?=	/usr/src
 
-# NetBSD tools
+# NetBSD toolchain
 TOOL_DIR?= /usr/tools
 
 # dir to lndir
@@ -45,13 +45,13 @@ _DIR1+=	bin/echo
 _DIR1+=	bin/hostname
 _DIR1+=	bin/kill
 _DIR1+=	bin/ln
-_DIR1+= bin/ls
+#_DIR1+= bin/ls
 _DIR1+=	bin/mkdir
 _DIR1+=	bin/mv
 _DIR1+=	bin/pax
 _DIR1+= bin/pwd
 _DIR1+=	bin/rm
-_DIR1+=	bin/sh
+#_DIR1+=	bin/sh
 _DIR1+=	bin/sleep
 _DIR1+=	bin/stty
 _DIR1+=	bin/test
@@ -89,13 +89,13 @@ _DIR1+=	sbin/mount_ntfs
 _DIR1+=	sbin/mount_null
 _DIR1+=	sbin/mount_overlay
 _DIR1+=	sbin/mount_procfs
-_DIR1+=	sbin/mount_smbfs
 _DIR1+=	sbin/umount
 _DIR1+=	sbin/ping
 _DIR1+=	sbin/reboot
 _DIR1+=	sbin/shutdown
 _DIR1+=	sbin/sysctl
 _DIR1+=	sys/netinet
+_DIR1+=	sys
 _DIR1+=	usr.bin/sed
 _DIR1+= usr.bin/touch
 _DIR1+=	usr.bin/tty
@@ -130,7 +130,6 @@ _RC_CONF?=		model/${MODEL}/rc.conf
 
 RAMDISK_S?=		ramdisk-small.fs
 BIOSBOOT?=		bootxx_ffsv1
-
 
 #
 # compiler pragma / attributes / options
@@ -188,7 +187,6 @@ image:
 	@ echo ""
 	@ echo "building image for ${MODEL} model stage done."
 	@ echo ""	
-
 
 #
 # initialization rules
