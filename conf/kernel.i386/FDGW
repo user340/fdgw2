@@ -40,11 +40,6 @@ options 	RTC_OFFSET=0	# hardware clock is this many mins. west of GMT
 options 	PIPE_SOCKETPAIR		# smaller, but slower pipe(2)
 no options 	EXEC_AOUT	# we don't a.out support
 
-# Diagnostic/debugging support options
-#options 	DDB		# in-kernel debugger
-#options 	DDB_ONPANIC=1	# see also sysctl(8): `ddb.onpanic'
-#options 	DDB_HISTORY_SIZE=512	# enable history editing in DDB
-
 # Compatibility options
 options 	COMPAT_BSDPTY	# /dev/[pt]ty?? ptys.
 
@@ -54,18 +49,8 @@ file-system		MSDOSFS		# MS-DOS file system
 file-system		KERNFS		# /kern
 
 # Networking options
-options 	GATEWAY		# packet forwarding
 options 	INET		# IP + ICMP + TCP + UDP
 options 	INET6
-options 	PFIL_HOOKS	# pfil(9) packet filter hooks
-
-# For pf
-options		ALTQ
-options		ALTQ_CBQ
-options		ALTQ_RED
-options		ALTQ_RIO
-options		ALTQ_HFSC
-options		ALTQ_PRIQ
 
 # Squeeze...
 options 	NVNODE=50
@@ -249,9 +234,7 @@ wm*		at pci? dev ? function ?
 pseudo-device	md			# memory disk device (ramdisk)
 
 # network pseudo-devices
-pseudo-device	bpfilter		# Berkeley packet filter
 pseudo-device	loop			# network loopback
-pseudo-device	pf
 
 # miscellaneous pseudo-devices
 options 	NO_DEV_PTM
