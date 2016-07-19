@@ -54,7 +54,9 @@ COPY	${TOP}/../../../etc/group			etc/group
 COPY	${TOP}/../../../etc/master.passwd	etc/master.passwd
 COPY	${TOP}/../../../etc/protocols	etc/protocols
 COPY	${TOP}/../../../etc/netconfig	etc/netconfig
-#COPY	${TOP}/../../../etc/fstab	etc/fstab
+COPY	${TOP}/../../../share/examples/fstab/fstab.wd0.1 etc/fstab.wd0.1
+COPY	${TOP}/../../../share/examples/fstab/fstab.wd0.2 etc/fstab.wd0.2
+COPY	${TOP}/../../../share/examples/fstab/fstab.wd0.3 etc/fstab.wd0.3
 
 SPECIAL	${TOOL_DIR}/bin/nbpwd_mkdb -p -d ./ etc/master.passwd
 SPECIAL /bin/rm etc/spwd.db
