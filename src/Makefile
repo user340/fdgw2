@@ -85,6 +85,7 @@ _DIR1+= usr.bin/printf
 
 _DIR2+= common/include
 _DIR2+= common/lib/libc
+_DIR2+= share/examples/fstab
 _DIR2+=	sys/arch/i386
 _DIR2+=	sys/compat/linux
 _DIR2+=	sys/conf
