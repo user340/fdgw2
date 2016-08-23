@@ -4,7 +4,6 @@
 # Please read README for details.
 #
 
-
 # copy the crunched binary, link to it, and kill it
 COPY	${OBJDIR}/ramdiskbin		ramdiskbin
 
@@ -12,8 +11,7 @@ LINK	ramdiskbin		bin/cat
 LINK	ramdiskbin		bin/cp
 LINK	ramdiskbin		bin/df
 LINK	ramdiskbin		bin/dd
-LINK	ramdiskbin		bin/domainname
-LINK	ramdiskbin		bin/ln
+#LINK	ramdiskbin		bin/ln
 LINK	ramdiskbin		bin/ls
 LINK	ramdiskbin		bin/pwd
 LINK	ramdiskbin		bin/mv
@@ -23,34 +21,30 @@ LINK	ramdiskbin		bin/mkdir
 LINK	ramdiskbin		bin/rm
 LINK	ramdiskbin		bin/test
 LINK	ramdiskbin		bin/[
-LINK	ramdiskbin		bin/hostname
 LINK	ramdiskbin		bin/echo
 LINK	ramdiskbin		bin/date
 
-LINK	ramdiskbin		sbin/fdisk
-LINK	ramdiskbin		sbin/fsck
-LINK	ramdiskbin		sbin/fsck_ext2fs
-LINK	ramdiskbin		sbin/fsck_ffs
-LINK	ramdiskbin		sbin/fsck_lfs
-LINK	ramdiskbin		sbin/fsck_msdos
-LINK	ramdiskbin		sbin/fsdb
-LINK	ramdiskbin		sbin/gpt
+LINK	ramdiskbin		bin/disklabel
+LINK	ramdiskbin		bin/fdisk
+LINK	ramdiskbin		bin/fsck
+LINK	ramdiskbin		bin/fsck_ffs
+LINK	ramdiskbin		bin/fsck_msdos
+LINK	ramdiskbin		bin/fsdb
+LINK	ramdiskbin		bin/gpt
 LINK	ramdiskbin		sbin/halt
-LINK	ramdiskbin		sbin/ifconfig
 LINK	ramdiskbin		sbin/init
-LINK	ramdiskbin		sbin/kernfs
-LINK	ramdiskbin		sbin/mount
-LINK	ramdiskbin		sbin/mount_ffs
-LINK	ramdiskbin		sbin/mount_kernfs
-LINK	ramdiskbin		sbin/ping
+LINK	ramdiskbin		sbin/dmesg
+LINK	ramdiskbin		bin/kernfs
+LINK	ramdiskbin		bin/mount
+LINK	ramdiskbin		bin/mount_ffs
+LINK	ramdiskbin		bin/mount_kernfs
+LINK	ramdiskbin		bin/mount_msdos
 LINK	ramdiskbin		sbin/reboot
-LINK	ramdiskbin		sbin/umount
-LINK	ramdiskbin		sbin/sysctl
-LINK	ramdiskbin		sbin/pfctl
+LINK	ramdiskbin		bin/umount
 
 SYMLINK	/bin/cat		usr/bin/more
-SYMLINK	/bin/cat		usr/bin/sed
-SYMLINK /bin/cat		usr/bin/touch
+#SYMLINK	/bin/cat		usr/bin/sed
+#SYMLINK /bin/cat		usr/bin/touch
 
 SPECIAL	/bin/rm ramdiskbin
 
@@ -59,6 +53,9 @@ COPY	${TOP}/../../../etc/group			etc/group
 COPY	${TOP}/../../../etc/master.passwd	etc/master.passwd
 COPY	${TOP}/../../../etc/protocols	etc/protocols
 COPY	${TOP}/../../../etc/netconfig	etc/netconfig
+COPY	${TOP}/../../../share/examples/fstab/fstab.wd0.1 etc/fstab.wd0.1
+COPY	${TOP}/../../../share/examples/fstab/fstab.wd0.2 etc/fstab.wd0.2
+COPY	${TOP}/../../../share/examples/fstab/fstab.wd0.3 etc/fstab.wd0.3
 
 SPECIAL	${TOOL_DIR}/bin/nbpwd_mkdb -p -d ./ etc/master.passwd
 SPECIAL /bin/rm etc/spwd.db
@@ -67,22 +64,15 @@ SPECIAL /bin/rm etc/spwd.db
 COPY	${TOP}/../../../etc/MAKEDEV.awk 				dev/MAKEDEV.awk
 COPY	${TOP}/../../../etc/MAKEDEV.tmpl				dev/MAKEDEV.tmpl
 SPECIAL cd dev; NETBSDSRCDIR=/usr/src MACHINE=i386 MACHINE_ARCH=i386 awk -f MAKEDEV.awk MAKEDEV.tmpl > MAKEDEV
-SPECIAL	cd dev; sh MAKEDEV -m ${TOOL_DIR}/bin/nbmknod ramdisk
-SPECIAL	cd dev; sh MAKEDEV -m ${TOOL_DIR}/bin/nbmknod pf
-SPECIAL	cd dev; sh MAKEDEV -m ${TOOL_DIR}/bin/nbmknod bpf
+#SPECIAL	cd dev; sh MAKEDEV -t ${TOOL_DIR}/bin/nbmtree ramdisk
+SPECIAL	cd dev; sh -x MAKEDEV ramdisk
 SPECIAL	/bin/rm dev/MAKEDEV
 SPECIAL /bin/rm dev/MAKEDEV.awk
 SPECIAL /bin/rm dev/MAKEDEV.tmpl
 
-# and the installation tools
-COPY	${CURDIR}/dot.profile		.profile
-
 # prepare /etc/ and /usr/pkg/
 SPECIAL mkdir -p ${WORK_RAM}/etc/rc.d
 SPECIAL mkdir -p ${WORK_RAM}/usr
-SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf ${WORK_RAM}/etc/rc.d
-SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pf_boot ${WORK_RAM}/etc/rc.d
-SPECIAL cp       ${BSDSRCDIR}/etc/rc.d/pflogd ${WORK_RAM}/etc/rc.d
 
 # XXX parepare /etc on /dev/fd0a not /dev/vnd0a 
 SPECIAL cp -pr   ${WORK_RAM}/etc ${CURDIR}/work

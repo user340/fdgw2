@@ -23,7 +23,7 @@ STRIP?=		strip
 # parameters for bootable USB
 #
 MDEC=		../mdec/${ARCH}
-DISKSIZE?= 2621440 # 2.5MB
+DISKSIZE?= 2097152 # 2.0MB
 SWAPSIZE?=	0
 BIOSBOOT?=	bootxx_ffsv1
 
@@ -48,14 +48,14 @@ build:
 image:	netbsd
 	cp -f ${MDEC}/boot ${.CURDIR}/work
 	cp -f netbsd.gz ${.CURDIR}/work
-	cp -pr ${_ETC_DIR}/[a-z]* ${.CURDIR}/work/etc
-	cp -pr ${_ETC_DIR}/defaults/rc.conf ${.CURDIR}/work/etc
-	@	if [ -f rc.conf ];then \
-		echo "merge up rc.conf";\
-		awk	-v MASTER=conf/etc/defaults/rc.conf \
-			-f merge_conf.awk \
-			rc.conf |sh > ${.CURDIR}/work/etc/rc.conf;\
-	fi
+#	cp -pr ${_ETC_DIR}/[a-z]* ${.CURDIR}/work/etc
+#	cp -pr ${_ETC_DIR}/defaults/rc.conf ${.CURDIR}/work/etc
+#	@	if [ -f rc.conf ];then \
+#		echo "merge up rc.conf";\
+#		awk	-v MASTER=conf/etc/defaults/rc.conf \
+#			-f merge_conf.awk \
+#			rc.conf |sh > ${.CURDIR}/work/etc/rc.conf;\
+#	fi
 	${TOOL_DIR}/bin/nbsed "s/@@BOOTDISK@@/sd0/" < ${BSDSRCDIR}/distrib/common/bootimage/fstab.in > work.fstab
 	cp work.fstab ${.CURDIR}/work/etc/fstab
 

@@ -16,12 +16,12 @@ MODEL?=		rescue
 #
 
 # destination to install
-LOCALBASE?=	/usr/pkg
+# LOCALBASE?=	/usr/pkg
 
 # NetBSD source
 BSDSRCDIR?=	/usr/src
 
-# NetBSD tools
+# NetBSD toolchain
 TOOL_DIR?= /usr/tools
 
 # dir to lndir
@@ -40,18 +40,14 @@ _DIR1+=	bin/cp
 _DIR1+=	bin/date
 _DIR1+= bin/dd
 _DIR1+= bin/df
-_DIR1+= bin/domainname
 _DIR1+=	bin/echo
-_DIR1+=	bin/hostname
 _DIR1+=	bin/kill
 _DIR1+=	bin/ln
-_DIR1+= bin/ls
 _DIR1+=	bin/mkdir
 _DIR1+=	bin/mv
 _DIR1+=	bin/pax
 _DIR1+= bin/pwd
 _DIR1+=	bin/rm
-_DIR1+=	bin/sh
 _DIR1+=	bin/sleep
 _DIR1+=	bin/stty
 _DIR1+=	bin/test
@@ -62,60 +58,54 @@ _DIR1+= distrib/i386/ramdisks
 _DIR1+=	distrib/utils
 _DIR1+= lib/libc
 _DIR1+= lib/libterminfo
+_DIR1+= sbin/disklabel
 _DIR1+= sbin/fdisk
 _DIR1+= sbin/fsck
-_DIR1+= sbin/fsck_ext2fs
 _DIR1+= sbin/fsck_ffs
-_DIR1+= sbin/fsck_lfs
 _DIR1+= sbin/fsck_msdos
 _DIR1+= sbin/fsdb
 _DIR1+= sbin/gpt
-_DIR1+=	sbin/ifconfig
 _DIR1+=	sbin/init
+_DIR1+=	sbin/dmesg
 _DIR1+=	sbin/mount
 _DIR1+=	sbin/mount_ffs
 _DIR1+=	sbin/mount_kernfs
+_DIR1+=	sbin/mount_msdos
 _DIR1+=	sbin/umount
-_DIR1+=	sbin/ping
 _DIR1+=	sbin/reboot
 _DIR1+=	sbin/shutdown
 _DIR1+=	sbin/sysctl
 _DIR1+=	sys/netinet
-_DIR1+=	usr.bin/sed
+_DIR1+=	sys
 _DIR1+= usr.bin/touch
 _DIR1+=	usr.bin/tty
 _DIR1+= usr.bin/printf
-_DIR1+= usr.sbin/pf
-_DIR1+=	usr.sbin/rtadvd
-_DIR1+=	usr.sbin/rtsold
 
 _DIR2+= common/include
 _DIR2+= common/lib/libc
-_DIR2+= dist/pf
+_DIR2+= share/examples/fstab
 _DIR2+=	sys/arch/i386
 _DIR2+=	sys/compat/linux
 _DIR2+=	sys/conf
-_DIR2+= sys/dist/pf
 _DIR2+= sys/external
 _DIR2+= sys/sys
 
 _FLOPPY_DIR=	${_BSDSRCDIR}/distrib/${ARCH}/liveimage
-_SYS_DIR=	${BSDSRCDIR}/sys
+_SYS_DIR=		${BSDSRCDIR}/sys
 
 #
 # Live-Image parameters
 #
-INO_BYTES=	40960
+INO_BYTES=		40960
 
-IMAGE=		boot.fs
+IMAGE=			boot.fs
 MOUNT_POINT=	${.CURDIR}/mnt
-_LISTS?=	model/${MODEL}/list
-_CBIN?=		model/${MODEL}/ramdiskbin
-_RC_CONF?=	model/${MODEL}/rc.conf
+_LISTS?=		model/${MODEL}/list
+_CBIN?=			model/${MODEL}/ramdiskbin
+_RC_CONF?=		model/${MODEL}/rc.conf
 
-RAMDISK_S?=	ramdisk-small.fs
-BIOSBOOT?=	bootxx_ffsv1
-
+RAMDISK_S?=		ramdisk-small.fs
+BIOSBOOT?=		bootxx_ffsv1
 
 #
 # compiler pragma / attributes / options
@@ -174,7 +164,6 @@ image:
 	@ echo "building image for ${MODEL} model stage done."
 	@ echo ""	
 
-
 #
 # initialization rules
 #
@@ -217,8 +206,7 @@ _init_dir:
 	@ test -d work_ramdisk || mkdir -p work_ramdisk
 
 _init_config:
-	-rm -f dot.profile mtree.conf conf model
-	ln ../${_CONF_DIR}/dot.profile .
+	-rm -f mtree.conf conf model
 	ln ../${_CONF_DIR}/mtree.conf  .
 	ln -s ../${_CONF_DIR} conf
 	ln -s ../${_MODEL_DIR} model
@@ -242,7 +230,7 @@ clean cleandir:
 	-rm -f conf model
 	-rm -f ramdiskbin.conf list rc.conf
 	-rm -f boot *.fs boot.fs* netbsd* *.tmp *~
-	-rm -f dot.profile mtree.conf
+	-rm -f mtree.conf
 
 allclean: clean
 	-rm -fr work
