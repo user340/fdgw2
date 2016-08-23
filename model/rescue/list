@@ -11,7 +11,7 @@ LINK	ramdiskbin		bin/cat
 LINK	ramdiskbin		bin/cp
 LINK	ramdiskbin		bin/df
 LINK	ramdiskbin		bin/dd
-LINK	ramdiskbin		bin/ln
+#LINK	ramdiskbin		bin/ln
 LINK	ramdiskbin		bin/ls
 LINK	ramdiskbin		bin/pwd
 LINK	ramdiskbin		bin/mv
@@ -32,20 +32,19 @@ LINK	ramdiskbin		bin/fsck_msdos
 LINK	ramdiskbin		bin/fsdb
 LINK	ramdiskbin		bin/gpt
 LINK	ramdiskbin		sbin/halt
-LINK	ramdiskbin		bin/ifconfig
 LINK	ramdiskbin		sbin/init
+LINK	ramdiskbin		sbin/dmesg
 LINK	ramdiskbin		bin/kernfs
 LINK	ramdiskbin		bin/mount
 LINK	ramdiskbin		bin/mount_ffs
 LINK	ramdiskbin		bin/mount_kernfs
 LINK	ramdiskbin		bin/mount_msdos
-LINK	ramdiskbin		bin/ping
 LINK	ramdiskbin		sbin/reboot
 LINK	ramdiskbin		bin/umount
 
 SYMLINK	/bin/cat		usr/bin/more
-SYMLINK	/bin/cat		usr/bin/sed
-SYMLINK /bin/cat		usr/bin/touch
+#SYMLINK	/bin/cat		usr/bin/sed
+#SYMLINK /bin/cat		usr/bin/touch
 
 SPECIAL	/bin/rm ramdiskbin
 
@@ -66,7 +65,7 @@ COPY	${TOP}/../../../etc/MAKEDEV.awk 				dev/MAKEDEV.awk
 COPY	${TOP}/../../../etc/MAKEDEV.tmpl				dev/MAKEDEV.tmpl
 SPECIAL cd dev; NETBSDSRCDIR=/usr/src MACHINE=i386 MACHINE_ARCH=i386 awk -f MAKEDEV.awk MAKEDEV.tmpl > MAKEDEV
 #SPECIAL	cd dev; sh MAKEDEV -t ${TOOL_DIR}/bin/nbmtree ramdisk
-SPECIAL	cd dev; sh MAKEDEV ramdisk
+SPECIAL	cd dev; sh -x MAKEDEV ramdisk
 SPECIAL	/bin/rm dev/MAKEDEV
 SPECIAL /bin/rm dev/MAKEDEV.awk
 SPECIAL /bin/rm dev/MAKEDEV.tmpl

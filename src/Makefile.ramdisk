@@ -11,8 +11,6 @@
 
 IMAGE=		ramdisk-small.fs
 CBIN=		ramdiskbin
-AUXDEPENDS= dot.profile
-
 
 #
 # working directories
@@ -60,7 +58,7 @@ image:
 		rm -f ${.CURDIR}/${MTREE}; \
 		mv ${.CURDIR}/${MTREE}.tmp ${.CURDIR}/${MTREE}; \
 	fi
-	${TOOL_DIR}/bin/nbmtree -def ${.CURDIR}/${MTREE} -p ${WORK_RAM}/ -U
+	${TOOL_DIR}/bin/nbmtree -Udef ${.CURDIR}/${MTREE} -p ${WORK_RAM}/
 	TOPDIR=${TOP} CURDIR=${.CURDIR} OBJDIR=${.OBJDIR} WORK_RAM=${WORK_RAM} TOOL_DIR=${TOOL_DIR} \
 	BSDSRCDIR=${BSDSRCDIR} TARGDIR=${WORK_RAM} sh ${BSDSRCDIR}/distrib/common/runlist.sh ${.CURDIR}/${LISTS}
 	${TOOL_DIR}/bin/nbmakefs -M ${RAMDISKSIZE} -m ${RAMDISKSIZE} \

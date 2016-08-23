@@ -49,8 +49,8 @@ file-system		MSDOSFS		# MS-DOS file system
 file-system		KERNFS		# /kern
 
 # Networking options
-options 	INET		# IP + ICMP + TCP + UDP
-options 	INET6
+# options 	INET		# IP + ICMP + TCP + UDP
+# options 	INET6
 
 # Squeeze...
 options 	NVNODE=50
@@ -189,10 +189,10 @@ sd*	at atapibus? drive ?		# ATAPI disk drives
 #fpa*	at pci? dev ? function ?	# DEC DEFPA FDDI
 #le*	at pci? dev ? function ?	# PCnet-PCI Ethernet
 #ne*	at pci? dev ? function ?	# NE2000-compatible Ethernet
-fxp*	at pci? dev ? function ?	# Intel EtherExpress PRO 10+/100B
-bge*	at pci? dev ? function ?
-rtk*	at pci? dev ? function ?
-wm*		at pci? dev ? function ?
+#fxp*	at pci? dev ? function ?	# Intel EtherExpress PRO 10+/100B
+#bge*	at pci? dev ? function ?
+#rtk*	at pci? dev ? function ?
+#wm*		at pci? dev ? function ?
 
 # EISA network interfaces
 #ep*	at eisa? slot ?			# 3Com 3c579 Ethernet
@@ -234,7 +234,7 @@ wm*		at pci? dev ? function ?
 pseudo-device	md			# memory disk device (ramdisk)
 
 # network pseudo-devices
-pseudo-device	loop			# network loopback
+# pseudo-device	loop			# network loopback
 
 # miscellaneous pseudo-devices
 options 	NO_DEV_PTM

@@ -3,9 +3,6 @@
 # $FML: prepare_workdir.sh,v 1.3 2003/01/17 07:07:26 fukachan Exp $
 #
 
-# work dir for building package.
-test -d src/pkg || mkdir -p src/pkg
-
 # alloc tar.gz area to fetch
 test -d src/distfiles || mkdir -p src/distfiles
 

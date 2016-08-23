@@ -16,7 +16,7 @@ MODEL?=		rescue
 #
 
 # destination to install
-LOCALBASE?=	/usr/pkg
+# LOCALBASE?=	/usr/pkg
 
 # NetBSD source
 BSDSRCDIR?=	/usr/src
@@ -65,20 +65,19 @@ _DIR1+= sbin/fsck_ffs
 _DIR1+= sbin/fsck_msdos
 _DIR1+= sbin/fsdb
 _DIR1+= sbin/gpt
-_DIR1+=	sbin/ifconfig
 _DIR1+=	sbin/init
+_DIR1+=	sbin/dmesg
 _DIR1+=	sbin/mount
 _DIR1+=	sbin/mount_ffs
 _DIR1+=	sbin/mount_kernfs
 _DIR1+=	sbin/mount_msdos
 _DIR1+=	sbin/umount
-_DIR1+=	sbin/ping
 _DIR1+=	sbin/reboot
 _DIR1+=	sbin/shutdown
 _DIR1+=	sbin/sysctl
 _DIR1+=	sys/netinet
 _DIR1+=	sys
-_DIR1+=	usr.bin/sed
+#_DIR1+=	usr.bin/sed
 _DIR1+= usr.bin/touch
 _DIR1+=	usr.bin/tty
 _DIR1+= usr.bin/printf
@@ -208,8 +207,7 @@ _init_dir:
 	@ test -d work_ramdisk || mkdir -p work_ramdisk
 
 _init_config:
-	-rm -f dot.profile mtree.conf conf model
-	ln ../${_CONF_DIR}/dot.profile .
+	-rm -f mtree.conf conf model
 	ln ../${_CONF_DIR}/mtree.conf  .
 	ln -s ../${_CONF_DIR} conf
 	ln -s ../${_MODEL_DIR} model
@@ -233,7 +231,7 @@ clean cleandir:
 	-rm -f conf model
 	-rm -f ramdiskbin.conf list rc.conf
 	-rm -f boot *.fs boot.fs* netbsd* *.tmp *~
-	-rm -f dot.profile mtree.conf
+	-rm -f mtree.conf
 
 allclean: clean
 	-rm -fr work
