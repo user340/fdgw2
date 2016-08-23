@@ -77,7 +77,6 @@ _DIR1+=	sbin/shutdown
 _DIR1+=	sbin/sysctl
 _DIR1+=	sys/netinet
 _DIR1+=	sys
-#_DIR1+=	usr.bin/sed
 _DIR1+= usr.bin/touch
 _DIR1+=	usr.bin/tty
 _DIR1+= usr.bin/printf

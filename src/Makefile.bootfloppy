@@ -23,8 +23,7 @@ STRIP?=		strip
 # parameters for bootable USB
 #
 MDEC=		../mdec/${ARCH}
-#DISKSIZE?= 2621440 # 2.5MB
-DISKSIZE?= 2097152
+DISKSIZE?= 2097152 # 2.0MB
 SWAPSIZE?=	0
 BIOSBOOT?=	bootxx_ffsv1
 
