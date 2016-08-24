@@ -11,7 +11,6 @@ LINK	ramdiskbin		bin/cat
 LINK	ramdiskbin		bin/cp
 LINK	ramdiskbin		bin/df
 LINK	ramdiskbin		bin/dd
-#LINK	ramdiskbin		bin/ln
 LINK	ramdiskbin		bin/ls
 LINK	ramdiskbin		bin/pwd
 LINK	ramdiskbin		bin/mv
@@ -43,8 +42,6 @@ LINK	ramdiskbin		sbin/reboot
 LINK	ramdiskbin		bin/umount
 
 SYMLINK	/bin/cat		usr/bin/more
-#SYMLINK	/bin/cat		usr/bin/sed
-#SYMLINK /bin/cat		usr/bin/touch
 
 SPECIAL	/bin/rm ramdiskbin
 
@@ -64,7 +61,6 @@ SPECIAL /bin/rm etc/spwd.db
 COPY	${TOP}/../../../etc/MAKEDEV.awk 				dev/MAKEDEV.awk
 COPY	${TOP}/../../../etc/MAKEDEV.tmpl				dev/MAKEDEV.tmpl
 SPECIAL cd dev; NETBSDSRCDIR=/usr/src MACHINE=i386 MACHINE_ARCH=i386 awk -f MAKEDEV.awk MAKEDEV.tmpl > MAKEDEV
-#SPECIAL	cd dev; sh MAKEDEV -t ${TOOL_DIR}/bin/nbmtree ramdisk
 SPECIAL	cd dev; sh -x MAKEDEV ramdisk
 SPECIAL	/bin/rm dev/MAKEDEV
 SPECIAL /bin/rm dev/MAKEDEV.awk
@@ -75,4 +71,4 @@ SPECIAL mkdir -p ${WORK_RAM}/etc/rc.d
 SPECIAL mkdir -p ${WORK_RAM}/usr
 
 # XXX parepare /etc on /dev/fd0a not /dev/vnd0a 
-SPECIAL cp -pr   ${WORK_RAM}/etc ${CURDIR}/work
+SPECIAL cp -pr ${WORK_RAM}/etc ${CURDIR}/work.tmp
