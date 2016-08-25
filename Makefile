@@ -7,6 +7,8 @@
 # programs and directories
 
 TOOL_DIR?=	/usr/tools
+OBJ_DIR?=	/usr/obj
+BSDSRCDIR= /usr/src
 GMAKE?=		${TOOL_DIR}/bin/nbgmake
 SH?=		/bin/sh
 
@@ -26,7 +28,9 @@ MAKE_PARAMS = 	MODEL=${MODEL} \
 		OPSYS=NetBSD \
 		SH=${SH}	\
 		UTILS_DIR=${UTILS_DIR:S|^src/||} \
-		TOOL_DIR=${TOOL_DIR}
+		TOOL_DIR=${TOOL_DIR} \
+		OBJ_DIR=${OBJ_DIR} \
+		BSDSRCDIR=${BSDSRCDIR}
 
 all:
 	@ echo "make build   (need NOT priviledge)"
@@ -41,6 +45,14 @@ image:
 	@ echo "\"make image\" needs root privilege"
 	@ echo ""	
 	(cd obj.${ARCH}.${MODEL}; ${MAKE} ${MAKE_PARAMS} image )
+
+tools:
+	cd ${BSDSRCDIR}
+	sh build.sh -U -u -O ${OBJ_DIR} -T ${TOOL_DIR} tools
+
+distribution:
+	cd ${BSDSRCDIR}
+	sh build.sh -U -u -O ${OBJ_DIR} -T ${TOOL_DIR} distribution
 
 clean:
 	rm -fr obj.${ARCH}.${MODEL}
