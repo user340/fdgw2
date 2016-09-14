@@ -26,8 +26,6 @@ LINK	ramdiskbin		bin/date
 LINK	ramdiskbin		bin/disklabel
 LINK	ramdiskbin		bin/fdisk
 LINK	ramdiskbin		bin/fsck
-LINK	ramdiskbin		bin/fsck_ffs
-LINK	ramdiskbin		bin/fsck_msdos
 LINK	ramdiskbin		bin/fsdb
 LINK	ramdiskbin		bin/gpt
 LINK	ramdiskbin		sbin/halt
