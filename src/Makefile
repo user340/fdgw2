@@ -61,8 +61,6 @@ _DIR1+= lib/libterminfo
 _DIR1+= sbin/disklabel
 _DIR1+= sbin/fdisk
 _DIR1+= sbin/fsck
-_DIR1+= sbin/fsck_ffs
-_DIR1+= sbin/fsck_msdos
 _DIR1+= sbin/fsdb
 _DIR1+= sbin/gpt
 _DIR1+=	sbin/init
@@ -74,10 +72,7 @@ _DIR1+=	sbin/mount_msdos
 _DIR1+=	sbin/umount
 _DIR1+=	sbin/reboot
 _DIR1+=	sbin/shutdown
-_DIR1+=	sbin/sysctl
-_DIR1+=	sys/netinet
 _DIR1+=	sys
-_DIR1+= usr.bin/touch
 _DIR1+=	usr.bin/tty
 _DIR1+= usr.bin/printf
 
@@ -157,7 +152,7 @@ image:
 	@ echo ""
 	${TOOL_DIR}/bin/nbmake-i386 -f Makefile.kernel ${_ARGS} image
 	@ echo ""
-	@ echo "image 3. make a bootable floppy and inject netbsd into it for ${MODEL} model"
+	@ echo "image 3. make a bootable diskimage and inject netbsd into it for ${MODEL} model"
 	@ echo ""
 	${TOOL_DIR}/bin/nbmake-i386 -f Makefile.bootfloppy ${_ARGS} image
 	@ echo ""
