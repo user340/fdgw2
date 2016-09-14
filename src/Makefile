@@ -152,7 +152,7 @@ image:
 	@ echo ""
 	${TOOL_DIR}/bin/nbmake-i386 -f Makefile.kernel ${_ARGS} image
 	@ echo ""
-	@ echo "image 3. make a bootable floppy and inject netbsd into it for ${MODEL} model"
+	@ echo "image 3. make a bootable diskimage and inject netbsd into it for ${MODEL} model"
 	@ echo ""
 	${TOOL_DIR}/bin/nbmake-i386 -f Makefile.bootfloppy ${_ARGS} image
 	@ echo ""
