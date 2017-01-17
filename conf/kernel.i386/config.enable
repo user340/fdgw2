@@ -1,6 +1,0 @@
-file-system	KERNFS  
-options		GATEWAY
-options 	INSECURE  
-pc0 at
-pseudo-device	ipfilter
-config                netbsd  root on ? type ?
