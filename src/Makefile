@@ -5,32 +5,18 @@
 #
 
 
-ARCH?=		i386
-_CONF_DIR=	conf/
-_MODEL_DIR=	model/
-
-MODEL?=		rescue
-
-#
-# directories for targets and sources
-#
-
-# destination to install
-# LOCALBASE?=	/usr/pkg
-
-# NetBSD source
-BSDSRCDIR?=	/usr/src
-
-# NetBSD toolchain
-TOOL_DIR?= /usr/tools
-
-# dir to lndir
-_BSDSRCDIR=	`pwd`/NetBSD
+ARCH?=				i386
+_CONF_DIR=			conf
+_MODEL_DIR=			model
+MODEL?=				rescue
+BSDSRCDIR?=			/usr/src
+TOOL_DIR?= 			/usr/tools
+_BSDSRCDIR=			`pwd`/NetBSD
 
 # utilities
 _ENV= env PKG_DIR=${PKG_DIR}
-_FETCH_PROGRAM=	  ${_ENV} ${SH} ${UTILS_DIR}/fetch.sh
-_EXTRACT_PROGRAM= ${_ENV} ${SH} ${UTILS_DIR}/extract.sh
+_FETCH_PROGRAM=		${_ENV} ${SH} ${UTILS_DIR}/fetch.sh
+_EXTRACT_PROGRAM=	${_ENV} ${SH} ${UTILS_DIR}/extract.sh
 
 # individual directories to link to
 _DIR1=	etc
@@ -107,19 +93,19 @@ BIOSBOOT?=		bootxx_ffsv1
 #
 WARNS=1
 
-ETC_DIR?=	conf/etc
+ETC_DIR?=		conf/etc
 
 _ARGS?=		MOUNT_POINT=${MOUNT_POINT} \
-		TOP=${_FLOPPY_DIR} \
-		_SYS_DIR=${_SYS_DIR} \
-		_CONF_DIR=${_CONF_DIR} \
-		BSDSRCDIR=${_BSDSRCDIR} \
-		CURDIR=${PWD} _ETC_DIR=${ETC_DIR} \
-		MODEL=${MODEL} ARCH=${ARCH} \
-		INO_BYTES=${INO_BYTES} \
-		RAMDISK_S=${RAMDISK_S} \
-		BIOSBOOT=${BIOSBOOT} \
-		TOOL_DIR=${TOOL_DIR}
+			TOP=${_FLOPPY_DIR} \
+			_SYS_DIR=${_SYS_DIR} \
+			_CONF_DIR=${_CONF_DIR} \
+			BSDSRCDIR=${_BSDSRCDIR} \
+			CURDIR=${PWD} _ETC_DIR=${ETC_DIR} \
+			MODEL=${MODEL} ARCH=${ARCH} \
+			INO_BYTES=${INO_BYTES} \
+			RAMDISK_S=${RAMDISK_S} \
+			BIOSBOOT=${BIOSBOOT} \
+			TOOL_DIR=${TOOL_DIR}
 
 #
 # MAIN RULE
