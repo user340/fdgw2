@@ -1,10 +1,8 @@
-# Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
-#
+# Copyright (C) 2015,2016,2017,2018 Yuuki Enomoto <uki@e-yuuki.org>
 # All rights reserved.
+#
 # Please read README for details.
 #
-
-
 ARCH?=				i386
 _CONF_DIR=			conf
 _MODEL_DIR=			model
@@ -110,7 +108,6 @@ _ARGS?=		MOUNT_POINT=${MOUNT_POINT} \
 #
 # MAIN RULE
 #
-
 all: 
 	@ echo "make build"
 	@ echo "make install"
@@ -154,7 +151,6 @@ INIT_RULES =	_init_mesg     \
 		_init_config   \
 		_init_resolver
 
-######################################################
 #
 # initialize process before main build process
 #

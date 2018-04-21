@@ -4,15 +4,17 @@
 # Please read README for details.
 #
 
+#
 # specify default image
-
+#
 ARCH?=			i386
 MODEL?=         rescue
 KERNEL_CONF?=	FDGW
 BIOSBOOT?=		bootxx_ffsv1
 
+#
 # programs and directories
-
+#
 BSDSRCDIR?=	 	/usr/src
 TOOL_DIR?=		/usr/tools
 OBJ_DIR?=		/usr/obj
