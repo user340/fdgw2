@@ -1,9 +1,13 @@
-# Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
+# Copyright (C) 2015,2016,2017,2018 Yuuki Enomoto <uki@e-yuuki.org>
 #
-# All rights reserved.
-# Please read README for details.
+# All rights reserved. This program is free software; you can
+# redistribute it and/or modify it under the same terms as NetBSD itself.
 #
-
+# Copyright (C) 2004 Ken'ichi Fukamachi <fukachan@fml.org>
+#
+# All rights reserved. This program is free software; you can
+# redistribute it and/or modify it under the same terms as NetBSD itself.
+#
 
 all: GENERIC FDGW FDGW6 BRIDGE
 
