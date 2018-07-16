@@ -56,12 +56,10 @@ image:
 	(cd obj.${ARCH}.${MODEL}; ${MAKE} ${MAKE_PARAMS} image )
 
 tools:
-	cd ${BSDSRCDIR}
-	sh build.sh -U -u -O ${OBJ_DIR} -T ${TOOL_DIR} tools
+	cd ${BSDSRCDIR} && sh build.sh -U -u -O ${OBJ_DIR} -T ${TOOL_DIR} -m ${ARCH} tools
 
 distribution:
-	cd ${BSDSRCDIR}
-	sh build.sh -U -u -O ${OBJ_DIR} -T ${TOOL_DIR} distribution
+	cd ${BSDSRCDIR} && sh build.sh -U -u -O ${OBJ_DIR} -T ${TOOL_DIR} -m ${ARCH} distribution
 
 clean:
 	rm -fr obj.${ARCH}.${MODEL}

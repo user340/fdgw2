@@ -62,7 +62,6 @@ _DIR1+=	sbin/mount_msdos
 _DIR1+=	sbin/umount
 _DIR1+=	sbin/reboot
 _DIR1+=	sbin/shutdown
-_DIR1+=	sys
 _DIR1+=	usr.bin/tty
 _DIR1+= usr.bin/printf
 

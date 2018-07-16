@@ -1,157 +1,197 @@
-#	$NetBSD: list,v 1.46 2014/08/09 18:32:34 apb Exp $
+# Copyright (c) 2015,2016,2017,2018 Yuuki Enomoto <uki@e-yuuki.org>
+#
+# All rights reserved. This program is free software; you can
+# redistribute it and/or modify it under the same terms as NetBSD itself.
+#
+# Copyright (C) 2001,2002 Ken'ichi Fukamachi <fukachan@fml.org>
+# 
+# All rights reserved. This program is free software; you can
+# redistribute it and/or modify it under the same terms as NetBSD itself.
+#
 
-SRCDIRS	bin
+# Copy the crunched binary, link to it, then kill it.
+COPY    ${OBJDIR}/ramdiskbin    ramdiskbin
 
-PROG	cat
-PROG	chio
-PROG	chmod
-PROG	cp
-PROG	csh
-PROG	date
-PROG	dd
-PROG	df
-PROG	domainname
-PROG	echo
-PROG	ed
-PROG	expr
-PROG	hostname
-PROG	kill
-PROG	ksh
-PROG	ln
-PROG	ls
-PROG	mkdir
-PROG	mt
-PROG	mv
-PROG	pax		tar
-PROG	ps
-PROG	pwd
-PROG	rcmd
-PROG	rcp
-PROG	rm
-PROG	rmdir
-PROG	sh
-PROG	sleep
-PROG	stty
-PROG	sync
-PROG	test		[
+LINK    ramdiskbin  bin/[
+LINK    ramdiskbin  sbin/atactl
+LINK    ramdiskbin  sbin/badsect
+LINK    ramdiskbin  sbin/brconfig
+LINK    ramdiskbin  usr/bin/bunzip2
+LINK    ramdiskbin  usr/bin/bzcat
+LINK    ramdiskbin  usr/bin/bzip2
+LINK    ramdiskbin  bin/cat
+LINK    ramdiskbin  sbin/ccdconfig
+LINK    ramdiskbin  sbin/cgdconfig
+LINK    ramdiskbin  bin/chgrp
+LINK    ramdiskbin  bin/chio
+LINK    ramdiskbin  bin/chmod
+LINK    ramdiskbin  sbin/chown
+LINK    ramdiskbin  usr/sbin/chroot
+LINK    ramdiskbin  sbin/clri
+LINK    ramdiskbin  bin/cp
+LINK    ramdiskbin  bin/csh
+LINK    ramdiskbin  bin/date
+LINK    ramdiskbin  bin/dd
+LINK    ramdiskbin  bin/df
+LINK    ramdiskbin  sbin/disklabel
+LINK    ramdiskbin  sbin/dkctl
+LINK    ramdiskbin  sbin/dmesg
+LINK    ramdiskbin  bin/domainname
+LINK    ramdiskbin  sbin/dump
+LINK    ramdiskbin  sbin/dump_lfs
+LINK    ramdiskbin  usr/sbin/dumpfs
+LINK    ramdiskbin  usr/sbin/dumplfs
+LINK    ramdiskbin  bin/echo
+LINK    ramdiskbin  bin/ed
+LINK    ramdiskbin  usr/bin/egrep
+LINK    ramdiskbin  usr/bin/ekermit
+LINK    ramdiskbin  usr/bin/ex
+LINK    ramdiskbin  bin/expr
+LINK    ramdiskbin  sbin/fdisk
+LINK    ramdiskbin  usr/bin/fgrep
+LINK    ramdiskbin  sbin/fsck
+LINK    ramdiskbin  sbin/fsck_ext2fs
+LINK    ramdiskbin  sbin/fsck_ffs
+LINK    ramdiskbin  sbin/fsck_lfs
+LINK    ramdiskbin  sbin/fsck_msdos
+LINK    ramdiskbin  sbin/fsdb
+LINK    ramdiskbin  sbin/fsirand
+LINK    ramdiskbin  usr/bin/ftp
+LINK    ramdiskbin  sbin/gpt
+LINK    ramdiskbin  usr/bin/grep
+LINK    ramdiskbin  usr/bin/gunzip
+LINK    ramdiskbin  usr/bin/gzcat
+LINK    ramdiskbin  usr/bin/gzip
+LINK    ramdiskbin  sbin/halt
+LINK    ramdiskbin  bin/hostname
+LINK    ramdiskbin  sbin/ifconfig
+LINK    ramdiskbin  sbin/init
+LINK    ramdiskbin  usr/sbin/installboot
+LINK    ramdiskbin  sbin/ipppctl
+LINK    ramdiskbin  usr/bin/kdump
+LINK    ramdiskbin  bin/kill
+LINK    ramdiskbin  bin/ksh
+LINK    ramdiskbin  usr/bin/ktrace
+LINK    ramdiskbin  usr/bin/ktruss
+LINK    ramdiskbin  usr/bin/ldd
+LINK    ramdiskbin  usr/bin/less
+LINK    ramdiskbin  usr/sbin/lmcconfig
+LINK    ramdiskbin  bin/ln
+LINK    ramdiskbin  bin/ls
+LINK    ramdiskbin  sbin/mbrlabel
+LINK    ramdiskbin  bin/mkdir
+LINK    ramdiskbin  sbin/mknod
+LINK    ramdiskbin  sbin/modload
+LINK    ramdiskbin  sbin/modstat
+LINK    ramdiskbin  sbin/modunload
+LINK    ramdiskbin  usr/bin/more
+LINK    ramdiskbin  sbin/mount
+LINK    ramdiskbin  sbin/mount_ados
+LINK    ramdiskbin  sbin/mount_cd9660
+LINK    ramdiskbin  sbin/mount_efs
+LINK    ramdiskbin  sbin/mount_ext2fs
+LINK    ramdiskbin  sbin/mount_fdesc
+LINK    ramdiskbin  sbin/mount_ffs
+LINK    ramdiskbin  sbin/mount_filecore
+LINK    ramdiskbin  sbin/mount_kernfs
+LINK    ramdiskbin  sbin/mount_lfs
+LINK    ramdiskbin  sbin/mount_mfs
+LINK    ramdiskbin  sbin/mount_msdos
+LINK    ramdiskbin  sbin/mount_nfs
+LINK    ramdiskbin  sbin/mount_ntfs
+LINK    ramdiskbin  sbin/mount_null
+LINK    ramdiskbin  sbin/mount_overlay
+LINK    ramdiskbin  sbin/mount_procfs
+LINK    ramdiskbin  sbin/mount_smbfs
+LINK    ramdiskbin  sbin/mount_tmpfs
+LINK    ramdiskbin  sbin/mount_ufs
+LINK    ramdiskbin  sbin/mount_umap
+LINK    ramdiskbin  sbin/mount_union
+LINK    ramdiskbin  bin/mt
+LINK    ramdiskbin  bin/mv
+LINK    ramdiskbin  sbin/newfs
+LINK    ramdiskbin  sbin/newfs_lfs
+LINK    ramdiskbin  sbin/newfs_msdos
+LINK    ramdiskbin  bin/pax
+LINK    ramdiskbin  sbin/pdisk
+LINK    ramdiskbin  sbin/ping
+LINK    ramdiskbin  sbin/ping6
+LINK    ramdiskbin  sbin/pppoectl
+LINK    ramdiskbin  bin/ps
+LINK    ramdiskbin  bin/pwd
+LINK    ramdiskbin  sbin/raidctl
+LINK    ramdiskbin  bin/rcmd
+LINK    ramdiskbin  sbin/rcorder
+LINK    ramdiskbin  bin/rcp
+LINK    ramdiskbin  sbin/rdump
+LINK    ramdiskbin  sbin/rdump_lfs
+LINK    ramdiskbin  sbin/reboot
+LINK    ramdiskbin  sbin/restore
+LINK    ramdiskbin  bin/rm
+LINK    ramdiskbin  bin/rmdir
+LINK    ramdiskbin  sbin/rndctl
+LINK    ramdiskbin  sbin/route
+LINK    ramdiskbin  sbin/routed
+LINK    ramdiskbin  sbin/rrestore
+LINK    ramdiskbin  sbin/rtsol
+LINK    ramdiskbin  sbin/savecore
+LINK    ramdiskbin  sbin/scan_ffs
+LINK    ramdiskbin  usr/bin/scp
+LINK    ramdiskbin  sbin/scsictl
+LINK    ramdiskbin  sbin/setkey
+LINK    ramdiskbin  bin/sh
+LINK    ramdiskbin  sbin/slattach
+LINK    ramdiskbin  bin/sleep
+LINK    ramdiskbin  usr/bin/slogin
+LINK    ramdiskbin  usr/bin/ssh
+LINK    ramdiskbin  bin/stty
+LINK    ramdiskbin  sbin/swapctl
+LINK    ramdiskbin  sbin/swapon
+LINK    ramdiskbin  bin/sync
+LINK    ramdiskbin  sbin/sysctl
+LINK    ramdiskbin  bin/tar
+LINK    ramdiskbin  bin/test
+LINK    ramdiskbin  sbin/ttyflags
+LINK    ramdiskbin  sbin/tunefs
+LINK    ramdiskbin  sbin/umount
+LINK    ramdiskbin  sbin/veriexecctl
+LINK    ramdiskbin  usr/bin/vi
+LINK    ramdiskbin  usr/sbin/vnconfig
+LINK    ramdiskbin  sbin/wdogctl
+LINK    ramdiskbin  sbin/wsconsctl
+LINK    ramdiskbin  usr/bin/zcat
+LINK    ramdiskbin  usr/bin/zegrep
+LINK    ramdiskbin  usr/bin/zfgrep
+LINK    ramdiskbin  usr/bin/zgrep
 
-ARGVLN	csh -csh
-ARGVLN	ksh -ksh
-ARGVLN	sh -sh
+SYMLINK /bin/cat    usr/bin/more
 
-SRCDIRS	sbin
+SPECIAL /bin/rm     ramdiskbin
 
-PROG	atactl
-PROG	badsect
-PROG	brconfig
-PROG	ccdconfig
-PROG	chown		chgrp
-PROG	clri
-PROG	disklabel
-PROG	dkctl
-PROG	dmesg
-PROG	dump		rdump
-PROG	dump_lfs	rdump_lfs
-PROG	fdisk
-PROG	fsck
-PROG	fsck_ext2fs
-PROG	fsck_ffs
-PROG	fsck_lfs
-PROG	fsck_msdos
-PROG	fsdb
-PROG	fsirand
-PROG	gpt
-PROG	ifconfig
-PROG	init		init.bak
-PROG	lmcconfig
-PROG	mbrlabel
-PROG	mknod
-PROG	modload
-PROG	modstat
-PROG	modunload
-PROG	mount
-PROG	mount_ados
-PROG	mount_cd9660
-PROG	mount_efs
-PROG	mount_ext2fs
-PROG	mount_fdesc
-PROG	mount_ffs	mount_ufs
-PROG	mount_filecore
-PROG	mount_kernfs
-PROG	mount_lfs
-PROG	mount_msdos
-PROG	mount_nfs
-PROG	mount_ntfs
-PROG	mount_null
-PROG	mount_overlay
-PROG	mount_procfs
-PROG	mount_smbfs
-SPECIAL	mount_smbfs	srcdir	external/bsd/smbfs/sbin/mount_smbfs
-LIBS	${SMB_LIBDIR}/libsmb.a
-PROG	mount_tmpfs
-PROG	mount_umap
-PROG	mount_union
-PROG	newfs		mount_mfs
-PROG	newfs_lfs
-PROG	newfs_msdos
-PROG	ping
-PROG	pppoectl	ipppctl
-PROG	raidctl
-PROG	rcorder
-PROG	reboot		halt
-PROG	restore		rrestore
-PROG	rndctl
-PROG	route
-PROG	routed
-PROG	savecore
-PROG	scan_ffs
-PROG	scsictl
-PROG	setkey
-PROG	shutdown
-PROG	slattach
-PROG	swapctl		swapon
-PROG	sysctl
-PROG	ttyflags
-PROG	tunefs
-PROG	umount
-PROG	wdogctl
-PROG	veriexecctl
-PROG	wsconsctl
+# Various files that we need in /etc for the install.
 
-SRCDIRS	usr.bin
+COPY    ${TOP}/../../../etc/group           etc/group
+COPY    ${TOP}/../../../etc/master.passwd   etc/master.passwd
+COPY    ${TOP}/../../../etc/protocols       etc/protocols
+COPY    ${TOP}/../../../etc/netconfig       etc/netconfig
+COPY    ${TOP}/../../../share/examples/fstab/fstab.wd0.1 etc/fstab.wd0.1
+COPY    ${TOP}/../../../share/examples/fstab/fstab.wd0.2 etc/fstab.wd0.2
+COPY    ${TOP}/../../../share/examples/fstab/fstab.wd0.3 etc/fstab.wd0.3
 
-PROG	bzip2		bunzip2 bzcat
-PROG	ftp
-PROG	grep		egrep fgrep zgrep zegrep zfgrep
-PROG	gzip		gunzip gzcat zcat 
-PROG	kdump
-PROG	ktrace
-PROG	ktruss
+SPECIAL ${TOOL_DIR}/bin/nbpwd_mkdb -p -d ./ etc/master.passwd
+SPECIAL /bin/rm etc/spwd.db
 
-PROG	ekermit
-SPECIAL	ekermit		srcdir	external/bsd/ekermit/bin/ekermit
+# copy the MAKEDEV script and make some devices
+COPY    ${TOP}/../../../etc/MAKEDEV.awk     dev/MAKEDEV.awk
+COPY    ${TOP}/../../../etc/MAKEDEV.tmpl    dev/MAKEDEV.tmpl
+SPECIAL cd dev; NETBSDSRCDIR=/usr/src MACHINE=i386 MACHINE_ARCH=i386 awk -f MAKEDEV.awk MAKEDEV.tmpl > MAKEDEV
+SPECIAL cd dev; sh MAKEDEV ramdisk
+SPECIAL /bin/rm dev/MAKEDEV
+SPECIAL /bin/rm dev/MAKEDEV.awk
+SPECIAL /bin/rm dev/MAKEDEV.tmpl
 
-PROG	less		more
-SPECIAL	less		srcdir	external/bsd/less/bin/less
+# prepare /etc/ and /usr
+SPECIAL mkdir -p ${WORK_RAM}/etc/rc.d
+SPECIAL mkdir -p ${WORK_RAM}/usr
 
-PROG	vi		ex
-SPECIAL vi        	srcdir  external/bsd/nvi/usr.bin/nvi
-
-SRCDIRS	usr.sbin
-
-PROG	chroot
-PROG	dumpfs
-PROG	dumplfs
-PROG	installboot
-PROG	vnconfig
-
-SRCDIRS	games
-
-PROG	tetris
-
-SRCDIRS	libexec
-
-PROG	lfs_cleanerd
-
-LIBS	liboverride.o
-LIBS	-lbz2 -llzma -lcrypt -ledit -lipsec -lkvm -ll -lm -lrmt -lcurses -lterminfo -lutil -lz -levent -lprop
+SPECIAL cp -pr ${WORK_RAM}/etc ${CURDIR}/work
