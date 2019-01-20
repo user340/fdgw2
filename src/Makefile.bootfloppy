@@ -1,9 +1,13 @@
-# Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
+# Copyright (C) 2015-2019 Yuuki Enomoto <uki@e-yuuki.org>
 #
-# All rights reserved.
-# Please read README for details.
+# All rights reserved. This program is free software; you can
+# redistribute it and/or modify it under the same terms as NetBSD itself.
 #
-
+# Copyright (C) 2001,2002 Ken'ichi Fukamachi <fukachan@fml.org>
+#
+# All rights reserved. This program is free software; you can
+# redistribute it and/or modify it under the same terms as NetBSD itself.
+#
 
 .include "${TOP}/../../../Makefile.inc"
 
@@ -22,9 +26,8 @@ STRIP?=		strip
 #
 # parameters for bootable USB
 #
-MDEC=		../mdec/${ARCH}
-#DISKSIZE?= 1572864 # 1.5MB
-DISKSIZE?= 1835008
+MDEC=		${DESTDIR}/usr/mdec
+DISKSIZE?= 	1835008 # 1.75MB
 SWAPSIZE?=	0
 BIOSBOOT?=	bootxx_ffsv1
 

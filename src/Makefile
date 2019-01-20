@@ -1,36 +1,26 @@
-# Copyright (C) 2015 Yuuki Enomoto <mail@e-yuuki.org>
+# Copyright (C) 2015-2019 Yuuki Enomoto <uki@e-yuuki.org>
 #
-# All rights reserved.
-# Please read README for details.
+# All rights reserved. This program is free software; you can
+# redistribute it and/or modify it under the same terms as NetBSD itself.
 #
-
-
-ARCH?=		i386
-_CONF_DIR=	conf/
-_MODEL_DIR=	model/
-
-MODEL?=		rescue
-
+# Copyright (C) 2001,2002 Ken'ichi Fukamachi <fukachan@fml.org>
 #
-# directories for targets and sources
+# All rights reserved. This program is free software; you can
+# redistribute it and/or modify it under the same terms as NetBSD itself.
 #
-
-# destination to install
-# LOCALBASE?=	/usr/pkg
-
-# NetBSD source
-BSDSRCDIR?=	/usr/src
-
-# NetBSD toolchain
-TOOL_DIR?= /usr/tools
-
-# dir to lndir
-_BSDSRCDIR=	`pwd`/NetBSD
+#
+ARCH?=				i386
+_CONF_DIR=			conf
+_MODEL_DIR=			model
+MODEL?=				rescue
+BSDSRCDIR?=			/usr/src
+TOOL_DIR?= 			/usr/tools
+_BSDSRCDIR=			`pwd`/NetBSD
 
 # utilities
 _ENV= env PKG_DIR=${PKG_DIR}
-_FETCH_PROGRAM=	  ${_ENV} ${SH} ${UTILS_DIR}/fetch.sh
-_EXTRACT_PROGRAM= ${_ENV} ${SH} ${UTILS_DIR}/extract.sh
+_FETCH_PROGRAM=		${_ENV} ${SH} ${UTILS_DIR}/fetch.sh
+_EXTRACT_PROGRAM=	${_ENV} ${SH} ${UTILS_DIR}/extract.sh
 
 # individual directories to link to
 _DIR1=	etc
@@ -72,7 +62,6 @@ _DIR1+=	sbin/mount_msdos
 _DIR1+=	sbin/umount
 _DIR1+=	sbin/reboot
 _DIR1+=	sbin/shutdown
-_DIR1+=	sys
 _DIR1+=	usr.bin/tty
 _DIR1+= usr.bin/printf
 
@@ -107,24 +96,23 @@ BIOSBOOT?=		bootxx_ffsv1
 #
 WARNS=1
 
-ETC_DIR?=	conf/etc
+ETC_DIR?=		conf/etc
 
 _ARGS?=		MOUNT_POINT=${MOUNT_POINT} \
-		TOP=${_FLOPPY_DIR} \
-		_SYS_DIR=${_SYS_DIR} \
-		_CONF_DIR=${_CONF_DIR} \
-		BSDSRCDIR=${_BSDSRCDIR} \
-		CURDIR=${PWD} _ETC_DIR=${ETC_DIR} \
-		MODEL=${MODEL} ARCH=${ARCH} \
-		INO_BYTES=${INO_BYTES} \
-		RAMDISK_S=${RAMDISK_S} \
-		BIOSBOOT=${BIOSBOOT} \
-		TOOL_DIR=${TOOL_DIR}
+			TOP=${_FLOPPY_DIR} \
+			_SYS_DIR=${_SYS_DIR} \
+			_CONF_DIR=${_CONF_DIR} \
+			BSDSRCDIR=${_BSDSRCDIR} \
+			CURDIR=${PWD} _ETC_DIR=${ETC_DIR} \
+			MODEL=${MODEL} ARCH=${ARCH} \
+			INO_BYTES=${INO_BYTES} \
+			RAMDISK_S=${RAMDISK_S} \
+			BIOSBOOT=${BIOSBOOT} \
+			TOOL_DIR=${TOOL_DIR}
 
 #
 # MAIN RULE
 #
-
 all: 
 	@ echo "make build"
 	@ echo "make install"
@@ -168,7 +156,6 @@ INIT_RULES =	_init_mesg     \
 		_init_config   \
 		_init_resolver
 
-######################################################
 #
 # initialize process before main build process
 #
