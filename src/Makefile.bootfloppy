@@ -1,4 +1,4 @@
-# Copyright (C) 2015,2016,2017,2018 Yuuki Enomoto <uki@e-yuuki.org>
+# Copyright (C) 2015-2019 Yuuki Enomoto <uki@e-yuuki.org>
 #
 # All rights reserved. This program is free software; you can
 # redistribute it and/or modify it under the same terms as NetBSD itself.
