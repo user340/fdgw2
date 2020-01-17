@@ -1,64 +1,78 @@
 #!/bin/sh
 
-TREE_DIR?=		img
+_bomb()
+{
+    echo "$@"
+    exit 1
+}
 
-OBJECTS=		obj.$1
-CURRENT=		`pwd`
+_mkdir_if_not_exists()
+{
+    test -d "${1}" || mkdir "${1}"
+}
 
-mkdir ${TREE_DIR}
-mkdir ${TREE_DIR}/bin
-mkdir ${TREE_DIR}/sbin
-mkdir ${TREE_DIR}/dev
+TREE_DIR=${TREE_DIR:-img}
 
-cp /dev/MAKEDEV ${TREE_DIR}/dev/
-cd ${TREE_DIR}/dev/
-sudo ./MAKEDEV usbs wscons ramdisk
-cd ${CURRENT}
+OBJECTS="obj.${1}"
+CURRENT="$(pwd)"
 
-cp ${OBJECTS}/ramdisk ${TREE_DIR}/sbin/
+for directory in "${TREE_DIR}" "${TREE_DIR}/bin" "${TREE_DIR}/sbin" "${TREE_DIR}/dev"; do
+    _mkdir_if_not_exists "${directory}"
+done
 
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/cat
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/chmod
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/chown
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/chgrp
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/chroot
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/cp
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/df
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/ed
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/more
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/less
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/ln
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/ls
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/mkdir
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/mv
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/rm
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/pwd
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/sed
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/sh
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/stty
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/test
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/hostname
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/kill
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/echo
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/date
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/bin/expr
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/ifconfig
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/init
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/mount
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/mount_ffs
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/mount_msdos
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/mount_kernfs
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/ping
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/reboot
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/halt
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/route
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/shutdown
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/sync
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/umount
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/ps
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/logger
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/id
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/basename
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/uname
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/tput
-ln ${OBJECTS}/sbin/ramdisk ${TREE_DIR}/sbin/dhcpd
+cp /dev/MAKEDEV "${TREE_DIR}/dev/"
+cd "${TREE_DIR}/dev/" && sudo ./MAKEDEV usbs wscons ramdisk
+
+cd "${CURRENT}" || _bomb "Couldn't cd to ${CURRENT}"
+
+cp "${OBJECTS}/ramdisk" "${TREE_DIR}/sbin/"
+
+commands="${TREE_DIR}/bin/cat
+${TREE_DIR}/bin/chmod
+${TREE_DIR}/bin/chown
+${TREE_DIR}/bin/chgrp
+${TREE_DIR}/bin/chroot
+${TREE_DIR}/bin/cp
+${TREE_DIR}/bin/df
+${TREE_DIR}/bin/ed
+${TREE_DIR}/bin/more
+${TREE_DIR}/bin/less
+${TREE_DIR}/bin/ln
+${TREE_DIR}/bin/ls
+${TREE_DIR}/bin/mkdir
+${TREE_DIR}/bin/mv
+${TREE_DIR}/bin/rm
+${TREE_DIR}/bin/pwd
+${TREE_DIR}/bin/sed
+${TREE_DIR}/bin/sh
+${TREE_DIR}/bin/stty
+${TREE_DIR}/bin/test
+${TREE_DIR}/bin/hostname
+${TREE_DIR}/bin/kill
+${TREE_DIR}/bin/echo
+${TREE_DIR}/bin/date
+${TREE_DIR}/bin/expr
+${TREE_DIR}/sbin/ifconfig
+${TREE_DIR}/sbin/init
+${TREE_DIR}/sbin/mount
+${TREE_DIR}/sbin/mount_ffs
+${TREE_DIR}/sbin/mount_msdos
+${TREE_DIR}/sbin/mount_kernfs
+${TREE_DIR}/sbin/ping
+${TREE_DIR}/sbin/reboot
+${TREE_DIR}/sbin/halt
+${TREE_DIR}/sbin/route
+${TREE_DIR}/sbin/shutdown
+${TREE_DIR}/sbin/sync
+${TREE_DIR}/sbin/umount
+${TREE_DIR}/sbin/ps
+${TREE_DIR}/sbin/logger
+${TREE_DIR}/sbin/id
+${TREE_DIR}/sbin/basename
+${TREE_DIR}/sbin/uname
+${TREE_DIR}/sbin/tput
+${TREE_DIR}/sbin/dhcpd"
+
+for cmd in $commands; do
+    ln "${OBJECTS}/sbin/ramdisk" "${cmd}"
+done
